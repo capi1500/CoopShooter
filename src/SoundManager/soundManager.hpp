@@ -1,0 +1,12 @@
+//
+// Created by capi1500 on 10/07/18.
+//
+
+#ifndef COOPSHOOTER_SOUNDMANAGER_HPP
+#define COOPSHOOTER_SOUNDMANAGER_HPP
+
+class SoundManager{
+
+};
+
+#endif //COOPSHOOTER_SOUNDMANAGER_HPP

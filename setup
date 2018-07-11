@@ -1,0 +1,5 @@
+sudo apt install cmake
+sudo apt install libsfml-dev
+cmake .
+make
+chmod +x CoopShooter
