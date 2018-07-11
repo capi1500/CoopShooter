@@ -1,0 +1,32 @@
+#define versionMajor @PROJECT_VERSION_MAJOR@
+#define versionMinor @PROJECT_VERSION_MINOR@
+
+// SFML stuff
+
+#define ANTIALIASING 8
+
+// MKS to pixel conversion
+
+#define pixelToMeter(val) (static_cast<float>(val) / 20)
+#define meterToPixel(val) (val * 20)
+
+// Box2D stuff
+
+#define defVelocityIterations 6
+#define defPositionIterations 2
+
+// Coop Shooter stuff
+
+#define lettersScaling 2.f
+
+#define defaultVelocityMaxX 10
+#define defaultVelocityMaxY 10
+#define defaultJumpHeight 500
+#define defaultMovement 1
+#define bulletSpeed 50
+#define defaultShotDelay sf::milliseconds(100)
+
+#define playerVelocityMaxX defaultVelocityMaxX
+#define playerVelocityMaxY defaultVelocityMaxY
+#define playerJumpHeight defaultJumpHeight
+#define playerMovement defaultMovement
