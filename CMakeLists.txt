@@ -26,7 +26,14 @@ add_executable(${PROJECT_NAME}
 	src/Loader/loader.cpp src/Loader/loader.hpp
 	src/World/world.cpp src/World/world.hpp
 	src/Game/game.cpp src/Game/game.hpp
-	src/Entity/entity.cpp src/Entity/entity.hpp src/Player/player.cpp src/Player/player.hpp src/Event/event.cpp src/Event/event.hpp src/Bullet/bullet.cpp src/Bullet/bullet.hpp)
+	src/Entity/entity.cpp src/Entity/entity.hpp
+	src/Player/player.cpp src/Player/player.hpp
+	src/Event/event.cpp src/Event/event.hpp
+	src/Bullet/bullet.cpp src/Bullet/bullet.hpp
+	src/Weapon/weapon.cpp src/Weapon/weapon.hpp
+	src/Item/item.cpp src/Item/item.hpp
+	src/Equipment/equipment.cpp src/Equipment/equipment.hpp
+	src/ContactListener/contactListener.cpp src/ContactListener/contactListener.hpp)
 
 set(CMAKE_MODULE_PATH "./cmake_modules" ${CMAKE_MODULE_PATH})
 # Detect and add SFML
