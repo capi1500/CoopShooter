@@ -7,16 +7,10 @@
 #include <src/Player/player.hpp>
 #include <src/Weapon/weapon.hpp>
 #include <src/ItemManager/itemManager.hpp>
+#include <src/Collectible/collectible.hpp>
 
 void Game::main(){
-	textureManager.addTexture("Assets/Textures/blueBox.png", "ball");
-	textureManager.addTexture("Assets/Textures/blueBoxCrouch.png", "ballCrouch");
-	textureManager.addTexture("Assets/Textures/redBox.png", "box");
-	textureManager.addTexture("Assets/Textures/redSlab.png", "slab");
-	textureManager.addTexture("Assets/Textures/ground.png", "ground");
-	textureManager.addTexture("Assets/Textures/yellowBox.png", "bullet");
-	textureManager.addTexture("Assets/Textures/wall.png", "wall");
-	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(250), 2, 50)));
+	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
 	loader.load("Default");
 	sf::Event event;
 	clock.restart();
@@ -36,7 +30,7 @@ void Game::main(){
 		player1view.move(world.getObject("player1")->getCentre().x, world.getObject("player1")->getCentre().y - window.getSize().y / 6);
 		player2view.setCenter(sf::Vector2f(0, 0));
 		player2view.move(world.getObject("player2")->getCentre().x, world.getObject("player2")->getCentre().y - window.getSize().y / 6);
-		
+		//printf("%d %d\n", dynamic_cast<Entity*>(getWorld().getObject("player1"))->getEntityProperties().HP, dynamic_cast<Entity*>(getWorld().getObject("player2"))->getEntityProperties().HP);
 		window.clear();
 		window.setView(player1view);
 		world.drawAll();
@@ -90,7 +84,7 @@ sf::View& Game::getPlayer2View(){
 	return player2view;
 }
 
-Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Fullscreen, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
+Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Default, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
 		physicWorld(b2Vec2(0.0f, 9.97f)),
 		eventManager(*this),
 		world(*this),
@@ -102,4 +96,5 @@ Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Fullsc
 	player1view.setViewport(sf::FloatRect(0, 0, 1, 0.5f));
 	player2view.setViewport(sf::FloatRect(0, 0.5, 1, 0.5f));
 	window.setFramerateLimit(60);
+	srand(std::time(NULL));
 }

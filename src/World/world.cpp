@@ -5,8 +5,9 @@
 #include "world.hpp"
 #include <src/Game/game.hpp>
 #include <src/PhysicObject/physicObject.hpp>
+#include <src/Collectible/collectible.hpp>
 
-void World::addObject(PhysicObject* obj){
+void World::addObject(PhysicObject * obj){
 	if(obj->getClassName() == ObjectClass::Bullet){
 		dynamic_cast<PhysicObject*>(obj)->setName("bullet" + std::to_string(bulletID++));
 		bullets[obj->getName()] = dynamic_cast<Bullet*>(obj);
@@ -76,11 +77,60 @@ void World::pass(std::string name, sf::Time elapsedTime){
 }
 
 void World::passAll(sf::Time elapsedTime){
+	timeSinceLastBoost += elapsedTime;
 	for(auto it = object.begin(); it != object.end(); it++){
 		it->second->pass(elapsedTime);
 	}
 	for(auto it = bullets.begin(); it != bullets.end(); it++){
 		it->second->pass(elapsedTime);
+	}
+	if(timeSinceLastBoost >= sf::seconds(10)){
+		timeSinceLastBoost = sf::seconds(0);
+		int randPlace = rand() % 4, randBoost = rand() % 6;
+		sf::Vector2f position;
+		std::string boost, boostName;
+		sf::Time boostTime;
+		if(not(exists("collectible0") and exists("collectible1") and exists("collectible2") and exists("collectible3"))){
+			while(exists("collectible" + std::to_string(randPlace))){
+				randPlace = rand() % 4;
+			}
+			boostName = "collectible" + std::to_string(randPlace);
+			if(randPlace == 0){
+				position = sf::Vector2f(100, -80);
+			}
+			else if(randPlace == 1){
+				position = sf::Vector2f(1100, -80);
+			}
+			else if(randPlace == 2){
+				position = sf::Vector2f(420, -100);
+			}
+			else if(randPlace == 3){
+				position = sf::Vector2f(780, -100);
+			}
+			if(randBoost == 0){
+				boost = "fasterShooting";
+				boostTime = sf::seconds(5);
+			}
+			else if(randBoost == 1){
+				boost = "fasterShots";
+				boostTime = sf::seconds(5);
+			}
+			else if(randBoost == 2){
+				boost = "hpUp";
+			}
+			else if(randBoost == 3){
+				boost = "heal";
+			}
+			else if(randBoost == 4){
+				boost = "dmgUp";
+				boostTime = sf::seconds(5);
+			}
+			else if(randBoost == 5){
+				boost = "noReload";
+				boostTime = sf::seconds(10);
+			}
+			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, boostName, boost + "Collect"), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), boost, boostTime)));
+		}
 	}
 }
 

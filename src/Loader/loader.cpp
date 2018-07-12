@@ -186,8 +186,22 @@ void Loader::loadPlayer(std::string path){
 	file.close();
 }
 
+void Loader::loadTextures(std::string path){
+	file.open(path);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	std::string input, name;
+	while(file >> input){
+		file >> name;
+		gameRef.getTextureManager().addTexture(input, name);
+	}
+	file.close();
+}
+
 void Loader::load(std::string path){
 	try{
+		loadTextures("Saves/" + path + "/textures.sv");
 		loadLevel("Saves/" + path + "/level.sv");
 		loadPlayer("Saves/" + path + "/player1.sv");
 		loadPlayer("Saves/" + path + "/player2.sv");

@@ -13,6 +13,7 @@
 
 class World{
 	private:
+		sf::Time timeSinceLastBoost;
 		Game& gameRef;
 		unsigned long long bulletID;
 		std::map<std::string, Bullet*> bullets;

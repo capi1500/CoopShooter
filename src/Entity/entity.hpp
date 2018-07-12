@@ -7,6 +7,7 @@
 
 #include <src/PhysicObject/physicObject.hpp>
 #include <src/Equipment/equipment.hpp>
+#include <src/Boosts/boosts.hpp>
 
 struct EntityProperites : public PhysicObjectProperties{
 	unsigned maxHP;
@@ -16,6 +17,7 @@ struct EntityProperites : public PhysicObjectProperties{
 	bool isFacingLeft;
 	bool isDead;
 	Equipment equipment;
+	Boosts boosts;
 	
 	EntityProperites getEntityProperties();
 	void setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties);
@@ -31,8 +33,11 @@ class Entity : public PhysicObject{
 	public:
 		const EntityProperites& getEntityProperties() const;
 		std::vector<std::pair<Item*, int>>& getEquipment();
+		std::map<std::string, sf::Time>& getBoosts();
 		Item* getEquiped();
+		bool haveBoost(std::string name);
 		
+		void addBoost(std::string name, sf::Time time);
 		bool ifCanShot();
 		void shot();
 		void setFacing(bool facingLeft);

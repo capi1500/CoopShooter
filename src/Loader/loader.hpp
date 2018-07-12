@@ -43,6 +43,7 @@ class Loader{
 		
 		void loadProperties();
 		
+		void loadTextures(std::string path);
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);
 	public:

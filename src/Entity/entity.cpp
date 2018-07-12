@@ -51,6 +51,27 @@ Item* Entity::getEquiped(){
 	return entityProperites.equipment.getEquiped();
 }
 
+std::map<std::string, sf::Time>& Entity::getBoosts(){
+	return entityProperites.boosts.getBoosts();
+}
+
+bool Entity::haveBoost(std::string name){
+	return entityProperites.boosts.getBoosts().find(name) != entityProperites.boosts.getBoosts().end();
+}
+
+void Entity::addBoost(std::string name, sf::Time time){
+	if(name == "hpUp"){
+		entityProperites.maxHP += 5;
+		entityProperites.HP += 5;
+	}
+	else if(name == "heal"){
+		entityProperites.HP = entityProperites.maxHP;
+	}
+	else{
+		entityProperites.boosts.addBoost(name, time);
+	}
+}
+
 void Entity::equip(int id){
 	entityProperites.equipment.equip(id);
 }
@@ -59,10 +80,17 @@ bool Entity::ifCanShot(){
 	if(entityProperites.isDead or getEquiped()->getClassName() != ObjectClass::Weapon){
 		return false;
 	}
+	if((not haveBoost("noReload")) and not dynamic_cast<Weapon*>(getEquiped())->canShoot()){
+		return false;
+	}
+	if(haveBoost("fasterShooting")){
+		return timeSinceLastShoot >= dynamic_cast<Weapon*>(getEquiped())->getWeaponProperties().attackDelay / 2.f;
+	}
 	return timeSinceLastShoot >= dynamic_cast<Weapon*>(getEquiped())->getWeaponProperties().attackDelay;
 }
 
 void Entity::shot(){
+	dynamic_cast<Weapon*>(getEquiped())->shoot();
 	timeSinceLastShoot = sf::milliseconds(0);
 }
 
@@ -96,6 +124,10 @@ void Entity::pass(sf::Time elapsedTime){
 	if(entityProperites.HP <= 0){
 		getBody()->SetActive(false);
 		entityProperites.isDead = true;
+	}
+	entityProperites.boosts.pass(elapsedTime);
+	for(auto i : getEquipment()){
+		i.first->pass(elapsedTime);
 	}
 }
 

@@ -5,6 +5,7 @@
 #include "eventManager.hpp"
 #include <src/Game/game.hpp>
 #include <src/Weapon/weapon.hpp>
+#include <src/Collectible/collectible.hpp>
 
 void EventManager::addEvent(Event event){
 	events.push(event);
@@ -103,9 +104,25 @@ void EventManager::handleEvents(){
 				objectProperties.texture = "bullet";
 				objectProperties.position = sf::Vector2f(object->getPosition().x + (object->getEntityProperties().isFacingLeft ? 1 : -1) * (gameRef.getTextureManager().getTexture(objectProperties.texture).getSize().x + object->getGlobalBounds().width / 2), object->getPosition().y);
 				PhysicObjectProperties physicObjectProperties(objectProperties, PhysicObjectType::Dynamic, PhysicObjectShape::Circle);
-				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties().bulletSpeed, 0);
 				WeaponProperties weaponProperties = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties();
-				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, weaponProperties.bulletSpeed, weaponProperties.dmg)));
+				float bulletSpeed = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties().bulletSpeed;
+				int bulletDmg = weaponProperties.dmg;
+				if(object->haveBoost("dmgUp")){
+					bulletDmg *= 2;
+				}
+				if(object->haveBoost("fasterShots")){
+					bulletSpeed *= 2;
+				}
+				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * bulletSpeed, 0);
+				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, bulletSpeed, bulletDmg)));
+			}
+		}
+		else if(toProcess.what == "collectSth"){
+			Collectible* collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
+			if(gameRef.getWorld().exists(toProcess.object1)){
+				//if(gameRef.getWorld().getObject(toProcess.object2 ==))
+				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
+				gameRef.getWorld().removeObject(toProcess.object1);
 			}
 		}
 		events.pop();
