@@ -23,8 +23,6 @@
 #define defaultVelocityMaxY 10
 #define defaultJumpHeight 500
 #define defaultMovement 1
-#define bulletSpeed 50
-#define defaultShotDelay sf::milliseconds(100)
 
 #define playerVelocityMaxX defaultVelocityMaxX
 #define playerVelocityMaxY defaultVelocityMaxY
