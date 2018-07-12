@@ -8,33 +8,28 @@
 BulletProperties::BulletProperties(){
 }
 
-BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties) : PhysicObjectProperties(physicObjectProperties){
+BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg) : PhysicObjectProperties(physicObjectProperties), speed(bulletSpeed), dmg(dmg){
 }
 
 BulletProperties BulletProperties::getBulletProperties(){
-	return BulletProperties(getPhysicObjectProperties());
+	return BulletProperties(getPhysicObjectProperties(), speed, dmg);
 }
 
-const BulletProperties Bullet::getBulletProperties() const{
+BulletProperties& Bullet::getBulletProperties(){
 	return bulletProperties;
 }
 
 void Bullet::pass(sf::Time elapsedTime){
 	PhysicObject::pass(elapsedTime);
 	if(getBody()->GetLinearVelocity().x > 0){
-		getBody()->SetLinearVelocity(b2Vec2(bulletSpeed, 0));
+		getBody()->SetLinearVelocity(b2Vec2(bulletProperties.speed, 0));
 	}
 	else{
-		getBody()->SetLinearVelocity(b2Vec2(-bulletSpeed, 0));
-	}
-	for(auto obj = gameRef.getWorld().getEntities().begin(); obj != gameRef.getWorld().getEntities().end(); obj++){
-		if(obj->second->getGlobalBounds().intersects(getGlobalBounds())){
-			gameRef.getEventManager().addEvent(Event("bulletHit", getName(), obj->second->getName()));
-		}
+		getBody()->SetLinearVelocity(b2Vec2(-bulletProperties.speed, 0));
 	}
 }
 
-Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(gameRef, bulletProperties){
+Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(gameRef, bulletProperties), bulletProperties(bulletProperties){
 	className = ObjectClass::Bullet;
 	getBody()->SetBullet(true);
 	getBody()->SetFixedRotation(true);

@@ -8,18 +8,19 @@
 #include <src/PhysicObject/physicObject.hpp>
 
 struct BulletProperties : PhysicObjectProperties{
+	int speed;
+	int dmg;
 	
 	BulletProperties getBulletProperties();
-	
 	BulletProperties();
-	BulletProperties(PhysicObjectProperties physicObjectProperties);
+	BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg);
 };
 
 class Bullet : public PhysicObject{
 	protected:
 		BulletProperties bulletProperties;
 	public:
-		const BulletProperties getBulletProperties() const;
+		BulletProperties& getBulletProperties();
 		
 		void pass(sf::Time elapsedTime);
 		

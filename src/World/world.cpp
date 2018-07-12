@@ -8,7 +8,7 @@
 
 void World::addObject(PhysicObject* obj){
 	if(obj->getClassName() == ObjectClass::Bullet){
-		obj->setName("bullet" + std::to_string(bulletID++));
+		dynamic_cast<PhysicObject*>(obj)->setName("bullet" + std::to_string(bulletID++));
 		bullets[obj->getName()] = dynamic_cast<Bullet*>(obj);
 		return;
 	}
@@ -20,22 +20,36 @@ void World::addObject(PhysicObject* obj){
 
 void World::removeObject(std::string name){
 	if(name.substr(0, 6) == "bullet"){
-		bullets[name]->getBody()->DestroyFixture(bullets[name]->getBody()->GetFixtureList());
-		gameRef.getPhysicWorld().DestroyBody(bullets[name]->getBody());
-		bullets.erase(name);
+		if(bullets.find(name) != bullets.end()){
+			bullets[name]->getBody()->DestroyFixture(bullets[name]->getBody()->GetFixtureList());
+			gameRef.getPhysicWorld().DestroyBody(bullets[name]->getBody());
+			bullets.erase(name);
+		}
 	}
 	else{
-		if(getObject(name)->getClassName() == ObjectClass::Entity or getObject(name)->getClassName() == ObjectClass::Player){
-			entities.erase(name);
+		if(object.find(name) != object.end()){
+			if(getObject(name)->getClassName() == ObjectClass::Entity or getObject(name)->getClassName() == ObjectClass::Player){
+				entities.erase(name);
+			}
+			object[name]->getBody()->DestroyFixture(object[name]->getBody()->GetFixtureList());
+			gameRef.getPhysicWorld().DestroyBody(object[name]->getBody());
+			object.erase(name);
 		}
-		object[name]->getBody()->DestroyFixture(object[name]->getBody()->GetFixtureList());
-		gameRef.getPhysicWorld().DestroyBody(object[name]->getBody());
-		object.erase(name);
 	}
 }
 
 PhysicObject* World::getObject(std::string name){
+	if(name.substr(0, 6) == "bullet"){
+		return bullets[name];
+	}
 	return object[name];
+}
+
+bool World::egzists(std::string name){
+	if(name.substr(0, 6) == "bullet"){
+		return bullets.find(name) != bullets.end();
+	}
+	return object.find(name) != object.end();
 }
 
 std::map<std::string, PhysicObject*>& World::getObjects(){

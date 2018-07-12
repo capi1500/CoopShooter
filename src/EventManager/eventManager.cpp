@@ -4,6 +4,7 @@
 
 #include "eventManager.hpp"
 #include <src/Game/game.hpp>
+#include <src/Weapon/weapon.hpp>
 
 void EventManager::addEvent(Event event){
 	events.push(event);
@@ -27,16 +28,16 @@ void EventManager::handleEvents(){
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
 		addEvent(Event("jump", "player2"));
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
 		addEvent(Event("moveLeft", "player1"));
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
 		addEvent(Event("moveLeft", "player2"));
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
 		addEvent(Event("moveRight", "player1"));
 	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
 		addEvent(Event("moveRight", "player2"));
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
@@ -57,15 +58,22 @@ void EventManager::handleEvents(){
 		}
 		else if(toProcess.what == "moveLeft"){
 			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
-			entity->addVelocity(sf::Vector2f(-entity->getEntityProperties().movementSpeed, 0));
+			entity->addVelocity(sf::Vector2f(entity->getEntityProperties().movementSpeed, 0));
+			entity->setFacing(true);
 		}
 		else if(toProcess.what == "moveRight"){
 			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
-			entity->addVelocity(sf::Vector2f(entity->getEntityProperties().movementSpeed, 0));
+			entity->addVelocity(sf::Vector2f(-entity->getEntityProperties().movementSpeed, 0));
+			entity->setFacing(false);
 		}
 		else if(toProcess.what == "bulletHit"){
+			if(gameRef.getWorld().egzists(toProcess.object2)){
+				PhysicObject * object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
+				if(object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity){
+					dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
+				}
+			}
 			gameRef.getWorld().removeObject(toProcess.object1);
-			printf("bullet '%s' just hit '%s'\n", toProcess.object1.c_str(), toProcess.object2.c_str());
 		}
 		else if(toProcess.what == "bulletShot"){
 			Entity* object = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
@@ -75,8 +83,9 @@ void EventManager::handleEvents(){
 				objectProperties.texture = "bullet";
 				objectProperties.position = sf::Vector2f(object->getPosition().x + (object->getEntityProperties().isFacingLeft ? 1 : -1) * (gameRef.getTextureManager().getTexture(objectProperties.texture).getSize().x + object->getGlobalBounds().width / 2), object->getPosition().y);
 				PhysicObjectProperties physicObjectProperties(objectProperties, PhysicObjectType::Dynamic, PhysicObjectShape::Circle);
-				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * bulletSpeed, 0);
-				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties)));
+				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties().bulletSpeed, 0);
+				WeaponProperties weaponProperties = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties();
+				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, weaponProperties.bulletSpeed, weaponProperties.dmg)));
 			}
 		}
 		events.pop();

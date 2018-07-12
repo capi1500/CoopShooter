@@ -46,6 +46,12 @@ void PhysicObject::addVelocity(sf::Vector2f velocity){
 	bodyPtr->ApplyLinearImpulseToCenter(b2Vec2(pixelToMeter(velocity.x), pixelToMeter(velocity.y)), true);
 }
 
+void PhysicObject::setName(std::string name){
+	physicObjectProperties.name = name;
+	objectProperties.name = name;
+	bodyPtr->SetUserData(new std::string(getName()));
+}
+
 PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Object(game, properties.getObjectProperties()), physicObjectProperties(properties){
 	// Creating Box2D object to simulate physics
 	b2BodyDef bodyDef;
@@ -79,6 +85,7 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 		fixtureDef.friction = properties.friction;
 	}
 	bodyPtr->CreateFixture(&fixtureDef);
+	bodyPtr->SetUserData(new std::string(getName()));
 	// SFML stuff
 	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 	// Coop Shooter Stuff

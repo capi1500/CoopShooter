@@ -5,6 +5,7 @@
 #include "game.hpp"
 #include <src/Entity/entity.hpp>
 #include <src/Player/player.hpp>
+#include <src/Weapon/weapon.hpp>
 
 void Game::main(){
 	textureManager.addTexture("Assets/Textures/blueBox.png", "ball");
@@ -12,22 +13,27 @@ void Game::main(){
 	textureManager.addTexture("Assets/Textures/redBox.png", "box");
 	textureManager.addTexture("Assets/Textures/ground.png", "ground");
 	textureManager.addTexture("Assets/Textures/yellowBox.png", "bullet");
+	WeaponProperties gunProp;
+	gunProp.bulletSpeed = 25;
+	gunProp.attackDelay = sf::milliseconds(100);
+	gunProp.dmg = 2;
 	PlayerProperties prop;
 	prop.texture = "ball";
 	prop.name = "player1";
 	prop.position = sf::Vector2f(20, 10);
 	prop.shape = PhysicObjectShape::Circle;
 	prop.type = PhysicObjectType::Dynamic;
-	prop.maxHP = 1;
-	prop.HP = 1;
-	PhysicObjectProperties prop2;
-	prop2.shape = PhysicObjectShape::Box;
-	prop2.texture = "ground";
-	prop2.type = PhysicObjectType::Static;
+	prop.maxHP = 10;
+	prop.HP = 10;
+	prop.equipment.addItem(new Weapon(*this, gunProp));
 	world.addObject(new Player(*this, prop));
 	prop.name = "player2";
 	prop.position = sf::Vector2f(430, 10);
 	world.addObject(new Player(*this, prop));
+	PhysicObjectProperties prop2;
+	prop2.shape = PhysicObjectShape::Box;
+	prop2.texture = "ground";
+	prop2.type = PhysicObjectType::Static;
 	prop2.position = sf::Vector2f(75, 200);
 	prop2.name = "ground";
 	world.addObject(new PhysicObject(*this, prop2));
@@ -72,6 +78,10 @@ b2World& Game::getPhysicWorld(){
 	return physicWorld;
 }
 
+ContactListener& Game::getContactListener(){
+	return contactListener;
+}
+
 World& Game::getWorld(){
 	return world;
 }
@@ -95,7 +105,10 @@ Loader& Game::getLoader(){
 Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Default, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
 		physicWorld(b2Vec2(0.0f, 9.97f)),
 		eventManager(*this),
-		world(*this){
+		world(*this),
+		contactListener(*this),
+		loader(*this){
+	physicWorld.SetContactListener(&contactListener);
 }
 
 sf::View& Game::getView(){

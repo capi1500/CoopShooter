@@ -18,6 +18,7 @@
 #include <src/SoundManager/soundManager.hpp>
 #include <src/Enum/enum.hpp>
 #include <config.h>
+#include <src/ContactListener/contactListener.hpp>
 
 class Game{
 	private:
@@ -25,6 +26,7 @@ class Game{
 		
 		sf::RenderWindow window;
 		b2World physicWorld;
+		ContactListener contactListener;
 		World world;
 		EventManager eventManager;
 		SoundManager soundManager;
@@ -37,6 +39,7 @@ class Game{
 	public:
 		sf::RenderWindow& getWindow();
 		b2World& getPhysicWorld();
+		ContactListener& getContactListener();
 		World& getWorld();
 		EventManager& getEventManager();
 		SoundManager& getSoundManager();

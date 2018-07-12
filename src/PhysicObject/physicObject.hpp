@@ -34,6 +34,8 @@ class PhysicObject : public Object{
 		void pass(sf::Time elapsedTime);
 		void addVelocity(sf::Vector2f velocity);
 		
+		void setName(std::string name);
+		
 		PhysicObject(Game&, PhysicObjectProperties);
 		~PhysicObject();
 };

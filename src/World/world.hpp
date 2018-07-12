@@ -24,6 +24,7 @@ class World{
 		PhysicObject* getObject(std::string);
 		std::map<std::string, PhysicObject*>& getObjects();
 		std::map<std::string, Entity*>& getEntities();
+		bool egzists(std::string name);
 		
 		void pass(std::string, sf::Time);
 		void passAll(sf::Time);

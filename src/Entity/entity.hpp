@@ -6,6 +6,7 @@
 #define COOPSHOOTER_ENTITY_HPP
 
 #include <src/PhysicObject/physicObject.hpp>
+#include <src/Equipment/equipment.hpp>
 
 struct EntityProperites : public PhysicObjectProperties{
 	unsigned maxHP;
@@ -13,11 +14,13 @@ struct EntityProperites : public PhysicObjectProperties{
 	int jumpHeight;
 	int movementSpeed;
 	bool isFacingLeft;
+	bool isDead;
+	Equipment equipment;
 	
 	EntityProperites getEntityProperties();
 	
 	EntityProperites();
-	EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP = -1, bool isFacingLeft = true, int movementSpeed = defaultMovement, int jumpHeight = defaultJumpHeight);
+	EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP = -1, Equipment equipment = Equipment(), bool isFacingLeft = true, int movementSpeed = defaultMovement, int jumpHeight = defaultJumpHeight);
 };
 
 class Entity : public PhysicObject{
@@ -26,12 +29,18 @@ class Entity : public PhysicObject{
 		sf::Time timeSinceLastShoot;
 	public:
 		const EntityProperites& getEntityProperties() const;
+		std::vector<Item*>& getEquipment();
+		Item* getEquiped();
 		
 		bool ifCanShot();
 		void shot();
-		
+		void setFacing(bool facingLeft);
+		void equip(int id);
 		bool onGround();
+		void gotHit(int pureDMG);
+		
 		void pass(sf::Time elapsedTime);
+		void draw();
 		
 		Entity(Game&, EntityProperites);
 };

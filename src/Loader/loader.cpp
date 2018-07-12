@@ -3,3 +3,14 @@
 //
 
 #include "loader.hpp"
+
+void Loader::load(std::string path){
+
+}
+
+void Loader::save(std::string path){
+
+}
+
+Loader::Loader(Game& gameRef) : gameRef(gameRef){
+}

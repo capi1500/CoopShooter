@@ -4,13 +4,14 @@
 
 #include "entity.hpp"
 #include <src/Game/game.hpp>
+#include <src/Weapon/weapon.hpp>
 
 EntityProperites::EntityProperites(){
 	maxHP = HP = 0;
 	jumpHeight = defaultJumpHeight;
 }
 
-EntityProperites::EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP, bool isFacingLeft, int movementSpeed, int jumpHeight) : PhysicObjectProperties(properties){
+EntityProperites::EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP, Equipment equipment, bool isFacingLeft, int movementSpeed, int jumpHeight) : PhysicObjectProperties(properties){
 	this->maxHP = maxHP;
 	if(HP != -1){
 		this->HP = HP;
@@ -21,18 +22,35 @@ EntityProperites::EntityProperites(PhysicObjectProperties properties, unsigned m
 	this->jumpHeight = jumpHeight;
 	this->movementSpeed = movementSpeed;
 	this->isFacingLeft = isFacingLeft;
+	this->equipment = equipment;
+	isDead = (HP <= 0);
 }
 
 EntityProperites EntityProperites::getEntityProperties(){
-	return EntityProperites(getPhysicObjectProperties(), maxHP, HP);
+	return EntityProperites(getPhysicObjectProperties(), maxHP, HP, equipment, isFacingLeft, movementSpeed, jumpHeight);
 }
 
 const EntityProperites& Entity::getEntityProperties() const{
 	return entityProperites;
 }
 
+std::vector<Item*>& Entity::getEquipment(){
+	return entityProperites.equipment.getEquipment();
+}
+
+Item* Entity::getEquiped(){
+	return entityProperites.equipment.getEquiped();
+}
+
+void Entity::equip(int id){
+	entityProperites.equipment.equip(id);
+}
+
 bool Entity::ifCanShot(){
-	return timeSinceLastShoot >= defaultShotDelay;
+	if(getEquiped()->getClassName() != ObjectClass::Weapon){
+		return false;
+	}
+	return timeSinceLastShoot >= dynamic_cast<Weapon*>(getEquiped())->getWeaponProperties().attackDelay;
 }
 
 void Entity::shot(){
@@ -55,13 +73,27 @@ bool Entity::onGround(){
 	return false;
 }
 
+void Entity::setFacing(bool facingLeft){
+	entityProperites.isFacingLeft = facingLeft;
+}
+
+void Entity::gotHit(int pureDMG){
+	entityProperites.HP -= pureDMG;
+}
+
 void Entity::pass(sf::Time elapsedTime){
 	PhysicObject::pass(elapsedTime);
 	timeSinceLastShoot += elapsedTime;
-	if(getBody()->GetLinearVelocity().x > 0)
-		entityProperites.isFacingLeft = true;
-	if(getBody()->GetLinearVelocity().x < 0)
-		entityProperites.isFacingLeft = false;
+	if(entityProperites.HP <= 0){
+		getBody()->SetActive(false);
+		entityProperites.isDead = true;
+	}
+}
+
+void Entity::draw(){
+	if(not entityProperites.isDead){
+		PhysicObject::draw();
+	}
 }
 
 Entity::Entity(Game& gameRef, EntityProperites properites) : entityProperites(properites),
