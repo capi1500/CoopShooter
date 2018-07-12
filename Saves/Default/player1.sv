@@ -2,12 +2,12 @@ Player{
     ObjectProperties{
         position 20 -20
         name player1
-        texture ball
+        texture ballBlue
     }
     PhysicObjectProperties{
         type dynamic
         shape circle
-        friction 0
+        friction 0.1
         density 1
     }
     EntityProperties{

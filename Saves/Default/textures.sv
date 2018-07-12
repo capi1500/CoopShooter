@@ -1,0 +1,14 @@
+Assets/Textures/blueBox.png ballBlue
+Assets/Textures/yellowBall.png ballYellow
+Assets/Textures/blueBoxCrouch.png ballCrouch
+Assets/Textures/redBox.png box
+Assets/Textures/redSlab.png slab
+Assets/Textures/ground.png ground
+Assets/Textures/bullet.png bullet
+Assets/Textures/wall.png wall
+Assets/Textures/heal.png healCollect
+Assets/Textures/hpUp.png hpUpCollect
+Assets/Textures/dmgUp.png dmgUpCollect
+Assets/Textures/fasterShots.png fasterShotsCollect
+Assets/Textures/fasterShooting.png fasterShootingCollect
+Assets/Textures/noReload.png noReloadCollect
