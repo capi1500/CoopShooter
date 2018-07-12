@@ -56,7 +56,7 @@ void Entity::equip(int id){
 }
 
 bool Entity::ifCanShot(){
-	if(getEquiped()->getClassName() != ObjectClass::Weapon){
+	if(entityProperites.isDead or getEquiped()->getClassName() != ObjectClass::Weapon){
 		return false;
 	}
 	return timeSinceLastShoot >= dynamic_cast<Weapon*>(getEquiped())->getWeaponProperties().attackDelay;

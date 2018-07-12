@@ -19,12 +19,13 @@ class World{
 		std::map<std::string, Entity*> entities;
 		std::map<std::string, PhysicObject*> object;
 	public:
+		void removeAll();
 		void addObject(PhysicObject*);
 		void removeObject(std::string);
 		PhysicObject* getObject(std::string);
 		std::map<std::string, PhysicObject*>& getObjects();
 		std::map<std::string, Entity*>& getEntities();
-		bool egzists(std::string name);
+		bool exists(std::string name);
 		
 		void pass(std::string, sf::Time);
 		void passAll(sf::Time);

@@ -18,6 +18,17 @@ void World::addObject(PhysicObject* obj){
 	}
 }
 
+void World::removeAll(){
+	for(auto it = bullets.begin(); it != bullets.end(); it++){
+		delete it->second;
+	}
+	for(auto it = object.begin(); it != object.end(); it++){
+		delete it->second;
+	}
+	bullets.erase(bullets.begin(), bullets.end());
+	object.erase(object.begin(), object.end());
+}
+
 void World::removeObject(std::string name){
 	if(name.substr(0, 6) == "bullet"){
 		if(bullets.find(name) != bullets.end()){
@@ -45,7 +56,7 @@ PhysicObject* World::getObject(std::string name){
 	return object[name];
 }
 
-bool World::egzists(std::string name){
+bool World::exists(std::string name){
 	if(name.substr(0, 6) == "bullet"){
 		return bullets.find(name) != bullets.end();
 	}

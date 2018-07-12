@@ -22,14 +22,14 @@ void EventManager::handleEvents(sf::Event event){
 		if(event.key.code == sf::Keyboard::Escape){
 			gameRef.getWindow().close();
 		}
+		if(event.key.code == sf::Keyboard::R){
+			gameRef.getWorld().removeAll();
+			gameRef.getLoader().load("Default");
+		}
 	}
 }
 
 void EventManager::handleEvents(){
-	gameRef.getPlayer1View().setCenter(sf::Vector2f(0, 0));
-	gameRef.getPlayer1View().move(gameRef.getWorld().getObject("player1")->getCentre());
-	gameRef.getPlayer2View().setCenter(sf::Vector2f(0, 0));
-	gameRef.getPlayer2View().move(gameRef.getWorld().getObject("player2")->getCentre());
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
 		addEvent(Event("jump", "player1"));
 	}
@@ -47,6 +47,12 @@ void EventManager::handleEvents(){
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
 		addEvent(Event("moveRight", "player2"));
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+		addEvent(Event("moveDown", "player1"));
+	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)){
+		addEvent(Event("moveDown", "player2"));
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
 		addEvent(Event("bulletShot", "player1"));
@@ -74,14 +80,20 @@ void EventManager::handleEvents(){
 			entity->addVelocity(sf::Vector2f(-entity->getEntityProperties().movementSpeed, 0));
 			entity->setFacing(false);
 		}
+		else if(toProcess.what == "moveDown"){
+			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			entity->addVelocity(sf::Vector2f(0, entity->getEntityProperties().movementSpeed));
+		}
 		else if(toProcess.what == "bulletHit"){
-			if(gameRef.getWorld().egzists(toProcess.object2)){
-				PhysicObject * object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
-				if(object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity){
-					dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
+			if(gameRef.getWorld().exists(toProcess.object1)){
+				if(gameRef.getWorld().exists(toProcess.object2)){
+					PhysicObject * object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
+					if(object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity){
+						dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
+					}
 				}
+				gameRef.getWorld().removeObject(toProcess.object1);
 			}
-			gameRef.getWorld().removeObject(toProcess.object1);
 		}
 		else if(toProcess.what == "bulletShot"){
 			Entity* object = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));

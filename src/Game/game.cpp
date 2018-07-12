@@ -12,10 +12,11 @@ void Game::main(){
 	textureManager.addTexture("Assets/Textures/blueBox.png", "ball");
 	textureManager.addTexture("Assets/Textures/blueBoxCrouch.png", "ballCrouch");
 	textureManager.addTexture("Assets/Textures/redBox.png", "box");
+	textureManager.addTexture("Assets/Textures/redSlab.png", "slab");
 	textureManager.addTexture("Assets/Textures/ground.png", "ground");
 	textureManager.addTexture("Assets/Textures/yellowBox.png", "bullet");
 	textureManager.addTexture("Assets/Textures/wall.png", "wall");
-	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(50), 2, 50)));
+	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(250), 2, 50)));
 	loader.load("Default");
 	sf::Event event;
 	clock.restart();
@@ -26,9 +27,15 @@ void Game::main(){
 		eventManager.handleEvents();
 		
 		time = clock.restart();
+		//printf("%lld\n", time.asMicroseconds());
 		physicWorld.Step(time.asSeconds(), defVelocityIterations, defPositionIterations);
 		physicWorld.ClearForces();
 		world.passAll(time);
+		
+		player1view.setCenter(sf::Vector2f(0, 0));
+		player1view.move(world.getObject("player1")->getCentre().x, world.getObject("player1")->getCentre().y - window.getSize().y / 6);
+		player2view.setCenter(sf::Vector2f(0, 0));
+		player2view.move(world.getObject("player2")->getCentre().x, world.getObject("player2")->getCentre().y - window.getSize().y / 6);
 		
 		window.clear();
 		window.setView(player1view);
@@ -83,7 +90,7 @@ sf::View& Game::getPlayer2View(){
 	return player2view;
 }
 
-Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Default, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
+Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Fullscreen, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
 		physicWorld(b2Vec2(0.0f, 9.97f)),
 		eventManager(*this),
 		world(*this),
