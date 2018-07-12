@@ -16,6 +16,16 @@ PlayerProperties PlayerProperties::getPlayerProperties(){
 	return PlayerProperties(getEntityProperties());
 }
 
+void PlayerProperties::setEntityProperties(EntityProperites entityProperites){
+	maxHP = entityProperites.maxHP;
+	HP = entityProperites.HP;
+	jumpHeight = entityProperites.jumpHeight;
+	movementSpeed = entityProperites.movementSpeed;
+	isFacingLeft = entityProperites.isFacingLeft;
+	isDead = entityProperites.isDead;
+	equipment = entityProperites.equipment;
+}
+
 void Player::pass(sf::Time elapsedTime){
 	Entity::pass(elapsedTime);
 	if(getBody()->GetLinearVelocity().x > playerVelocityMaxX){

@@ -7,19 +7,17 @@
 ItemProperties::ItemProperties(){
 }
 
-ItemProperties::ItemProperties(PhysicObjectProperties physicObjectProperties, int amount, bool isWorldObject) : PhysicObjectProperties(physicObjectProperties),
-		amount(amount),
-		isWorldObject(isWorldObject){
+ItemProperties::ItemProperties(ObjectProperties objectProperties) : ObjectProperties(objectProperties){
 }
 
 ItemProperties ItemProperties::getItemProperties(){
-	return ItemProperties(getPhysicObjectProperties(), amount, isWorldObject);
+	return ItemProperties(getObjectProperties());
 }
 
 const ItemProperties& Item::getItemProperties() const{
 	return itemProperties;
 }
 
-Item::Item(Game& gameRef, ItemProperties properties) : PhysicObject(gameRef, properties.getPhysicObjectProperties()), itemProperties(properties){
+Item::Item(Game& gameRef, ItemProperties properties) : Object(gameRef, properties.getObjectProperties()), itemProperties(properties){
 	className = ObjectClass::Item;
 }

@@ -18,7 +18,8 @@ enum class ObjectClass{
 		Player,
 		Bullet,
 		Item,
-		Weapon
+		Weapon,
+		WorldObject
 };
 
 enum class PhysicObjectShape{

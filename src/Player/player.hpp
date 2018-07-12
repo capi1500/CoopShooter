@@ -9,6 +9,7 @@
 
 struct PlayerProperties : public EntityProperites{
 	PlayerProperties getPlayerProperties();
+	void setEntityProperties(EntityProperites entityProperites);
 	
 	PlayerProperties();
 	PlayerProperties(EntityProperites);

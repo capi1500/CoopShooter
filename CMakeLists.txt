@@ -33,7 +33,7 @@ add_executable(${PROJECT_NAME}
 	src/Weapon/weapon.cpp src/Weapon/weapon.hpp
 	src/Item/item.cpp src/Item/item.hpp
 	src/Equipment/equipment.cpp src/Equipment/equipment.hpp
-	src/ContactListener/contactListener.cpp src/ContactListener/contactListener.hpp)
+	src/ContactListener/contactListener.cpp src/ContactListener/contactListener.hpp src/WorldObject/worldObject.cpp src/WorldObject/worldObject.hpp src/ItemManager/itemManager.cpp src/ItemManager/itemManager.hpp)
 
 set(CMAKE_MODULE_PATH "./cmake_modules" ${CMAKE_MODULE_PATH})
 # Detect and add SFML

@@ -19,6 +19,8 @@ struct PhysicObjectProperties : public ObjectProperties{
 	sf::Vector2f velocity;
 	
 	PhysicObjectProperties getPhysicObjectProperties();
+	void setObjectProperties(ObjectProperties& objectProperties);
+	
 	PhysicObjectProperties();
 	PhysicObjectProperties(ObjectProperties objectProperties, PhysicObjectType objectType, PhysicObjectShape objectShape, float friction = 0.3, float density = 1, sf::Vector2f velocity = sf::Vector2f(0, 0), float angle = 0.f);
 };

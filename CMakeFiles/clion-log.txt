@@ -1,0 +1,5 @@
+/usr/share/clion/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE= -G "CodeBlocks - Unix Makefiles" /home/capi1500/Documents/projekty/CoopShooter
+-- Found SFML 2.4.2 in /usr/include
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/capi1500/Documents/projekty/CoopShooter

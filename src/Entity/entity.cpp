@@ -30,11 +30,20 @@ EntityProperites EntityProperites::getEntityProperties(){
 	return EntityProperites(getPhysicObjectProperties(), maxHP, HP, equipment, isFacingLeft, movementSpeed, jumpHeight);
 }
 
+void EntityProperites::setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties){
+	type = physicObjectProperties.type;
+	shape = physicObjectProperties.shape;
+	density = physicObjectProperties.density;
+	friction = physicObjectProperties.friction;
+	angle = physicObjectProperties.angle;
+	velocity = physicObjectProperties.velocity;
+}
+
 const EntityProperites& Entity::getEntityProperties() const{
 	return entityProperites;
 }
 
-std::vector<Item*>& Entity::getEquipment(){
+std::vector<std::pair<Item*, int>>& Entity::getEquipment(){
 	return entityProperites.equipment.getEquipment();
 }
 
@@ -61,7 +70,7 @@ bool Entity::onGround(){
 	for(auto* contact = getBody()->GetContactList(); contact; contact = contact->next){
 		for(auto obj = gameRef.getWorld().getObjects().begin(); obj != gameRef.getWorld().getObjects().end(); obj++){
 			if(contact->other == obj->second->getBody() and contact->contact->IsTouching()){
-				if(obj->second->getClassName() == ObjectClass::PhysicObject){
+				if(obj->second->getClassName() == ObjectClass::PhysicObject or obj->second->getClassName() == ObjectClass::WorldObject){
 					sf::FloatRect o1 = getGlobalBounds(), o2 = obj->second->getGlobalBounds();
 					if(o1.top + o1.height - 1 <= o2.top and o1.left + o1.width > o2.left and o1.left < o2.left + o2.width){
 						return true;

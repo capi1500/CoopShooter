@@ -6,6 +6,7 @@
 #include <src/Entity/entity.hpp>
 #include <src/Player/player.hpp>
 #include <src/Weapon/weapon.hpp>
+#include <src/ItemManager/itemManager.hpp>
 
 void Game::main(){
 	textureManager.addTexture("Assets/Textures/blueBox.png", "ball");
@@ -13,44 +14,9 @@ void Game::main(){
 	textureManager.addTexture("Assets/Textures/redBox.png", "box");
 	textureManager.addTexture("Assets/Textures/ground.png", "ground");
 	textureManager.addTexture("Assets/Textures/yellowBox.png", "bullet");
-	WeaponProperties gunProp;
-	gunProp.bulletSpeed = 25;
-	gunProp.attackDelay = sf::milliseconds(100);
-	gunProp.dmg = 2;
-	PlayerProperties prop;
-	prop.texture = "ball";
-	prop.name = "player1";
-	prop.position = sf::Vector2f(20, 10);
-	prop.shape = PhysicObjectShape::Circle;
-	prop.type = PhysicObjectType::Dynamic;
-	prop.maxHP = 10;
-	prop.HP = 10;
-	prop.equipment.addItem(new Weapon(*this, gunProp));
-	world.addObject(new Player(*this, prop));
-	prop.name = "player2";
-	prop.position = sf::Vector2f(430, 10);
-	world.addObject(new Player(*this, prop));
-	PhysicObjectProperties prop2;
-	prop2.shape = PhysicObjectShape::Box;
-	prop2.texture = "ground";
-	prop2.type = PhysicObjectType::Static;
-	prop2.position = sf::Vector2f(75, 200);
-	prop2.name = "ground";
-	world.addObject(new PhysicObject(*this, prop2));
-	prop2.position = sf::Vector2f(75 + 150, 200);
-	prop2.name = "ground2";
-	world.addObject(new PhysicObject(*this, prop2));
-	prop2.position = sf::Vector2f(75 + 300, 200);
-	prop2.name = "ground3";
-	world.addObject(new PhysicObject(*this, prop2));
-	prop2.angle = 90;
-	prop2.name = "ground4";
-	prop2.position = sf::Vector2f(5, 150);
-	world.addObject(new PhysicObject(*this, prop2));
-	prop2.name = "ground5";
-	prop2.position = sf::Vector2f(455, 150);
-	world.addObject(new PhysicObject(*this, prop2));
-	
+	textureManager.addTexture("Assets/Textures/wall.png", "wall");
+	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(50), 2, 50)));
+	loader.load("Default");
 	sf::Event event;
 	clock.restart();
 	while(window.isOpen()){
@@ -65,6 +31,9 @@ void Game::main(){
 		world.passAll(time);
 		
 		window.clear();
+		window.setView(player1view);
+		world.drawAll();
+		window.setView(player2view);
 		world.drawAll();
 		window.display();
 	}
@@ -102,6 +71,18 @@ Loader& Game::getLoader(){
 	return loader;
 }
 
+ItemManager& Game::getItemManager(){
+	return itemManager;
+}
+
+sf::View& Game::getPlayer1View(){
+	return player1view;
+}
+
+sf::View& Game::getPlayer2View(){
+	return player2view;
+}
+
 Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Default, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
 		physicWorld(b2Vec2(0.0f, 9.97f)),
 		eventManager(*this),
@@ -109,8 +90,9 @@ Game::Game() : window(sf::VideoMode(500, 500), "Coop Shooter", sf::Style::Defaul
 		contactListener(*this),
 		loader(*this){
 	physicWorld.SetContactListener(&contactListener);
-}
-
-sf::View& Game::getView(){
-	return view;
+	player1view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
+	player2view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
+	player1view.setViewport(sf::FloatRect(0, 0, 1, 0.5f));
+	player2view.setViewport(sf::FloatRect(0, 0.5, 1, 0.5f));
+	window.setFramerateLimit(60);
 }

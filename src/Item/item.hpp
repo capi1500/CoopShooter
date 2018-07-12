@@ -7,17 +7,17 @@
 
 #include <src/PhysicObject/physicObject.hpp>
 
-struct ItemProperties : public PhysicObjectProperties{
+struct ItemProperties : public ObjectProperties{
 	int amount;
 	bool isWorldObject;
 	
 	ItemProperties getItemProperties();
 	
 	ItemProperties();
-	ItemProperties(PhysicObjectProperties physicObjectProperties, int amount, bool isWorldObject);
+	ItemProperties(ObjectProperties objectProperties);
 };
 
-class Item : public PhysicObject{
+class Item : public Object{
 	protected:
 		ItemProperties itemProperties;
 	public:

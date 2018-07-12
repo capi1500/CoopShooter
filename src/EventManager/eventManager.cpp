@@ -15,13 +15,21 @@ void EventManager::handleEvents(sf::Event event){
 		gameRef.getWindow().close();
 	}
 	if(event.type == sf::Event::Resized){
-		gameRef.getView().setSize(static_cast<sf::Vector2f>(gameRef.getWindow().getSize()));
-		gameRef.getView().setCenter(gameRef.getWindow().getSize().x / 2, gameRef.getWindow().getSize().y / 2);
-		gameRef.getWindow().setView(gameRef.getView());
+		gameRef.getPlayer1View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
+		gameRef.getPlayer2View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
+	}
+	if(event.type == sf::Event::KeyPressed){
+		if(event.key.code == sf::Keyboard::Escape){
+			gameRef.getWindow().close();
+		}
 	}
 }
 
 void EventManager::handleEvents(){
+	gameRef.getPlayer1View().setCenter(sf::Vector2f(0, 0));
+	gameRef.getPlayer1View().move(gameRef.getWorld().getObject("player1")->getCentre());
+	gameRef.getPlayer2View().setCenter(sf::Vector2f(0, 0));
+	gameRef.getPlayer2View().move(gameRef.getWorld().getObject("player2")->getCentre());
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
 		addEvent(Event("jump", "player1"));
 	}

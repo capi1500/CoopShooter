@@ -19,6 +19,7 @@
 #include <src/Enum/enum.hpp>
 #include <config.h>
 #include <src/ContactListener/contactListener.hpp>
+#include <src/ItemManager/itemManager.hpp>
 
 class Game{
 	private:
@@ -31,11 +32,13 @@ class Game{
 		EventManager eventManager;
 		SoundManager soundManager;
 		TextureManager textureManager;
+		ItemManager itemManager;
 		Loader loader;
 		
 		sf::Clock clock;
 		sf::Time time;
-		sf::View view;
+		sf::View player1view;
+		sf::View player2view;
 	public:
 		sf::RenderWindow& getWindow();
 		b2World& getPhysicWorld();
@@ -45,7 +48,9 @@ class Game{
 		SoundManager& getSoundManager();
 		TextureManager& getTextureManager();
 		Loader& getLoader();
-		sf::View& getView();
+		ItemManager& getItemManager();
+		sf::View& getPlayer1View();
+		sf::View& getPlayer2View();
 		
 		void main();
 		

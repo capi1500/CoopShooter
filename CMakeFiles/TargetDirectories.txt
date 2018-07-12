@@ -1,0 +1,9 @@
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/install/strip.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/install/local.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/install.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/list_install_components.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/rebuild_cache.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/package.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/CoopShooter.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/package_source.dir
+/home/capi1500/Documents/projekty/CoopShooter/CMakeFiles/edit_cache.dir

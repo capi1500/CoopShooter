@@ -12,12 +12,12 @@ class Equipment{
 	protected:
 		unsigned equipmentSize;
 		unsigned equiped;
-		std::vector<Item*> equipment;
+		std::vector<std::pair<Item*, int>> equipment;
 	public:
-		std::vector<Item*>& getEquipment();
+		std::vector<std::pair<Item*, int>>& getEquipment();
 		Item* getEquiped();
 		
-		bool addItem(Item* item);
+		bool addItem(Item* item, int ammount = 1);
 		bool equip(unsigned id);
 		
 		Equipment();

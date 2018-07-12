@@ -10,6 +10,8 @@ PhysicObjectProperties::PhysicObjectProperties(){
 	density = 1.f;
 	velocity = sf::Vector2f(0, 0);
 	angle = 0;
+	shape = PhysicObjectShape::Box;
+	type = PhysicObjectType::Dynamic;
 }
 
 PhysicObjectProperties::PhysicObjectProperties(ObjectProperties objectProperties, PhysicObjectType physicObjectType, PhysicObjectShape physicObjectShape, float friction, float density, sf::Vector2f velocity, float angle) : ObjectProperties(objectProperties),
@@ -25,10 +27,13 @@ PhysicObjectProperties PhysicObjectProperties::getPhysicObjectProperties(){
 	return PhysicObjectProperties(getObjectProperties(), type, shape, friction, density, velocity, angle);
 }
 
+void PhysicObjectProperties::setObjectProperties(ObjectProperties& objectProperties){
+	position = objectProperties.position;
+	name = objectProperties.name;
+	texture = objectProperties.texture;
+}
+
 PhysicObjectProperties& PhysicObject::getPhysicObjectProperties(){
-	physicObjectProperties.angle = bodyPtr->GetAngle() * 180 / b2_pi;
-	physicObjectProperties.position = getCentre();
-	physicObjectProperties.velocity = sf::Vector2f(meterToPixel(bodyPtr->GetLinearVelocity().x), meterToPixel(bodyPtr->GetLinearVelocity().y));
 	return physicObjectProperties;
 }
 
@@ -40,6 +45,9 @@ void PhysicObject::pass(sf::Time elapsedTime){
 	Object::pass(elapsedTime);
 	setPosition(meterToPixel(bodyPtr->GetPosition().x), meterToPixel(bodyPtr->GetPosition().y));
 	setRotation(bodyPtr->GetAngle() * 180 / b2_pi);
+	physicObjectProperties.angle = bodyPtr->GetAngle() * 180 / b2_pi;
+	physicObjectProperties.position = getCentre();
+	physicObjectProperties.velocity = sf::Vector2f(meterToPixel(bodyPtr->GetLinearVelocity().x), meterToPixel(bodyPtr->GetLinearVelocity().y));
 }
 
 void PhysicObject::addVelocity(sf::Vector2f velocity){
@@ -61,9 +69,6 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 	else if(properties.type == PhysicObjectType::Kinematic){
 		bodyDef.type = b2_kinematicBody;
 	}
-	/*if(properties.isEntity){
-		bodyDef.fixedRotation = true;
-	}*/
 	bodyDef.position.Set(pixelToMeter(getCentre().x), pixelToMeter(getCentre().y));
 	bodyDef.angle = properties.angle * b2_pi / 180;
 	bodyDef.linearVelocity = b2Vec2(pixelToMeter(properties.velocity.x), pixelToMeter(properties.velocity.y));

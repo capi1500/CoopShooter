@@ -18,6 +18,7 @@ struct EntityProperites : public PhysicObjectProperties{
 	Equipment equipment;
 	
 	EntityProperites getEntityProperties();
+	void setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties);
 	
 	EntityProperites();
 	EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP = -1, Equipment equipment = Equipment(), bool isFacingLeft = true, int movementSpeed = defaultMovement, int jumpHeight = defaultJumpHeight);
@@ -29,7 +30,7 @@ class Entity : public PhysicObject{
 		sf::Time timeSinceLastShoot;
 	public:
 		const EntityProperites& getEntityProperties() const;
-		std::vector<Item*>& getEquipment();
+		std::vector<std::pair<Item*, int>>& getEquipment();
 		Item* getEquiped();
 		
 		bool ifCanShot();

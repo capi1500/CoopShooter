@@ -5,11 +5,11 @@
 #include "equipment.hpp"
 #include <src/Item/item.hpp>
 
-bool Equipment::addItem(Item* item){
+bool Equipment::addItem(Item* item, int ammount){
 	if(equipment.size() == equipmentSize){
 		return false;
 	}
-	equipment.push_back(item);
+	equipment.push_back({item, ammount});
 	return true;
 }
 
@@ -21,10 +21,10 @@ bool Equipment::equip(unsigned id){
 }
 
 Item* Equipment::getEquiped(){
-	return equipment[equiped];
+	return equipment[equiped].first;
 }
 
-std::vector<Item*>& Equipment::getEquipment(){
+std::vector<std::pair<Item*, int>>& Equipment::getEquipment(){
 	return equipment;
 }
 
