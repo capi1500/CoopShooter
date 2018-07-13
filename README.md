@@ -7,7 +7,6 @@ Yes there will be updates in future. If you have any idea how to improve it or a
 - Download this repository
 - Extract files
 - cd path/to/rep/CoopShooter-master/
-- chmod +x setup
 - ./setup
 
 # Play game
