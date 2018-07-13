@@ -129,11 +129,14 @@ void Entity::pass(sf::Time elapsedTime){
 	for(auto i : getEquipment()){
 		i.first->pass(elapsedTime);
 	}
+	healthBar.setTextureRect(sf::IntRect(0, (7 - static_cast<int>(7 * (static_cast<double>(entityProperites.HP) / entityProperites.maxHP))) * 8, 28, 8));
+	healthBar.setPosition(getCentre().x - getGlobalBounds().width / 2 - 14 , getGlobalBounds().top - 12);
 }
 
 void Entity::draw(){
 	if(not entityProperites.isDead){
 		PhysicObject::draw();
+		gameRef.getWindow().draw(healthBar);
 	}
 }
 
@@ -143,4 +146,5 @@ Entity::Entity(Game& gameRef, EntityProperites properites) : entityProperites(pr
 	getBody()->SetFixedRotation(true);
 	// Coop Shooter stuff
 	className = ObjectClass::Entity;
+	healthBar.setTexture(gameRef.getTextureManager().getTexture("healthBar"));
 }

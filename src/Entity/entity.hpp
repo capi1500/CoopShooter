@@ -27,6 +27,8 @@ struct EntityProperites : public PhysicObjectProperties{
 };
 
 class Entity : public PhysicObject{
+	private:
+		Sprite healthBar;
 	protected:
 		EntityProperites entityProperites;
 		sf::Time timeSinceLastShoot;

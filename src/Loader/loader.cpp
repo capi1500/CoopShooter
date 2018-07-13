@@ -194,7 +194,7 @@ void Loader::loadTextures(std::string path){
 	std::string input, name;
 	while(file >> input){
 		file >> name;
-		gameRef.getTextureManager().addTexture(input, name);
+		gameRef.getTextureManager().addTexture("Assets/Textures/" + input, name);
 	}
 	file.close();
 }
