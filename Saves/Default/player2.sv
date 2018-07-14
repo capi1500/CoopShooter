@@ -16,7 +16,7 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            gun 1
+            gun2 1
         }
     }
 }

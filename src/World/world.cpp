@@ -127,7 +127,7 @@ void World::passAll(sf::Time elapsedTime){
 			}
 			else if(randBoost == 5){
 				boost = "noReload";
-				boostTime = sf::seconds(10);
+				boostTime = sf::seconds(5);
 			}
 			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, boostName, boost + "Collect"), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), boost, boostTime)));
 		}

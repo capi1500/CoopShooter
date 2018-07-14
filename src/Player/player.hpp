@@ -18,8 +18,11 @@ struct PlayerProperties : public EntityProperites{
 class Player : public Entity{
 	protected:
 		PlayerProperties playerProperties;
+		sf::Sprite ammoBar;
 	public:
 		void pass(sf::Time elapsedTime);
+		void drawAmmo();
+		
 		Player(Game&, PlayerProperties);
 };
 

@@ -90,7 +90,9 @@ bool Entity::ifCanShot(){
 }
 
 void Entity::shot(){
-	dynamic_cast<Weapon*>(getEquiped())->shoot();
+	if(not haveBoost("noReload")){
+		dynamic_cast<Weapon*>(getEquiped())->shoot();
+	}
 	timeSinceLastShoot = sf::milliseconds(0);
 }
 

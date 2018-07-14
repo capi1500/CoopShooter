@@ -13,3 +13,4 @@ fasterShots.png fasterShotsCollect
 fasterShooting.png fasterShootingCollect
 noReload.png noReloadCollect
 health.png healthBar
+ammo.png ammoBar

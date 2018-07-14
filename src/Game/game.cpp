@@ -10,7 +10,8 @@
 #include <src/Collectible/collectible.hpp>
 
 void Game::main(){
-	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
+	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun1", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
+	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun2", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
 	loader.load("Default");
 	sf::Event event;
 	clock.restart();
@@ -34,8 +35,10 @@ void Game::main(){
 		window.clear();
 		window.setView(player1view);
 		world.drawAll();
+		dynamic_cast<Player*>(getWorld().getObject("player1"))->drawAmmo();
 		window.setView(player2view);
 		world.drawAll();
+		dynamic_cast<Player*>(getWorld().getObject("player2"))->drawAmmo();
 		window.display();
 	}
 }
@@ -84,7 +87,7 @@ sf::View& Game::getPlayer2View(){
 	return player2view;
 }
 
-Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Default, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
+Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullscreen, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
 		physicWorld(b2Vec2(0.0f, 9.97f)),
 		eventManager(*this),
 		world(*this),
@@ -97,4 +100,5 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Defaul
 	player2view.setViewport(sf::FloatRect(0, 0.5, 1, 0.5f));
 	window.setFramerateLimit(60);
 	srand(std::time(NULL));
+	window.setMouseCursorVisible(false);
 }
