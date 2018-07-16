@@ -1,8 +1,8 @@
 Player{
     ObjectProperties{
-        position 20 -20
+        position 20 -35
         name player1
-        texture ballBlue
+        texture mage
     }
     PhysicObjectProperties{
         type dynamic
@@ -16,7 +16,7 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            gun1 1
+            minigun 1
         }
     }
 }

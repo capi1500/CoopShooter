@@ -1,8 +1,8 @@
 Player{
     ObjectProperties{
-        position 1180 -20
+        position 1180 -35
         name player2
-        texture ballYellow
+        texture archer
     }
     PhysicObjectProperties{
         type dynamic
@@ -16,7 +16,7 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            gun2 1
+            assultRifle 1
         }
     }
 }

@@ -1,8 +1,5 @@
-blueBox.png ballBlue
-yellowBall.png ballYellow
-blueBoxCrouch.png ballCrouch
-redBox.png box
-redSlab.png slab
+wall.gif box
+slab.gif slab
 ground.png ground
 bullet.png bullet
 wall.png wall
@@ -14,3 +11,7 @@ fasterShooting.png fasterShootingCollect
 noReload.png noReloadCollect
 health.png healthBar
 ammo.png ammoBar
+battlemage.gif mage
+archer.gif archer
+arrow.png arrow
+fireball.gif fireball
