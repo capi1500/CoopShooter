@@ -101,9 +101,9 @@ void EventManager::handleEvents(){
 			if(object->ifCanShot()){
 				object->shot();
 				ObjectProperties objectProperties;
-				objectProperties.texture = "bullet";
+				objectProperties.texture = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties().bulletTexture;
 				objectProperties.position = sf::Vector2f(object->getPosition().x + (object->getEntityProperties().isFacingLeft ? 1 : -1) * (gameRef.getTextureManager().getTexture(objectProperties.texture).getSize().x + object->getGlobalBounds().width / 2), object->getPosition().y);
-				PhysicObjectProperties physicObjectProperties(objectProperties, PhysicObjectType::Dynamic, PhysicObjectShape::Circle);
+				PhysicObjectProperties physicObjectProperties(objectProperties, PhysicObjectType::Dynamic, PhysicObjectShape::Box);
 				WeaponProperties weaponProperties = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties();
 				float bulletSpeed = dynamic_cast<Weapon*>(object->getEquiped())->getWeaponProperties().bulletSpeed;
 				int bulletDmg = weaponProperties.dmg;
@@ -120,7 +120,6 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "collectSth"){
 			Collectible* collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
 			if(gameRef.getWorld().exists(toProcess.object1)){
-				//if(gameRef.getWorld().getObject(toProcess.object2 ==))
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
 				gameRef.getWorld().removeObject(toProcess.object1);
 			}

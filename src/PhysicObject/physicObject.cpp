@@ -60,7 +60,8 @@ void PhysicObject::setName(std::string name){
 	bodyPtr->SetUserData(new std::string(getName()));
 }
 
-PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Object(game, properties.getObjectProperties()), physicObjectProperties(properties){
+PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Object(game, properties.getObjectProperties()),
+		physicObjectProperties(properties){
 	// Creating Box2D object to simulate physics
 	b2BodyDef bodyDef;
 	if(properties.type == PhysicObjectType::Dynamic){
@@ -81,9 +82,11 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 		fixtureDef.shape = &polygonShape;
 	}
 	else if(properties.shape == PhysicObjectShape::Circle){
-		circleShape.m_radius = pixelToMeter(getGlobalBounds().width / 2);
+		circleShape.m_radius = pixelToMeter(std::max(getGlobalBounds().width / 2, getGlobalBounds().height / 2));
 		fixtureDef.shape = &circleShape;
 	}
+	fixtureDef.filter.categoryBits = 2;
+	fixtureDef.filter.maskBits = 3;
 	fixtureDef.density = properties.density;
 	fixtureDef.restitution = 0;
 	if(properties.type == PhysicObjectType::Dynamic or properties.type == PhysicObjectType::Kinematic){

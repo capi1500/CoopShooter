@@ -5,18 +5,26 @@
 #include "weapon.hpp"
 
 WeaponProperties::WeaponProperties(){
+	reloading = false;
+	ammo = -1;
+	bulletTexture = "bullet";
 }
 
-WeaponProperties::WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed) : ItemProperties(itemProperties), attackDelay(delay), dmg(dmg), bulletSpeed(bulletSpeed), maxAmmo(ammo), reloadSpeed(reloadSpeed){
+WeaponProperties::WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed, std::string bulletTexture) : ItemProperties(itemProperties), attackDelay(delay), dmg(dmg), bulletSpeed(bulletSpeed), maxAmmo(ammo), reloadSpeed(reloadSpeed), bulletTexture(bulletTexture){
 	this->ammo = this->maxAmmo;
 	reloading = false;
 }
 
 WeaponProperties WeaponProperties::getWeaponProperties(){
-	return WeaponProperties(getItemProperties(), attackDelay, dmg, bulletSpeed, ammo, reloadSpeed);
+	return WeaponProperties(getItemProperties(), attackDelay, dmg, bulletSpeed, ammo, reloadSpeed, bulletTexture);
 }
 
-const WeaponProperties& Weapon::getWeaponProperties() const{
+void WeaponProperties::setItemProperties(ItemProperties itemProperties){
+	amount = itemProperties.amount;
+	isWorldObject = itemProperties.isWorldObject;
+}
+
+WeaponProperties& Weapon::getWeaponProperties(){
 	return weaponProperties;
 }
 

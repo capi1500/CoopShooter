@@ -14,6 +14,12 @@ ItemProperties ItemProperties::getItemProperties(){
 	return ItemProperties(getObjectProperties());
 }
 
+void ItemProperties::setObjectProperties(ObjectProperties& objectProperties){
+	position = objectProperties.position;
+	name = objectProperties.name;
+	texture = objectProperties.texture;
+}
+
 const ItemProperties& Item::getItemProperties() const{
 	return itemProperties;
 }

@@ -10,8 +10,6 @@
 #include <src/Collectible/collectible.hpp>
 
 void Game::main(){
-	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun1", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
-	itemManager.addItem(new Weapon(*this, WeaponProperties(ItemProperties(ObjectProperties(sf::Vector2f(0, 0), "gun2", "")), sf::milliseconds(250), 2, 50, 15, sf::seconds(3))));
 	loader.load("Default");
 	sf::Event event;
 	clock.restart();

@@ -15,11 +15,13 @@ struct WeaponProperties : public ItemProperties{
 	int maxAmmo;
 	int ammo;
 	bool reloading;
+	std::string bulletTexture;
 	
 	WeaponProperties getWeaponProperties();
+	void setItemProperties(ItemProperties itemProperties);
 	
 	WeaponProperties();
-	WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed);
+	WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed, std::string bulletTexture);
 };
 
 class Weapon : public Item{
@@ -27,7 +29,7 @@ class Weapon : public Item{
 		sf::Time timeSinceReloadStarted;
 		WeaponProperties weaponProperties;
 	public:
-		const WeaponProperties& getWeaponProperties() const;
+		WeaponProperties& getWeaponProperties();
 		
 		void pass(sf::Time elapsedTime);
 		bool canShoot();

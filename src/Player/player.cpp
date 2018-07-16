@@ -53,8 +53,11 @@ void Player::pass(sf::Time elapsedTime){
 }
 
 void Player::drawAmmo(){
-	if(entityProperites.HP != 0 and getEquiped()->getClassName() == ObjectClass::Weapon){
-		gameRef.getWindow().draw(ammoBar);
+	if(not entityProperites.isDead){
+		Entity::draw();
+		if(getEquiped()->getClassName() == ObjectClass::Weapon){
+			gameRef.getWindow().draw(ammoBar);
+		}
 	}
 }
 

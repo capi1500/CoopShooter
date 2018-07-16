@@ -12,6 +12,7 @@ struct ItemProperties : public ObjectProperties{
 	bool isWorldObject;
 	
 	ItemProperties getItemProperties();
+	void setObjectProperties(ObjectProperties& objectProperties);
 	
 	ItemProperties();
 	ItemProperties(ObjectProperties objectProperties);

@@ -127,6 +127,12 @@ void Entity::pass(sf::Time elapsedTime){
 		getBody()->SetActive(false);
 		entityProperites.isDead = true;
 	}
+	if(entityProperites.isFacingLeft){
+		setScale(sf::Vector2f(1, 1));
+	}
+	else{
+		setScale(sf::Vector2f(-1, 1));
+	}
 	entityProperites.boosts.pass(elapsedTime);
 	for(auto i : getEquipment()){
 		i.first->pass(elapsedTime);

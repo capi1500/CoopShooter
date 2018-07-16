@@ -46,6 +46,7 @@ class Loader{
 		void loadTextures(std::string path);
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);
+		void loadItems(std::string path);
 	public:
 		void load(std::string path);
 		void save(std::string path);

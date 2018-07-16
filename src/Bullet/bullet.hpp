@@ -10,6 +10,7 @@
 struct BulletProperties : PhysicObjectProperties{
 	int speed;
 	int dmg;
+	bool isFacingLeft;
 	
 	BulletProperties getBulletProperties();
 	BulletProperties();

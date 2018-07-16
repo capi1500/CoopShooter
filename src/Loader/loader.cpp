@@ -94,7 +94,7 @@ void Loader::entityload(){
 			int ammount;
 			while(input != "}"){
 				file >> ammount;
-				entityProperites.equipment.addItem(gameRef.getItemManager().getItem(input), ammount);
+				entityProperites.equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(input))), ammount);
 				file >> input;
 			}
 		}
@@ -107,11 +107,64 @@ void Loader::playerload(){
 }
 
 void Loader::itemload(){
-
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "ammount"){
+			file >> itemProperties.amount;
+		}
+		else if(input == "worldObject"){
+			file >> input;
+			if(input == "true"){
+				itemProperties.isWorldObject = true;
+			}
+			else{
+				itemProperties.isWorldObject = false;
+			}
+		}
+		file >> input;
+	}
 }
 
 void Loader::weaponload(){
-
+	std::string input;
+	int time;
+	file >> input;
+	while(input != "}"){
+		if(input == "attackDelay"){
+			file >> time;
+			weaponProperties.attackDelay = sf::milliseconds(time);
+		}
+		else if(input == "reloadSpeed"){
+			file >> time;
+			weaponProperties.reloadSpeed = sf::milliseconds(time);
+		}
+		else if(input == "bulletSpeed"){
+			file >> weaponProperties.bulletSpeed;
+		}
+		else if(input == "dmg"){
+			file >> weaponProperties.dmg;
+		}
+		else if(input == "maxAmmo"){
+			file >> weaponProperties.maxAmmo;
+		}
+		else if(input == "ammo"){
+			file >> weaponProperties.ammo;
+		}
+		else if(input == "reloading"){
+			file >> input;
+			if(input == "true"){
+				weaponProperties.reloading = true;
+			}
+			else{
+				weaponProperties.reloading = false;
+			}
+		}
+		else if(input == "bulletTexture"){
+			file >> weaponProperties.bulletTexture;
+		}
+		file >> input;
+	}
 }
 
 void Loader::worldObjectload(){
@@ -138,6 +191,12 @@ void Loader::loadProperties(){
 		else if(input == "EntityProperties{"){
 			entityload();
 		}
+		else if(input == "ItemProperties{"){
+			itemload();
+		}
+		else if(input == "WeaponProperties{"){
+			weaponload();
+		}
 		file >> input;
 	}
 }
@@ -160,12 +219,6 @@ void Loader::loadLevel(std::string path){
 			worldObjectProperties.setPhysicObjectProperties(physicObjectProperties);
 			worldObjectProperties.type = PhysicObjectType::Static;
 			gameRef.getWorld().addObject(new WorldObject(gameRef, worldObjectProperties));
-		}
-		else if(input == "Item{"){
-			loadProperties();
-		}
-		else if(input == "Weapon{"){
-			loadProperties();
 		}
 	}
 	file.close();
@@ -199,9 +252,35 @@ void Loader::loadTextures(std::string path){
 	file.close();
 }
 
+void Loader::loadItems(std::string path){
+	file.open(path);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	std::string input, name;
+	while(file >> input){
+		if(input == "Item{"){
+			loadProperties();
+			itemProperties.setObjectProperties(objectProperties);
+			gameRef.getItemManager().addItem(new Item(gameRef, itemProperties));
+		}
+		else if(input == "Weapon{"){
+			loadProperties();
+			weaponProperties.setObjectProperties(objectProperties);
+			weaponProperties.setItemProperties(itemProperties);
+			if(weaponProperties.ammo == -1){
+				weaponProperties.ammo = weaponProperties.maxAmmo;
+			}
+			gameRef.getItemManager().addItem(new Weapon(gameRef, weaponProperties));
+		}
+	}
+	file.close();
+}
+
 void Loader::load(std::string path){
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
+		loadItems("Saves/" + path + "/items.sv");
 		loadLevel("Saves/" + path + "/level.sv");
 		loadPlayer("Saves/" + path + "/player1.sv");
 		loadPlayer("Saves/" + path + "/player2.sv");
