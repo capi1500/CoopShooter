@@ -28,6 +28,8 @@ Yes there will be updates in future. If you have any idea how to improve it or a
 * D - move right
 * S - move down
 * F - shot
+* Q - equip next weapon
+* E - equip previous weapon
 
 - player 2:
 * I - jump
@@ -35,3 +37,5 @@ Yes there will be updates in future. If you have any idea how to improve it or a
 * L - move right
 * K - move down
 * ; - shot
+* U - equip next weapon
+* O - equip previous weapon

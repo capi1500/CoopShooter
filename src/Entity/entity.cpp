@@ -120,6 +120,14 @@ void Entity::gotHit(int pureDMG){
 	entityProperites.HP -= pureDMG;
 }
 
+void Entity::equipNext(){
+	entityProperites.equipment.equipNext();
+}
+
+void Entity::equipPrevious(){
+	entityProperites.equipment.equipPrevious();
+}
+
 void Entity::pass(sf::Time elapsedTime){
 	PhysicObject::pass(elapsedTime);
 	timeSinceLastShoot += elapsedTime;

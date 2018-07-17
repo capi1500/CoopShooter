@@ -27,6 +27,18 @@ void EventManager::handleEvents(sf::Event event){
 			gameRef.getWorld().removeAll();
 			gameRef.getLoader().load("Default");
 		}
+		if(event.key.code == sf::Keyboard::Q){
+			addEvent(Event("equipNext", "player1"));
+		}
+		if(event.key.code == sf::Keyboard::E){
+			addEvent(Event("equipPrevious", "player1"));
+		}
+		if(event.key.code == sf::Keyboard::U){
+			addEvent(Event("equipNext", "player2"));
+		}
+		if(event.key.code == sf::Keyboard::O){
+			addEvent(Event("equipPrevious", "player2"));
+		}
 	}
 }
 
@@ -84,6 +96,12 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "moveDown"){
 			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			entity->addVelocity(sf::Vector2f(0, entity->getEntityProperties().movementSpeed));
+		}
+		else if(toProcess.what == "equipNext"){
+			dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipNext();
+		}
+		else if(toProcess.what == "equipPrevious"){
+			dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipPrevious();
 		}
 		else if(toProcess.what == "bulletHit"){
 			if(gameRef.getWorld().exists(toProcess.object1)){

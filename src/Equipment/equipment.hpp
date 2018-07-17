@@ -10,15 +10,17 @@
 
 class Equipment{
 	protected:
-		unsigned equipmentSize;
-		unsigned equiped;
+		int equipmentSize;
+		int equiped;
 		std::vector<std::pair<Item*, int>> equipment;
 	public:
 		std::vector<std::pair<Item*, int>>& getEquipment();
 		Item* getEquiped();
 		
 		bool addItem(Item* item, int ammount = 1);
-		bool equip(unsigned id);
+		bool equip(int id);
+		void equipNext();
+		void equipPrevious();
 		
 		Equipment();
 };

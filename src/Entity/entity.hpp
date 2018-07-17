@@ -46,6 +46,8 @@ class Entity : public PhysicObject{
 		void equip(int id);
 		bool onGround();
 		void gotHit(int pureDMG);
+		void equipNext();
+		void equipPrevious();
 		
 		void pass(sf::Time elapsedTime);
 		void draw();

@@ -17,6 +17,7 @@ Player{
         movementSpeed 10
         EQ{
             minigun 1
+            assultRifle 1
         }
     }
 }
