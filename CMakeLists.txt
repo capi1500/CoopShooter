@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(CoopShooter)
 
-set(EXECUTABLE_NAME CoopShooter)
+set(EXECUTABLE_NAME PvPShooter)
 
 set(CMAKE_CXX_STANDARD 11)
 
