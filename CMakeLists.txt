@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(CoopShooter)
+project(main)
 
-set(EXECUTABLE_NAME CoopShooter)
+set(EXECUTABLE_NAME main)
 
 set(CMAKE_CXX_STANDARD 11)
 
