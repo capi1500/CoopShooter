@@ -26,10 +26,9 @@ void Game::main(){
 		world.passAll(time);
 		
 		player1view.setCenter(sf::Vector2f(0, 0));
-		player1view.move(world.getObject("player1")->getCentre().x, world.getObject("player1")->getCentre().y - window.getSize().y / 6);
+		player1view.move(world.getObject("player1")->getPosition().x, world.getObject("player1")->getGlobalBounds().top - window.getSize().y / 6);
 		player2view.setCenter(sf::Vector2f(0, 0));
-		player2view.move(world.getObject("player2")->getCentre().x, world.getObject("player2")->getCentre().y - window.getSize().y / 6);
-		//printf("%d %d\n", dynamic_cast<Entity*>(getWorld().getObject("player1"))->getEntityProperties().HP, dynamic_cast<Entity*>(getWorld().getObject("player2"))->getEntityProperties().HP);
+		player2view.move(world.getObject("player2")->getPosition().x, world.getObject("player2")->getGlobalBounds().top - window.getSize().y / 6);
 		window.clear();
 		window.setView(player1view);
 		world.drawAll();
@@ -77,6 +76,10 @@ ItemManager& Game::getItemManager(){
 	return itemManager;
 }
 
+TemplateManager& Game::getTemplateManager(){
+	return templateManager;
+}
+
 sf::View& Game::getPlayer1View(){
 	return player1view;
 }
@@ -90,7 +93,8 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullsc
 		eventManager(*this),
 		world(*this),
 		contactListener(*this),
-		loader(*this){
+		loader(*this),
+		templateManager(*this){
 	physicWorld.SetContactListener(&contactListener);
 	player1view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
 	player2view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));

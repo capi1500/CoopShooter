@@ -12,6 +12,10 @@ void Loader::objectload(){
 	while(input != "}"){
 		if(input == "position"){
 			file >> objectProperties.position.x >> objectProperties.position.y;
+			objectProperties.position.x += startingPos.x;
+			objectProperties.position.y += startingPos.y;
+			objectProperties.position.x *= blockSize.x;
+			objectProperties.position.y *= blockSize.y;
 		}
 		else if(input == "name"){
 			file >> objectProperties.name;
@@ -171,14 +175,16 @@ void Loader::worldObjectload(){
 
 }
 
-void Loader::loadProperties(){
-	objectProperties = ObjectProperties();
-	physicObjectProperties = PhysicObjectProperties();
-	itemProperties = ItemProperties();
-	weaponProperties = WeaponProperties();
-	worldObjectProperties = WorldObjectProperties();
-	entityProperites = EntityProperites();
-	playerProperties = PlayerProperties();
+void Loader::loadProperties(bool clean){
+	if(clean){
+		objectProperties = ObjectProperties();
+		physicObjectProperties = PhysicObjectProperties();
+		itemProperties = ItemProperties();
+		weaponProperties = WeaponProperties();
+		worldObjectProperties = WorldObjectProperties();
+		entityProperites = EntityProperites();
+		playerProperties = PlayerProperties();
+	}
 	std::string input;
 	file >> input;
 	while(input != "}"){
@@ -201,6 +207,31 @@ void Loader::loadProperties(){
 	}
 }
 
+void Loader::loadTemplate(){
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "name"){
+			file >> templateName;
+		}
+		else if(input == "PhysicObject{"){
+			loadProperties();
+			physicObjectProperties.setObjectProperties(objectProperties);
+			temp.className = ObjectClass::PhysicObject;
+			temp.properties = new PhysicObjectProperties(physicObjectProperties);
+		}
+		else if(input == "WorldObject{"){
+			loadProperties();
+			worldObjectProperties.setObjectProperties(objectProperties);
+			worldObjectProperties.setPhysicObjectProperties(physicObjectProperties);
+			worldObjectProperties.type = PhysicObjectType::Static;
+			temp.className = ObjectClass::WorldObject;
+			temp.properties = new WorldObjectProperties(worldObjectProperties);
+		}
+		file >> input;
+	}
+}
+
 void Loader::loadLevel(std::string path){
 	file.open(path);
 	if(not file.is_open()){
@@ -208,7 +239,13 @@ void Loader::loadLevel(std::string path){
 	}
 	std::string input;
 	while(file >> input){
-		if(input == "PhysicObject{"){
+		if(input == "blockSize"){
+			file >> blockSize.x >> blockSize.y;
+		}
+		else if(input == "startPos"){
+			file >> startingPos.x >> startingPos.y;
+		}
+		else if(input == "PhysicObject{"){
 			loadProperties();
 			physicObjectProperties.setObjectProperties(objectProperties);
 			gameRef.getWorld().addObject(new PhysicObject(gameRef, physicObjectProperties));
@@ -219,6 +256,42 @@ void Loader::loadLevel(std::string path){
 			worldObjectProperties.setPhysicObjectProperties(physicObjectProperties);
 			worldObjectProperties.type = PhysicObjectType::Static;
 			gameRef.getWorld().addObject(new WorldObject(gameRef, worldObjectProperties));
+		}
+		else if(input == "Temp"){
+			file >> input;
+			temp = gameRef.getTemplateManager().getTemplate(input);
+			objectProperties = ObjectProperties();
+			physicObjectProperties = PhysicObjectProperties();
+			itemProperties = ItemProperties();
+			weaponProperties = WeaponProperties();
+			worldObjectProperties = WorldObjectProperties();
+			entityProperites = EntityProperites();
+			playerProperties = PlayerProperties();
+			switch(temp.className){
+				case ObjectClass::PhysicObject:
+					objectProperties = *temp.properties;
+					physicObjectProperties = *(dynamic_cast<PhysicObjectProperties*>(temp.properties));
+					break;
+				case ObjectClass::WorldObject:
+					objectProperties = *temp.properties;
+					physicObjectProperties = *(dynamic_cast<PhysicObjectProperties*>(temp.properties));
+					worldObjectProperties = *(dynamic_cast<WorldObjectProperties*>(temp.properties));
+					break;
+			}
+			objectProperties.name = temp.properties->name + std::to_string(objectLoadedID++);
+			loadProperties(false);
+			switch(temp.className){
+				case ObjectClass::PhysicObject:
+					physicObjectProperties.setObjectProperties(objectProperties);
+					gameRef.getWorld().addObject(new PhysicObject(gameRef, physicObjectProperties));
+					break;
+				case ObjectClass::WorldObject:
+					worldObjectProperties.setObjectProperties(objectProperties);
+					worldObjectProperties.setPhysicObjectProperties(physicObjectProperties);
+					worldObjectProperties.type = PhysicObjectType::Static;
+					gameRef.getWorld().addObject(new WorldObject(gameRef, worldObjectProperties));
+					break;
+			}
 		}
 	}
 	file.close();
@@ -277,13 +350,32 @@ void Loader::loadItems(std::string path){
 	file.close();
 }
 
+void Loader::loadTemplate(std::string path){
+	file.open(path);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	std::string input, name;
+	while(file >> input){
+		if(input == "Template{"){
+			loadTemplate();
+			gameRef.getTemplateManager().addTemplate(templateName, temp);
+		}
+	}
+	file.close();
+}
+
 void Loader::load(std::string path){
+	objectLoadedID = 0;
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
+		loadTemplate("Saves/" + path + "/template.sv");
 		loadItems("Saves/" + path + "/items.sv");
 		loadLevel("Saves/" + path + "/level.sv");
 		loadPlayer("Saves/" + path + "/player1.sv");
 		loadPlayer("Saves/" + path + "/player2.sv");
+		loadLevel("Saves/" + path + "/levelMid.sv");
+		loadLevel("Saves/" + path + "/level2.sv");
 	} catch(std::string err){
 		printf("%s\n", err.c_str());
 	}

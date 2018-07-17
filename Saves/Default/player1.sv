@@ -1,6 +1,6 @@
 Player{
     ObjectProperties{
-        position 20 -35
+        position 0 -1
         name player1
         texture mage
     }

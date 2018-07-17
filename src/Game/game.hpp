@@ -20,6 +20,7 @@
 #include <config.h>
 #include <src/ContactListener/contactListener.hpp>
 #include <src/ItemManager/itemManager.hpp>
+#include <src/TemplateManager/templateManager.hpp>
 
 class Game{
 	private:
@@ -32,6 +33,7 @@ class Game{
 		EventManager eventManager;
 		SoundManager soundManager;
 		TextureManager textureManager;
+		TemplateManager templateManager;
 		ItemManager itemManager;
 		Loader loader;
 		
@@ -49,6 +51,7 @@ class Game{
 		TextureManager& getTextureManager();
 		Loader& getLoader();
 		ItemManager& getItemManager();
+		TemplateManager& getTemplateManager();
 		sf::View& getPlayer1View();
 		sf::View& getPlayer2View();
 		

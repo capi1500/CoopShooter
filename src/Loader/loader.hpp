@@ -14,6 +14,7 @@
 #include <src/Weapon/weapon.hpp>
 #include <src/WorldObject/worldObject.hpp>
 #include <fstream>
+#include <src/TemplateManager/templateManager.hpp>
 
 class Game;
 
@@ -23,6 +24,11 @@ class Loader{
 		
 		std::ifstream file;
 		
+		sf::Vector2u blockSize;
+		sf::Vector2f startingPos;
+		int objectLoadedID;
+		std::string templateName;
+		Template temp;
 		ObjectProperties objectProperties;
 		PhysicObjectProperties physicObjectProperties;
 		EntityProperites entityProperites;
@@ -41,8 +47,10 @@ class Loader{
 		void weaponload();
 		void worldObjectload();
 		
-		void loadProperties();
+		void loadProperties(bool clean = true);
+		void loadTemplate();
 		
+		void loadTemplate(std::string path);
 		void loadTextures(std::string path);
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);

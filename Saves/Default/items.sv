@@ -29,6 +29,7 @@ Weapon{
         dmg 6
         reloadSpeed 2000
         maxAmmo 1
+        bulletTexture fireball
     }
 }
 Weapon{

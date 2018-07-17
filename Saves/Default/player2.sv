@@ -1,6 +1,6 @@
 Player{
     ObjectProperties{
-        position 1180 -35
+        position 89 -1
         name player2
         texture archer
     }

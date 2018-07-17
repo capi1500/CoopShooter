@@ -1,10 +1,5 @@
 blockSize 32 32
-startPos 0 0
-Temp ground {
-    ObjectProperties{
-        position -1 0
-    }
-}
+startPos 60 0
 Temp ground {
     ObjectProperties{
         position 0 0
@@ -157,52 +152,57 @@ Temp ground {
 }
 Temp ground {
     ObjectProperties{
-        position -1 -1
+        position 30 0
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -2
+        position 30 -1
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -3
+        position 30 -2
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -4
+        position 30 -3
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -5
+        position 30 -4
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -6
+        position 30 -5
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -7
+        position 30 -6
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -8
+        position 30 -7
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -9
+        position 30 -8
     }
 }
 Temp ground {
     ObjectProperties{
-        position -1 -10
+        position 30 -9
+    }
+}
+Temp ground {
+    ObjectProperties{
+        position 30 -10
     }
 }
 Temp groundSlab {
@@ -418,5 +418,9 @@ Temp ground {
 Temp ground {
     ObjectProperties{
         position 23 -1
+    }
+}
+ectProperties{
+        position -0.5 -0.5
     }
 }

@@ -1,7 +1,6 @@
-wall.gif box
-slab.gif slab
+wall.png box
+slab.png slab
 ground.png ground
-bullet.png bullet
 wall.png wall
 heal.png healCollect
 hpUp.png hpUpCollect
@@ -11,7 +10,7 @@ fasterShooting.png fasterShootingCollect
 noReload.png noReloadCollect
 health.png healthBar
 ammo.png ammoBar
-battlemage.gif mage
-archer.gif archer
+battlemage.png mage
+archer.png archer
 arrow.png arrow
-fireball.gif fireball
+fireball.png fireball

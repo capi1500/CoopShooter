@@ -16,6 +16,8 @@ struct ObjectProperties{
 	std::string name;
 	std::string texture;
 	
+	virtual void PolymorficNothing(){}
+	
 	ObjectProperties getObjectProperties();
 	
 	ObjectProperties(sf::Vector2f, std::string, std::string);
