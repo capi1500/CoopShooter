@@ -293,6 +293,17 @@ void Loader::loadLevel(std::string path){
 					break;
 			}
 		}
+		else if(input == "Spawn{"){
+			file >> input;
+			if(input == "position"){
+				file >> objectProperties.position.x >> objectProperties.position.y;
+				objectProperties.position.x += startingPos.x;
+				objectProperties.position.y += startingPos.y;
+				objectProperties.position.x *= blockSize.x;
+				objectProperties.position.y *= blockSize.y;
+				gameRef.getWorld().addSpawnPoint(objectProperties.position);
+			}
+		}
 	}
 	file.close();
 }

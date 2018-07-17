@@ -28,6 +28,7 @@ void World::removeAll(){
 	}
 	bullets.erase(bullets.begin(), bullets.end());
 	object.erase(object.begin(), object.end());
+	boostSpawnPoint.erase(boostSpawnPoint.begin(), boostSpawnPoint.end());
 }
 
 void World::removeObject(std::string name){
@@ -50,11 +51,23 @@ void World::removeObject(std::string name){
 	}
 }
 
+void World::addSpawnPoint(sf::Vector2f position){
+	boostSpawnPoint.push_back(position);
+}
+
 PhysicObject* World::getObject(std::string name){
 	if(name.substr(0, 6) == "bullet"){
 		return bullets[name];
 	}
 	return object[name];
+}
+
+bool World::allCollectibleExsits(){
+	for(auto i : boostSpawnPoint){
+		if(not exists("collectible" + std::to_string(i.x) + "-" + std::to_string(i.y)))
+			return false;
+	}
+	return true;
 }
 
 bool World::exists(std::string name){
@@ -84,29 +97,18 @@ void World::passAll(sf::Time elapsedTime){
 	for(auto it = bullets.begin(); it != bullets.end(); it++){
 		it->second->pass(elapsedTime);
 	}
-	if(timeSinceLastBoost >= sf::seconds(10)){
+	if(timeSinceLastBoost >= boostSpawnRate){
 		timeSinceLastBoost = sf::seconds(0);
-		int randPlace = rand() % 4, randBoost = rand() % 6;
+		int randPlace = rand() % boostSpawnPoint.size(), randBoost = rand() % 6;
 		sf::Vector2f position;
 		std::string boost, boostName;
 		sf::Time boostTime;
-		if(not(exists("collectible0") and exists("collectible1") and exists("collectible2") and exists("collectible3"))){
-			while(exists("collectible" + std::to_string(randPlace))){
-				randPlace = rand() % 4;
+		if(not(allCollectibleExsits())){
+			while(exists("collectible" + std::to_string(boostSpawnPoint[randPlace].x) + "-" + std::to_string(boostSpawnPoint[randPlace].y))){
+				randPlace = rand() % boostSpawnPoint.size();
 			}
-			boostName = "collectible" + std::to_string(randPlace);
-			if(randPlace == 0){
-				position = sf::Vector2f(100, -80);
-			}
-			else if(randPlace == 1){
-				position = sf::Vector2f(1100, -80);
-			}
-			else if(randPlace == 2){
-				position = sf::Vector2f(420, -100);
-			}
-			else if(randPlace == 3){
-				position = sf::Vector2f(780, -100);
-			}
+			position = boostSpawnPoint[randPlace];
+			boostName = "collectible" + std::to_string(position.x) + "-" + std::to_string(position.y);
 			if(randBoost == 0){
 				boost = "fasterShooting";
 				boostTime = sf::seconds(5);

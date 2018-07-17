@@ -28,3 +28,5 @@
 #define playerVelocityMaxY defaultVelocityMaxY
 #define playerJumpHeight defaultJumpHeight
 #define playerMovement defaultMovement
+
+#define boostSpawnRate sf::seconds(10)

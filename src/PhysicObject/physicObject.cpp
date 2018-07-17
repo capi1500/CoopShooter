@@ -98,6 +98,7 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 	// Coop Shooter Stuff
 	className = ObjectClass::PhysicObject;
+	pass(sf::milliseconds(0));
 }
 
 PhysicObject::~PhysicObject(){

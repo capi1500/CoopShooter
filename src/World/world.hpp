@@ -19,9 +19,12 @@ class World{
 		std::map<std::string, Bullet*> bullets;
 		std::map<std::string, Entity*> entities;
 		std::map<std::string, PhysicObject*> object;
+		std::vector<sf::Vector2f> boostSpawnPoint;
+		bool allCollectibleExsits();
 	public:
 		void removeAll();
 		void addObject(PhysicObject*);
+		void addSpawnPoint(sf::Vector2f position);
 		void removeObject(std::string);
 		PhysicObject* getObject(std::string);
 		std::map<std::string, PhysicObject*>& getObjects();

@@ -420,7 +420,15 @@ Temp ground {
         position 23 -1
     }
 }
-ectProperties{
-        position -0.5 -0.5
-    }
+Spawn{
+    position 2 -2.5
+}
+Spawn{
+    position 27 -2.5
+}
+Spawn{
+    position 10 -3
+}
+Spawn{
+    position 19 -3
 }
