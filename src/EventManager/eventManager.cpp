@@ -114,7 +114,7 @@ void EventManager::handleEvents(){
 					bulletSpeed *= 2;
 				}
 				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * bulletSpeed, 0);
-				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, bulletSpeed, bulletDmg)));
+				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, bulletSpeed, bulletDmg, weaponProperties.bulletDistance)));
 			}
 		}
 		else if(toProcess.what == "collectSth"){

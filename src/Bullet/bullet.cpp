@@ -8,11 +8,11 @@
 BulletProperties::BulletProperties(){
 }
 
-BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg) : PhysicObjectProperties(physicObjectProperties), speed(bulletSpeed), dmg(dmg){
+BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg, float distance) : PhysicObjectProperties(physicObjectProperties), speed(bulletSpeed), dmg(dmg), distance(distance){
 }
 
 BulletProperties BulletProperties::getBulletProperties(){
-	return BulletProperties(getPhysicObjectProperties(), speed, dmg);
+	return BulletProperties(getPhysicObjectProperties(), speed, dmg, distance);
 }
 
 BulletProperties& Bullet::getBulletProperties(){
@@ -31,6 +31,9 @@ void Bullet::pass(sf::Time elapsedTime){
 		bulletProperties.isFacingLeft = false;
 		setScale(sf::Vector2f(-1, 1));
 	}
+	if(std::abs(getCentre().x - startPostion.x) >= bulletProperties.distance){
+		gameRef.getEventManager().addEvent(Event("bulletHit", getName()));
+	}
 }
 
 Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(gameRef, bulletProperties), bulletProperties(bulletProperties){
@@ -41,4 +44,5 @@ Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(
 	filter.categoryBits = 1;
 	filter.maskBits = 2;
 	getBody()->GetFixtureList()->SetFilterData(filter);
+	startPostion = bulletProperties.position;
 }

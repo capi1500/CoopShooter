@@ -13,6 +13,7 @@ Weapon{
         reloadSpeed 3000
         maxAmmo 15
         bulletTexture arrow
+        bulletDistance 50
     }
 }
 Weapon{
@@ -30,6 +31,7 @@ Weapon{
         reloadSpeed 2000
         maxAmmo 1
         bulletTexture fireball
+        bulletDistance 1
     }
 }
 Weapon{
@@ -47,5 +49,6 @@ Weapon{
         reloadSpeed 3000
         maxAmmo 45
         bulletTexture fireball
+        bulletDistance 25
     }
 }

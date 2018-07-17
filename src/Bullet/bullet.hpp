@@ -11,15 +11,17 @@ struct BulletProperties : PhysicObjectProperties{
 	int speed;
 	int dmg;
 	bool isFacingLeft;
+	float distance;
 	
 	BulletProperties getBulletProperties();
 	BulletProperties();
-	BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg);
+	BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg, float distance);
 };
 
 class Bullet : public PhysicObject{
 	protected:
 		BulletProperties bulletProperties;
+		sf::Vector2f startPostion;
 	public:
 		BulletProperties& getBulletProperties();
 		

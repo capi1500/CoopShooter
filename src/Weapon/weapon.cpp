@@ -8,15 +8,16 @@ WeaponProperties::WeaponProperties(){
 	reloading = false;
 	ammo = -1;
 	bulletTexture = "bullet";
+	bulletDistance = 10;
 }
 
-WeaponProperties::WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed, std::string bulletTexture) : ItemProperties(itemProperties), attackDelay(delay), dmg(dmg), bulletSpeed(bulletSpeed), maxAmmo(ammo), reloadSpeed(reloadSpeed), bulletTexture(bulletTexture){
+WeaponProperties::WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed, std::string bulletTexture, float bulletDistance) : ItemProperties(itemProperties), attackDelay(delay), dmg(dmg), bulletSpeed(bulletSpeed), maxAmmo(ammo), reloadSpeed(reloadSpeed), bulletTexture(bulletTexture), bulletDistance(bulletDistance){
 	this->ammo = this->maxAmmo;
 	reloading = false;
 }
 
 WeaponProperties WeaponProperties::getWeaponProperties(){
-	return WeaponProperties(getItemProperties(), attackDelay, dmg, bulletSpeed, ammo, reloadSpeed, bulletTexture);
+	return WeaponProperties(getItemProperties(), attackDelay, dmg, bulletSpeed, ammo, reloadSpeed, bulletTexture, bulletDistance);
 }
 
 void WeaponProperties::setItemProperties(ItemProperties itemProperties){

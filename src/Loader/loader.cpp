@@ -167,6 +167,10 @@ void Loader::weaponload(){
 		else if(input == "bulletTexture"){
 			file >> weaponProperties.bulletTexture;
 		}
+		else if(input == "bulletDistance"){
+			file >> weaponProperties.bulletDistance;
+			weaponProperties.bulletDistance *= 32;
+		}
 		file >> input;
 	}
 }
