@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
-project(PvPShooter)
+project(main)
 
-set(EXECUTABLE_NAME PvPShooter)
+set(EXECUTABLE_NAME main)
 
 set(CMAKE_CXX_STANDARD 11)
 
