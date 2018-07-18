@@ -17,6 +17,7 @@ struct WeaponProperties : public ItemProperties{
 	bool reloading;
 	std::string bulletTexture;
 	float bulletDistance;
+	sf::Time timeSinceReloadStarted;
 	
 	WeaponProperties getWeaponProperties();
 	void setItemProperties(ItemProperties itemProperties);
@@ -27,7 +28,6 @@ struct WeaponProperties : public ItemProperties{
 
 class Weapon : public Item{
 	protected:
-		sf::Time timeSinceReloadStarted;
 		WeaponProperties weaponProperties;
 	public:
 		WeaponProperties& getWeaponProperties();
@@ -36,6 +36,7 @@ class Weapon : public Item{
 		bool canShoot();
 		void shoot();
 		
+		Weapon(Weapon weapon, int ammo, int time);
 		Weapon(Game& gameRef, WeaponProperties weaponProperties);
 };
 

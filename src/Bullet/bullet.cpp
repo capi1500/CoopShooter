@@ -47,7 +47,7 @@ void Bullet::pass(sf::Time elapsedTime){
 }
 
 bool Bullet::canHit(){
-	return localTime >= sf::milliseconds(100);
+	return true;
 }
 
 Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(gameRef, bulletProperties), bulletProperties(bulletProperties){

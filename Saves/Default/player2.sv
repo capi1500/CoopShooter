@@ -16,8 +16,8 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            rodBrown 1
-            bow 1
+            rodBrown 10 0
+            bow 1 0
         }
     }
     PlayerProperties{

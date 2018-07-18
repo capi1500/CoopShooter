@@ -100,7 +100,9 @@ void Loader::entityload(){
 			while(input != "}"){
 				file >> ammount;
 				if(gameRef.getItemManager().getItem(input)->getClassName() == ObjectClass::Weapon){
-					entityProperties.equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(input))), ammount);
+					int time;
+					file >> time;
+					entityProperties.equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(input)), ammount, time), 1);
 				}
 				else{
 					entityProperties.equipment.addItem(new Item(*gameRef.getItemManager().getItem(input)), ammount);
@@ -515,7 +517,12 @@ void Loader::entitysave(Entity* entity){
 	file << "\t\tisFacingLeft " << (entity->getEntityProperties().isFacingLeft ? "true" : "false") << "\n";\
 	file << "\t\tEQ{\n";
 	for(auto i : entity->getEquipment()){
-		file << "\t\t\t" << i.first->getName() << " " << i.second << "\n";
+		if(i.first->getClassName() == ObjectClass::Weapon){
+			file << "\t\t\t" << i.first->getName() << " " << dynamic_cast<Weapon*>(i.first)->getWeaponProperties().ammo << " " << dynamic_cast<Weapon*>(i.first)->getWeaponProperties().timeSinceReloadStarted.asMilliseconds() << "\n";
+		}
+		else{
+			file << "\t\t\t" << i.first->getName() << " " << i.second << "\n";
+		}
 	}
 	file << "\t\t}\n";
 	file << "\t}\n";
@@ -558,7 +565,7 @@ void Loader::weaponsave(Weapon* weapon){
 	file << "\t\tmaxAmmo " << weapon->getWeaponProperties().maxAmmo << "\n";
 	file << "\t\tammo " << weapon->getWeaponProperties().ammo << "\n";
 	file << "\t\tbulletTexture " << weapon->getWeaponProperties().bulletTexture << "\n";
-	file << "\t\tbulletDistance " << weapon->getWeaponProperties().bulletDistance << "\n";
+	file << "\t\tbulletDistance " << weapon->getWeaponProperties().bulletDistance / blockSize.x << "\n";
 	file << "\t\treloading " << (weapon->getWeaponProperties().reloading ? "true" : "false") << "\n";
 	file << "\t}\n";
 }
@@ -672,8 +679,6 @@ void Loader::save(std::string path){
 		system(("rm -r Saves/" + path + "/").c_str());
 		system(("mkdir Saves/" + path + "/").c_str());
 		system(("touch Saves/" + path + "/template.sv").c_str());
-		system(("touch Saves/" + path + "/level2.sv").c_str());
-		system(("touch Saves/" + path + "/levelMid.sv").c_str());
 		saveTextures("Saves/" + path + "/textures.sv");
 		saveItems("Saves/" + path + "/items.sv");
 		saveLevel("Saves/" + path + "/level.sv");

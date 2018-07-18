@@ -5,7 +5,7 @@ Weapon{
 		texture bow
 	}
 	ItemProperties{
-		amount 1249339664
+		amount 1391978704
 		isWorldObject true
 		textureOnEquip bowEquiped
 	}
@@ -17,7 +17,7 @@ Weapon{
 		maxAmmo 1
 		ammo 1
 		bulletTexture arrow
-		bulletDistance 1650
+		bulletDistance 50
 		reloading false
 	}
 }
@@ -40,7 +40,7 @@ Weapon{
 		texture rodBrown
 	}
 	ItemProperties{
-		amount -1136144784
+		amount -127313568
 		isWorldObject true
 		textureOnEquip rodBrownEquiped
 	}
@@ -52,7 +52,7 @@ Weapon{
 		maxAmmo 10
 		ammo 10
 		bulletTexture laser
-		bulletDistance 660
+		bulletDistance 20
 		reloading false
 	}
 }
@@ -63,7 +63,7 @@ Weapon{
 		texture staff
 	}
 	ItemProperties{
-		amount -1136144880
+		amount -127313664
 		isWorldObject true
 		textureOnEquip staffRubyEquiped
 	}
@@ -75,7 +75,7 @@ Weapon{
 		maxAmmo 20
 		ammo 20
 		bulletTexture fireball
-		bulletDistance 990
+		bulletDistance 30
 		reloading false
 	}
 }

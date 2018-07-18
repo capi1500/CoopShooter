@@ -43,15 +43,24 @@ void Weapon::shoot(){
 
 void Weapon::pass(sf::Time elapsedTime){
 	Item::pass(elapsedTime);
-	timeSinceReloadStarted += elapsedTime;
+	weaponProperties.timeSinceReloadStarted += elapsedTime;
 	if(weaponProperties.ammo == 0 and not weaponProperties.reloading){
-		timeSinceReloadStarted = sf::seconds(0);
+		weaponProperties.timeSinceReloadStarted = sf::seconds(0);
 		weaponProperties.reloading = true;
 	}
-	if(weaponProperties.reloading and timeSinceReloadStarted >= weaponProperties.reloadSpeed){
+	if(weaponProperties.reloading and weaponProperties.timeSinceReloadStarted >= weaponProperties.reloadSpeed){
 		weaponProperties.reloading = false;
 		weaponProperties.ammo = weaponProperties.maxAmmo;
 	}
+}
+
+Weapon::Weapon(Weapon weapon, int ammo, int time) : Item(weapon.gameRef, weapon.getItemProperties()), weaponProperties(weapon.getWeaponProperties()){
+	weaponProperties.ammo = ammo;
+	weaponProperties.timeSinceReloadStarted = sf::milliseconds(time);
+	if(weaponProperties.ammo == 0 and not weaponProperties.reloading){
+		weaponProperties.reloading = true;
+	}
+	className = ObjectClass::Weapon;
 }
 
 Weapon::Weapon(Game& gameRef, WeaponProperties weaponProperties) : Item(gameRef, weaponProperties.getItemProperties()), weaponProperties(weaponProperties){

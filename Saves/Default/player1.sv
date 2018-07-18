@@ -16,7 +16,7 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            staff 1
+            staff 20 0
         }
     }
     PlayerProperties{
