@@ -90,23 +90,23 @@ void EventManager::handleEvents(){
 		toProcess = events.front();
 		
 		if(toProcess.what == "jump"){
-			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			Entity * entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			if(entity->onGround()){
 				entity->addVelocity(sf::Vector2f(0, -entity->getEntityProperties().jumpHeight));
 			}
 		}
 		else if(toProcess.what == "moveLeft"){
-			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			Entity * entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			entity->addVelocity(sf::Vector2f(entity->getEntityProperties().movementSpeed, 0));
 			entity->setFacing(true);
 		}
 		else if(toProcess.what == "moveRight"){
-			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			Entity * entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			entity->addVelocity(sf::Vector2f(-entity->getEntityProperties().movementSpeed, 0));
 			entity->setFacing(false);
 		}
 		else if(toProcess.what == "moveDown"){
-			Entity* entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			Entity * entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			entity->addVelocity(sf::Vector2f(0, entity->getEntityProperties().movementSpeed));
 		}
 		else if(toProcess.what == "equipNext"){
@@ -118,16 +118,19 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "bulletHit"){
 			if(gameRef.getWorld().exists(toProcess.object1)){
 				if(gameRef.getWorld().exists(toProcess.object2)){
-					PhysicObject * object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
-					if(object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity){
+					PhysicObject* object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
+					if(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->canHit() and (object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity)){
 						dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
+						gameRef.getWorld().removeObject(toProcess.object1);
+					}
+					else if(object->getClassName() == ObjectClass::WorldObject){
+						gameRef.getWorld().removeObject(toProcess.object1);
 					}
 				}
-				gameRef.getWorld().removeObject(toProcess.object1);
 			}
 		}
 		else if(toProcess.what == "bulletShot"){
-			Entity* object = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
+			Entity * object = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			if(object->ifCanShot()){
 				object->shot();
 				ObjectProperties objectProperties;
@@ -149,15 +152,17 @@ void EventManager::handleEvents(){
 		}
 		else if(toProcess.what == "collectSth"){
 			if(gameRef.getWorld().exists(toProcess.object1)){
-				Collectible* collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
-				if(gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Entity or gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Player){
-					if(gameRef.getItemManager().exist(collected->getCollectibleProperties().what)){
-						dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what));
+				Collectible * collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
+				if(collected->canBeCollected()){
+					if(gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Entity or gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Player){
+						if(gameRef.getItemManager().exist(collected->getCollectibleProperties().what)){
+							dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what));
+						}
+						else{
+							dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
+						}
+						gameRef.getWorld().removeObject(toProcess.object1);
 					}
-					else{
-						dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
-					}
-					gameRef.getWorld().removeObject(toProcess.object1);
 				}
 			}
 		}
@@ -168,9 +173,9 @@ void EventManager::handleEvents(){
 		}
 		else if(toProcess.what == "throw"){
 			if(dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
-				sf::Vector2f position = gameRef.getWorld().getObject(toProcess.object1)->getPosition() + sf::Vector2f(32 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0);
+				sf::Vector2f position = gameRef.getWorld().getObject(toProcess.object1)->getPosition() + sf::Vector2f(5 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0);
 				std::string what = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.getEquiped()->getName(), itemName = "collectibleW" + std::to_string(id++);
-				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(32 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
+				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
 			}
 		}

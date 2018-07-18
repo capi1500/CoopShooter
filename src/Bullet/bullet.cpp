@@ -34,6 +34,11 @@ void Bullet::pass(sf::Time elapsedTime){
 	if(std::abs(getCentre().x - startPostion.x) >= bulletProperties.distance){
 		gameRef.getEventManager().addEvent(Event("bulletHit", getName()));
 	}
+	getBody()->SetTransform(b2Vec2(getBody()->GetPosition().x, pixelToMeter(startPostion.y)), getBody()->GetAngle());
+}
+
+bool Bullet::canHit(){
+	return localTime >= sf::milliseconds(100);
 }
 
 Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(gameRef, bulletProperties), bulletProperties(bulletProperties){

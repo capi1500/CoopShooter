@@ -8,11 +8,11 @@ Weapon{
         worldObject false
     }
     WeaponProperties{
-        attackDelay 250
+        attackDelay 500
         bulletSpeed 50
-        dmg 2
-        reloadSpeed 3000
-        maxAmmo 15
+        dmg 6
+        reloadSpeed 500
+        maxAmmo 1
         bulletTexture arrow
         bulletDistance 50
     }
@@ -29,8 +29,8 @@ Weapon{
     WeaponProperties{
         attackDelay 350
         bulletSpeed 50
-        dmg 4
-        reloadSpeed 2000
+        dmg 2
+        reloadSpeed 3000
         maxAmmo 10
         bulletTexture laser
         bulletDistance 20

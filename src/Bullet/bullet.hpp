@@ -26,6 +26,7 @@ class Bullet : public PhysicObject{
 		BulletProperties& getBulletProperties();
 		
 		void pass(sf::Time elapsedTime);
+		bool canHit();
 		
 		Bullet(Game& gameRef, BulletProperties bulletProperties);
 };

@@ -24,6 +24,7 @@ class Collectible : public PhysicObject{
 		CollectibleProperties& getCollectibleProperties();
 		
 		void pass(sf::Time elapsedTime);
+		bool canBeCollected();
 		
 		Collectible(Game& gameRef, CollectibleProperties collectibleProperties);
 };

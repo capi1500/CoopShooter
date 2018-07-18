@@ -28,6 +28,10 @@ void Collectible::pass(sf::Time elapsedTime){
 	}
 }
 
+bool Collectible::canBeCollected(){
+	return localTime >= sf::milliseconds(100);
+}
+
 Collectible::Collectible(Game& gameRef, CollectibleProperties collectibleProperties) : PhysicObject(gameRef, collectibleProperties.getPhysicObjectProperties()), collectibleProperties(collectibleProperties){
 	className = ObjectClass::Collectible;
 	// Box2D stuff
