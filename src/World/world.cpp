@@ -99,39 +99,51 @@ void World::passAll(sf::Time elapsedTime){
 	}
 	if(timeSinceLastBoost >= boostSpawnRate){
 		timeSinceLastBoost = sf::seconds(0);
-		int randPlace = rand() % boostSpawnPoint.size(), randBoost = rand() % 6;
+		int randPlace = rand() % boostSpawnPoint.size(), random = rand() % 9;
 		sf::Vector2f position;
-		std::string boost, boostName;
+		std::string what, itemName;
 		sf::Time boostTime;
 		if(not(allCollectibleExsits())){
 			while(exists("collectible" + std::to_string(boostSpawnPoint[randPlace].x) + "-" + std::to_string(boostSpawnPoint[randPlace].y))){
 				randPlace = rand() % boostSpawnPoint.size();
 			}
 			position = boostSpawnPoint[randPlace];
-			boostName = "collectible" + std::to_string(position.x) + "-" + std::to_string(position.y);
-			if(randBoost == 0){
-				boost = "fasterShooting";
+			itemName = "collectible" + std::to_string(position.x) + "-" + std::to_string(position.y);
+			if(random == 0){
+				what = "fasterShooting";
 				boostTime = sf::seconds(5);
 			}
-			else if(randBoost == 1){
-				boost = "fasterShots";
+			else if(random == 1){
+				what = "fasterShots";
 				boostTime = sf::seconds(5);
 			}
-			else if(randBoost == 2){
-				boost = "hpUp";
+			else if(random == 2){
+				what = "hpUp";
 			}
-			else if(randBoost == 3){
-				boost = "heal";
+			else if(random == 3){
+				what = "heal";
 			}
-			else if(randBoost == 4){
-				boost = "dmgUp";
+			else if(random == 4){
+				what = "dmgUp";
 				boostTime = sf::seconds(5);
 			}
-			else if(randBoost == 5){
-				boost = "noReload";
+			else if(random == 5){
+				what = "noReload";
 				boostTime = sf::seconds(5);
 			}
-			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, boostName, boost + "Collect"), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), boost, boostTime)));
+			else if(random == 6){
+				random = rand() % 3;
+				if(random == 0){
+					what = "laserPistol";
+				}
+				else if(random == 1){
+					what = "bow";
+				}
+				else if(random == 2){
+					what = "staff";
+				}
+			}
+			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), what, boostTime)));
 		}
 	}
 }

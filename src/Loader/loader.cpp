@@ -187,7 +187,9 @@ void Loader::loadProperties(bool clean){
 		weaponProperties = WeaponProperties();
 		worldObjectProperties = WorldObjectProperties();
 		entityProperites = EntityProperites();
+		entityProperites.equipment.init(gameRef);
 		playerProperties = PlayerProperties();
+		playerProperties.equipment.init(gameRef);
 	}
 	std::string input;
 	file >> input;

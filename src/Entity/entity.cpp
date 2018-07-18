@@ -39,7 +39,7 @@ void EntityProperites::setPhysicObjectProperties(PhysicObjectProperties physicOb
 	velocity = physicObjectProperties.velocity;
 }
 
-const EntityProperites& Entity::getEntityProperties() const{
+EntityProperites& Entity::getEntityProperties(){
 	return entityProperites;
 }
 
@@ -75,6 +75,8 @@ void Entity::addBoost(std::string name, sf::Time time){
 void Entity::equip(int id){
 	entityProperites.equipment.equip(id);
 }
+
+
 
 bool Entity::ifCanShot(){
 	if(entityProperites.isDead or getEquiped()->getClassName() != ObjectClass::Weapon){
@@ -158,6 +160,7 @@ void Entity::draw(){
 
 Entity::Entity(Game& gameRef, EntityProperites properites) : entityProperites(properites),
 		PhysicObject(gameRef, properites.getPhysicObjectProperties()){
+	entityProperites.equipment.init(gameRef);
 	// Box2D stuff
 	getBody()->SetFixedRotation(true);
 	// Coop Shooter stuff

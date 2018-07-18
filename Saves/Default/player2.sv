@@ -16,7 +16,8 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            assultRifle 1
+            laserPistol 1
+            bow 1
         }
     }
 }

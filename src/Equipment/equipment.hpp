@@ -10,17 +10,24 @@
 
 class Equipment{
 	protected:
+		Item* defaultItem;
 		int equipmentSize;
 		int equiped;
+		int maxEquipmentSize;
 		std::vector<std::pair<Item*, int>> equipment;
 	public:
 		std::vector<std::pair<Item*, int>>& getEquipment();
 		Item* getEquiped();
 		
 		bool addItem(Item* item, int ammount = 1);
+		void removeEquiped();
+		bool canRemove();
 		bool equip(int id);
 		void equipNext();
 		void equipPrevious();
+		
+		void draw(Game& gameRef);
+		void init(Game& gameRef);
 		
 		Equipment();
 };

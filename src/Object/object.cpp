@@ -59,5 +59,6 @@ Object::Object(Game& game, ObjectProperties properties) : gameRef(game), objectP
 		setTexture(properties.texture);
 	}
 	setCentre(properties.position);
+	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 	className = ObjectClass::Object;
 }

@@ -16,8 +16,7 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            minigun 1
-            assultRifle 1
+            staff 1
         }
     }
 }

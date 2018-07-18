@@ -1,6 +1,7 @@
 Weapon{
     ObjectProperties{
-        name assultRifle
+        name bow
+        texture bow
     }
     ItemProperties{
         ammount 1
@@ -18,37 +19,39 @@ Weapon{
 }
 Weapon{
     ObjectProperties{
-        name bazooka
+        name laserPistol
+        texture laserPistol
     }
     ItemProperties{
         ammount 1
         worldObject false
     }
     WeaponProperties{
-        attackDelay 750
-        bulletSpeed 15
-        dmg 6
+        attackDelay 350
+        bulletSpeed 50
+        dmg 4
         reloadSpeed 2000
-        maxAmmo 1
-        bulletTexture fireball
-        bulletDistance 1
+        maxAmmo 10
+        bulletTexture laser
+        bulletDistance 20
     }
 }
 Weapon{
     ObjectProperties{
-        name minigun
+        name staff
+        texture staff
     }
     ItemProperties{
         ammount 1
         worldObject false
     }
     WeaponProperties{
-        attackDelay 50
+        attackDelay 300
         bulletSpeed 50
         dmg 2
         reloadSpeed 3000
-        maxAmmo 45
+        maxAmmo 20
         bulletTexture fireball
-        bulletDistance 25
+        bulletDistance 30
     }
 }

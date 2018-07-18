@@ -22,6 +22,7 @@ class Player : public Entity{
 	public:
 		void pass(sf::Time elapsedTime);
 		void drawAmmo();
+		void drawEquipment();
 		
 		Player(Game&, PlayerProperties);
 };

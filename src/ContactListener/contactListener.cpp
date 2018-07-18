@@ -14,6 +14,12 @@ void ContactListener::BeginContact(b2Contact* contact){
 	if(nameB->substr(0, 6) == "bullet"){
 		gameRef.getEventManager().addEvent(Event("bulletHit", *nameB, *nameA));
 	}
+	if(nameA->substr(0, 12) == "collectibleW"){
+		gameRef.getEventManager().addEvent(Event("collectSth", *nameA, *nameB));
+	}
+	if(nameB->substr(0, 12) == "collectibleW"){
+		gameRef.getEventManager().addEvent(Event("collectSth", *nameB, *nameA));
+	}
 }
 
 void ContactListener::EndContact(b2Contact* contact){

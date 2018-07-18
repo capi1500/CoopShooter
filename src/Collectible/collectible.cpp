@@ -30,6 +30,11 @@ void Collectible::pass(sf::Time elapsedTime){
 
 Collectible::Collectible(Game& gameRef, CollectibleProperties collectibleProperties) : PhysicObject(gameRef, collectibleProperties.getPhysicObjectProperties()), collectibleProperties(collectibleProperties){
 	className = ObjectClass::Collectible;
-	getBody()->SetActive(false);
+	// Box2D stuff
+	getBody()->SetFixedRotation(true);
+	b2Filter filter;
+	filter.categoryBits = 1;
+	filter.maskBits = 2;
+	getBody()->GetFixtureList()->SetFilterData(filter);
 }
 

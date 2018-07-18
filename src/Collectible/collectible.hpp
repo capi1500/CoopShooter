@@ -14,7 +14,7 @@ struct CollectibleProperties : public PhysicObjectProperties{
 	CollectibleProperties getCollectibleProperties();
 	
 	CollectibleProperties();
-	CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime);
+	CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime = sf::seconds(0));
 };
 
 class Collectible : public PhysicObject{

@@ -11,3 +11,7 @@ void ItemManager::addItem(Item* item){
 Item* ItemManager::getItem(std::string name){
 	return items[name];
 }
+
+bool ItemManager::exist(std::string name){
+	return items.find(name) != items.end();
+}

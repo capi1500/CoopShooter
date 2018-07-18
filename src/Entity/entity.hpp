@@ -33,7 +33,7 @@ class Entity : public PhysicObject{
 		EntityProperites entityProperites;
 		sf::Time timeSinceLastShoot;
 	public:
-		const EntityProperites& getEntityProperties() const;
+		EntityProperites& getEntityProperties();
 		std::vector<std::pair<Item*, int>>& getEquipment();
 		std::map<std::string, sf::Time>& getBoosts();
 		Item* getEquiped();

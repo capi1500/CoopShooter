@@ -28,16 +28,28 @@ void EventManager::handleEvents(sf::Event event){
 			gameRef.getLoader().load("Default");
 		}
 		if(event.key.code == sf::Keyboard::Q){
-			addEvent(Event("equipNext", "player1"));
-		}
-		if(event.key.code == sf::Keyboard::E){
 			addEvent(Event("equipPrevious", "player1"));
 		}
+		if(event.key.code == sf::Keyboard::E){
+			addEvent(Event("equipNext", "player1"));
+		}
 		if(event.key.code == sf::Keyboard::U){
-			addEvent(Event("equipNext", "player2"));
+			addEvent(Event("equipPrevious", "player2"));
 		}
 		if(event.key.code == sf::Keyboard::O){
-			addEvent(Event("equipPrevious", "player2"));
+			addEvent(Event("equipNext", "player2"));
+		}
+		if(event.key.code == sf::Keyboard::Z){
+			addEvent(Event("remove", "player1"));
+		}
+		if(event.key.code == sf::Keyboard::M){
+			addEvent(Event("remove", "player2"));
+		}
+		if(event.key.code == sf::Keyboard::X){
+			addEvent(Event("throw", "player1"));
+		}
+		if(event.key.code == sf::Keyboard::Comma){
+			addEvent(Event("throw", "player2"));
 		}
 	}
 }
@@ -136,10 +148,30 @@ void EventManager::handleEvents(){
 			}
 		}
 		else if(toProcess.what == "collectSth"){
-			Collectible* collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
 			if(gameRef.getWorld().exists(toProcess.object1)){
-				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
-				gameRef.getWorld().removeObject(toProcess.object1);
+				Collectible* collected = dynamic_cast<Collectible*>(gameRef.getWorld().getObject(toProcess.object1));
+				if(gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Entity or gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Player){
+					if(gameRef.getItemManager().exist(collected->getCollectibleProperties().what)){
+						dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what));
+					}
+					else{
+						dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
+					}
+					gameRef.getWorld().removeObject(toProcess.object1);
+				}
+			}
+		}
+		else if(toProcess.what == "remove"){
+			if(dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
+				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
+			}
+		}
+		else if(toProcess.what == "throw"){
+			if(dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
+				sf::Vector2f position = gameRef.getWorld().getObject(toProcess.object1)->getPosition() + sf::Vector2f(32 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0);
+				std::string what = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.getEquiped()->getName(), itemName = "collectibleW" + std::to_string(id++);
+				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(32 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
+				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
 			}
 		}
 		events.pop();
@@ -147,5 +179,5 @@ void EventManager::handleEvents(){
 }
 
 EventManager::EventManager(Game& game) : gameRef(game){
-
+	id = 0;
 }

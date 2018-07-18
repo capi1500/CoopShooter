@@ -33,9 +33,11 @@ void Game::main(){
 		window.setView(player1view);
 		world.drawAll();
 		dynamic_cast<Player*>(getWorld().getObject("player1"))->drawAmmo();
+		dynamic_cast<Player*>(getWorld().getObject("player1"))->drawEquipment();
 		window.setView(player2view);
 		world.drawAll();
 		dynamic_cast<Player*>(getWorld().getObject("player2"))->drawAmmo();
+		dynamic_cast<Player*>(getWorld().getObject("player2"))->drawEquipment();
 		window.display();
 	}
 }

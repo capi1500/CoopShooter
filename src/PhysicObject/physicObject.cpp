@@ -69,6 +69,7 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 	}
 	else if(properties.type == PhysicObjectType::Kinematic){
 		bodyDef.type = b2_kinematicBody;
+		bodyDef.active = false;
 	}
 	bodyDef.position.Set(pixelToMeter(getCentre().x), pixelToMeter(getCentre().y));
 	bodyDef.angle = properties.angle * b2_pi / 180;
@@ -87,15 +88,13 @@ PhysicObject::PhysicObject(Game& game, PhysicObjectProperties properties) : Obje
 	}
 	fixtureDef.filter.categoryBits = 2;
 	fixtureDef.filter.maskBits = 3;
-	fixtureDef.density = properties.density;
 	fixtureDef.restitution = 0;
 	if(properties.type == PhysicObjectType::Dynamic or properties.type == PhysicObjectType::Kinematic){
 		fixtureDef.friction = properties.friction;
+		fixtureDef.density = properties.density;
 	}
 	bodyPtr->CreateFixture(&fixtureDef);
 	bodyPtr->SetUserData(new std::string(getName()));
-	// SFML stuff
-	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 	// Coop Shooter Stuff
 	className = ObjectClass::PhysicObject;
 	pass(sf::milliseconds(0));

@@ -14,6 +14,8 @@ class ItemManager{
 	public:
 		void addItem(Item* item);
 		Item* getItem(std::string name);
+		
+		bool exist(std::string name);
 };
 
 #endif //COOPSHOOTER_ITEMMANAGER_HPP

@@ -15,6 +15,7 @@ class EventManager{
 	private:
 		Game& gameRef;
 		std::queue<Event> events;
+		int id;
 	public:
 		void addEvent(Event);
 		void handleEvents(sf::Event);

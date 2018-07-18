@@ -54,11 +54,14 @@ void Player::pass(sf::Time elapsedTime){
 
 void Player::drawAmmo(){
 	if(not entityProperites.isDead){
-		Entity::draw();
 		if(getEquiped()->getClassName() == ObjectClass::Weapon){
 			gameRef.getWindow().draw(ammoBar);
 		}
 	}
+}
+
+void Player::drawEquipment(){
+	entityProperites.equipment.draw(gameRef);
 }
 
 Player::Player(Game& gameRef, PlayerProperties properties) : playerProperties(properties),
