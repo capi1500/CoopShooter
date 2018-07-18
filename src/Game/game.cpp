@@ -91,7 +91,7 @@ sf::View& Game::getPlayer2View(){
 }
 
 Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullscreen, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),
-		physicWorld(b2Vec2(0.0f, 9.97f)),
+		physicWorld(b2Vec2(0.0f, 12.f)),
 		eventManager(*this),
 		world(*this),
 		contactListener(*this),

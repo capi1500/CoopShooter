@@ -27,6 +27,6 @@ Player{
         textureLegs legArmor0
         textureGloves gloveBrown
         textureBody aragornBody
-        textureCloack cloackBlack
+        textureCloak cloackBlack
     }
 }

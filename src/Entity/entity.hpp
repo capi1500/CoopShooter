@@ -9,7 +9,7 @@
 #include <src/Equipment/equipment.hpp>
 #include <src/Boosts/boosts.hpp>
 
-struct EntityProperites : public PhysicObjectProperties{
+struct EntityProperties : public PhysicObjectProperties{
 	unsigned maxHP;
 	int HP;
 	int jumpHeight;
@@ -19,21 +19,21 @@ struct EntityProperites : public PhysicObjectProperties{
 	Equipment equipment;
 	Boosts boosts;
 	
-	EntityProperites getEntityProperties();
+	EntityProperties getEntityProperties();
 	void setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties);
 	
-	EntityProperites();
-	EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP = -1, Equipment equipment = Equipment(), bool isFacingLeft = true, int movementSpeed = defaultMovement, int jumpHeight = defaultJumpHeight);
+	EntityProperties();
+	EntityProperties(PhysicObjectProperties properties, unsigned maxHP, int HP = -1, Equipment equipment = Equipment(), bool isFacingLeft = true, int movementSpeed = defaultMovement, int jumpHeight = defaultJumpHeight);
 };
 
 class Entity : public PhysicObject{
 	private:
 		Sprite healthBar;
 	protected:
-		EntityProperites entityProperites;
+		EntityProperties entityProperites;
 		sf::Time timeSinceLastShoot;
 	public:
-		EntityProperites& getEntityProperties();
+		EntityProperties& getEntityProperties();
 		std::vector<std::pair<Item*, int>>& getEquipment();
 		std::map<std::string, sf::Time>& getBoosts();
 		Item* getEquiped();
@@ -52,7 +52,7 @@ class Entity : public PhysicObject{
 		void pass(sf::Time elapsedTime);
 		void draw();
 		
-		Entity(Game&, EntityProperites);
+		Entity(Game&, EntityProperties);
 };
 
 #endif //COOPSHOOTER_ENTITY_HPP

@@ -14,7 +14,7 @@ class ItemManager{
 	public:
 		void addItem(Item* item);
 		Item* getItem(std::string name);
-		
+		const std::map<std::string, Item*>& getItems() const;
 		bool exist(std::string name);
 };
 

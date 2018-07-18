@@ -60,6 +60,7 @@ void Loader::physicObjectload(){
 		}
 		else if(input == "angle"){
 			file >> physicObjectProperties.angle;
+			physicObjectProperties.angle *= b2_pi / 180;
 		}
 		else if(input == "velocity"){
 			file >> physicObjectProperties.velocity.x >> physicObjectProperties.velocity.y;
@@ -73,24 +74,24 @@ void Loader::entityload(){
 	file >> input;
 	while(input != "}"){
 		if(input == "maxHP"){
-			file >> entityProperites.maxHP;
+			file >> entityProperties.maxHP;
 		}
 		else if(input == "HP"){
-			file >> entityProperites.HP;
+			file >> entityProperties.HP;
 		}
 		else if(input == "jumpHeight"){
-			file >> entityProperites.jumpHeight;
+			file >> entityProperties.jumpHeight;
 		}
 		else if(input == "movementSpeed"){
-			file >> entityProperites.movementSpeed;
+			file >> entityProperties.movementSpeed;
 		}
 		else if(input == "isFacingLeft"){
 			file >> input;
 			if(input == "true"){
-				entityProperites.isFacingLeft = true;
+				entityProperties.isFacingLeft = true;
 			}
 			else{
-				entityProperites.isFacingLeft = false;
+				entityProperties.isFacingLeft = false;
 			}
 		}
 		else if(input == "EQ{"){
@@ -98,7 +99,12 @@ void Loader::entityload(){
 			int ammount;
 			while(input != "}"){
 				file >> ammount;
-				entityProperites.equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(input))), ammount);
+				if(gameRef.getItemManager().getItem(input)->getClassName() == ObjectClass::Weapon){
+					entityProperties.equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(input))), ammount);
+				}
+				else{
+					entityProperties.equipment.addItem(new Item(*gameRef.getItemManager().getItem(input)), ammount);
+				}
 				file >> input;
 			}
 		}
@@ -131,8 +137,8 @@ void Loader::playerload(){
 		else if(input == "textureHandRight"){
 			file >> playerProperties.textureHandRight;
 		}
-		else if(input == "textureCloack"){
-			file >> playerProperties.textureCloack;
+		else if(input == "textureCloak"){
+			file >> playerProperties.textureCloak;
 		}
 		file >> input;
 	}
@@ -200,14 +206,18 @@ void Loader::weaponload(){
 		}
 		else if(input == "bulletDistance"){
 			file >> weaponProperties.bulletDistance;
-			weaponProperties.bulletDistance *= 32;
+			weaponProperties.bulletDistance *= blockSize.x;
 		}
 		file >> input;
 	}
 }
 
 void Loader::worldObjectload(){
-
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		file >> input;
+	}
 }
 
 void Loader::loadProperties(bool clean){
@@ -217,10 +227,11 @@ void Loader::loadProperties(bool clean){
 		itemProperties = ItemProperties();
 		weaponProperties = WeaponProperties();
 		worldObjectProperties = WorldObjectProperties();
-		entityProperites = EntityProperites();
-		entityProperites.equipment.init(gameRef);
+		entityProperties = EntityProperties();
+		entityProperties.equipment.init(gameRef);
 		playerProperties = PlayerProperties();
 		playerProperties.equipment.init(gameRef);
+		collectibleProperties = CollectibleProperties();
 	}
 	std::string input;
 	file >> input;
@@ -297,6 +308,18 @@ void Loader::loadLevel(std::string path){
 			worldObjectProperties.type = PhysicObjectType::Static;
 			gameRef.getWorld().addObject(new WorldObject(gameRef, worldObjectProperties));
 		}
+		else if(input == "Bullet{"){
+			loadProperties();
+			bulletProperties.setObjectProperties(objectProperties);
+			bulletProperties.setPhysicBulletProperties(physicObjectProperties);
+			gameRef.getWorld().addObject(new Bullet(gameRef, bulletProperties));
+		}
+		else if(input == "Collectible{"){
+			loadProperties();
+			collectibleProperties.setObjectProperties(objectProperties);
+			collectibleProperties.setPhysicObjectProperties(physicObjectProperties);
+			gameRef.getWorld().addObject(new Collectible(gameRef, collectibleProperties));
+		}
 		else if(input == "Temp"){
 			file >> input;
 			temp = gameRef.getTemplateManager().getTemplate(input);
@@ -305,7 +328,7 @@ void Loader::loadLevel(std::string path){
 			itemProperties = ItemProperties();
 			weaponProperties = WeaponProperties();
 			worldObjectProperties = WorldObjectProperties();
-			entityProperites = EntityProperites();
+			entityProperties = EntityProperties();
 			playerProperties = PlayerProperties();
 			switch(temp.className){
 				case ObjectClass::PhysicObject:
@@ -358,7 +381,7 @@ void Loader::loadPlayer(std::string path){
 	loadProperties();
 	playerProperties.setObjectProperties(objectProperties);
 	playerProperties.setPhysicObjectProperties(physicObjectProperties);
-	playerProperties.setEntityProperties(entityProperites);
+	playerProperties.setEntityProperties(entityProperties);
 	gameRef.getWorld().addObject(new Player(gameRef, playerProperties));
 	file.close();
 }
@@ -374,7 +397,7 @@ void Loader::loadTextures(std::string path){
 		std::string input2;
 		file >> input2;
 		sf::Texture helpTexture;
-		helpTexture.loadFromFile("Assets/Textures/" + input);
+		helpTexture.loadFromFile(input);
 		sf::FloatRect helpRect = sf::Sprite(helpTexture).getGlobalBounds();
 		sf::IntRect rect(helpRect.left, helpRect.top, helpRect.width, helpRect.height);
 		if(input2 != ";"){
@@ -384,7 +407,7 @@ void Loader::loadTextures(std::string path){
 			file >> rect.height;
 			file >> input2;
 		}
-		gameRef.getTextureManager().addTexture("Assets/Textures/" + input, name, rect);
+		gameRef.getTextureManager().addTexture(input, name, rect);
 	}
 	file.close();
 }
@@ -434,19 +457,231 @@ void Loader::load(std::string path){
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
 		loadTemplate("Saves/" + path + "/template.sv");
-		loadItems("Saves/" + path + "/items.sv");
 		loadLevel("Saves/" + path + "/level.sv");
+		loadItems("Saves/" + path + "/items.sv");
 		loadPlayer("Saves/" + path + "/player1.sv");
 		loadPlayer("Saves/" + path + "/player2.sv");
-		loadLevel("Saves/" + path + "/levelMid.sv");
-		loadLevel("Saves/" + path + "/level2.sv");
 	} catch(std::string err){
 		printf("%s\n", err.c_str());
 	}
 }
 
-void Loader::save(std::string path){
+void Loader::objectsave(Object* object){
+	file << "\tObjectProperties{\n";
+	file << "\t\tposition " << static_cast<float>(object->getObjectProperties().position.x) / blockSize.x << " " << static_cast<float>(object->getObjectProperties().position.y)  / blockSize.y << "\n";
+	file << "\t\tname " << object->getObjectProperties().name << "\n";
+	file << "\t\ttexture " << object->getObjectProperties().texture << "\n";
+	file << "\t}\n";
+}
 
+void Loader::physicObjectsave(PhysicObject* physicObject){
+	file << "\tPhysicObjectProperties{\n";
+	file << "\t\ttype ";
+	switch(physicObject->getPhysicObjectProperties().type){
+		case PhysicObjectType::Dynamic:
+			file << "dynamic";
+			break;
+		case PhysicObjectType::Kinematic:
+			file << "kinematic";
+			break;
+		case PhysicObjectType::Static:
+			file << "static";
+			break;
+	}
+	file << "\n";
+	file << "\t\tshape ";
+	switch(physicObject->getPhysicObjectProperties().shape){
+		case PhysicObjectShape::Box:
+			file << "box";
+			break;
+		case PhysicObjectShape::Circle:
+			file << "circle";
+			break;
+	}
+	file << "\n";
+	file << "\t\tdensity " << physicObject->getPhysicObjectProperties().density << "\n";
+	file << "\t\tfriction " << physicObject->getPhysicObjectProperties().friction << "\n";
+	file << "\t\tangle " << physicObject->getPhysicObjectProperties().angle * 180 / b2_pi << "\n";
+	file << "\t\tvelocity " << physicObject->getPhysicObjectProperties().velocity.x << " " << physicObject->getPhysicObjectProperties().velocity.y << "\n";
+	file << "\t}\n";
+}
+
+void Loader::entitysave(Entity* entity){
+	file << "\tEntityProperties{\n";
+	file << "\t\tmaxHP " << entity->getEntityProperties().maxHP << "\n";
+	file << "\t\tHP " << entity->getEntityProperties().HP << "\n";
+	file << "\t\tjumpHeight " << entity->getEntityProperties().jumpHeight << "\n";
+	file << "\t\tmovementSpeed " << entity->getEntityProperties().movementSpeed << "\n";
+	file << "\t\tisFacingLeft " << (entity->getEntityProperties().isFacingLeft ? "true" : "false") << "\n";\
+	file << "\t\tEQ{\n";
+	for(auto i : entity->getEquipment()){
+		file << "\t\t\t" << i.first->getName() << " " << i.second << "\n";
+	}
+	file << "\t\t}\n";
+	file << "\t}\n";
+}
+
+void Loader::playersave(Player* player){
+	file << "\tPlayerProperties{\n";
+	file << "\t\ttextureBase " << player->getPlayerProperties().textureBase << "\n";
+	file << "\t\ttextureHair " << player->getPlayerProperties().textureHair << "\n";
+	file << "\t\ttextureBoots " << player->getPlayerProperties().textureBoots << "\n";
+	file << "\t\ttextureLegs " << player->getPlayerProperties().textureLegs << "\n";
+	file << "\t\ttextureGloves " << player->getPlayerProperties().textureGloves << "\n";
+	file << "\t\ttextureBody " << player->getPlayerProperties().textureBody << "\n";
+	file << "\t\ttextureHandRight " << player->getPlayerProperties().textureHandRight << "\n";
+	file << "\t\ttextureCloak " << player->getPlayerProperties().textureCloak << "\n";
+	file << "\t\ttextureBeard " << player->getPlayerProperties().textureBeard << "\n";
+	file << "\t}\n";
+}
+
+void Loader::collectiblesave(Collectible* collectible){
+}
+
+void Loader::bulletsave(Bullet* bullet){
+}
+
+void Loader::itemsave(Item* item){
+	file << "\tItemProperties{\n";
+	file << "\t\tamount " << item->getItemProperties().amount << "\n";
+	file << "\t\tisWorldObject " << (item->getItemProperties().isWorldObject ? "true" : "false") << "\n";
+	file << "\t\ttextureOnEquip " << item->getItemProperties().textureOnEquip << "\n";
+	file << "\t}\n";
+}
+
+void Loader::weaponsave(Weapon* weapon){
+	file << "\tWeaponProperties{\n";
+	file << "\t\tattackDelay " << weapon->getWeaponProperties().attackDelay.asMilliseconds() << "\n";
+	file << "\t\tbulletSpeed " << weapon->getWeaponProperties().bulletSpeed << "\n";
+	file << "\t\tdmg " << weapon->getWeaponProperties().dmg << "\n";
+	file << "\t\treloadSpeed " << weapon->getWeaponProperties().reloadSpeed.asMilliseconds() << "\n";
+	file << "\t\tmaxAmmo " << weapon->getWeaponProperties().maxAmmo << "\n";
+	file << "\t\tammo " << weapon->getWeaponProperties().ammo << "\n";
+	file << "\t\tbulletTexture " << weapon->getWeaponProperties().bulletTexture << "\n";
+	file << "\t\tbulletDistance " << weapon->getWeaponProperties().bulletDistance << "\n";
+	file << "\t\treloading " << (weapon->getWeaponProperties().reloading ? "true" : "false") << "\n";
+	file << "\t}\n";
+}
+
+void Loader::worldObjectsave(WorldObject* worldObject){
+	file << "\tWorldObjectProperties{\n";
+	file << "\t}\n";
+}
+
+void Loader::saveTextures(std::string path){
+	file.open(path, std::fstream::out | std::fstream::trunc);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	sf::IntRect helpRect;
+	for(auto i = gameRef.getTextureManager().getTexturePaths().begin(); i != gameRef.getTextureManager().getTexturePaths().end(); i++){
+		file << i->second << " " << i->first << " ";
+		helpRect = gameRef.getTextureManager().getArea(i->first);
+		file << helpRect.left << " ";
+		file << helpRect.top << " ";
+		file << helpRect.width << " ";
+		file << helpRect.height << " ;\n";
+	}
+	file.close();
+}
+
+void Loader::saveItems(std::string path){
+	file.open(path, std::fstream::out | std::fstream::trunc);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	for(auto i = gameRef.getItemManager().getItems().begin(); i != gameRef.getItemManager().getItems().end(); i++){
+		if(i->second->getClassName() == ObjectClass::Item){
+			file << "Item{\n";
+			objectsave(i->second);
+			itemsave(i->second);
+			file << "}\n";
+		}
+		else if(i->second->getClassName() == ObjectClass::Weapon){
+			file << "Weapon{\n";
+			objectsave(i->second);
+			itemsave(i->second);
+			weaponsave(dynamic_cast<Weapon*>(i->second));
+			file << "}\n";
+		}
+	}
+	file.close();
+}
+
+void Loader::saveLevel(std::string path){
+	file.open(path, std::fstream::out | std::fstream::trunc);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	file << "blockSize " << blockSize.x << " " << blockSize.y << "\n";
+	file << "startPos 0 0\n";
+	for(auto i = gameRef.getWorld().getObjects().begin(); i != gameRef.getWorld().getObjects().end(); i++){
+		if(i->second->getClassName() == ObjectClass::PhysicObject){
+			file << "PhysicObject{\n";
+			objectsave(i->second);
+			physicObjectsave(i->second);
+			file << "}\n";
+		}
+		else if(i->second->getClassName() == ObjectClass::WorldObject){
+			file << "WorldObject{\n";
+			objectsave(i->second);
+			physicObjectsave(i->second);
+			worldObjectsave(dynamic_cast<WorldObject*>(i->second));
+			file << "}\n";
+		}
+		else if(i->second->getClassName() == ObjectClass::Bullet){
+			file << "Bullet{\n";
+			objectsave(i->second);
+			physicObjectsave(i->second);
+			bulletsave(dynamic_cast<Bullet*>(i->second));
+			file << "}\n";
+		}
+		else if(i->second->getClassName() == ObjectClass::Collectible){
+			file << "Collectible{\n";
+			objectsave(i->second);
+			physicObjectsave(i->second);
+			collectiblesave(dynamic_cast<Collectible*>(i->second));
+			file << "}\n";
+		}
+	}
+	for(auto i : gameRef.getWorld().getSpawns()){
+		file << "Spawn{\n";
+		file << "\tposition " << static_cast<float>(i.x) / blockSize.x << " " << static_cast<float>(i.y) / blockSize.y << "\n";
+		file << "}\n";
+	}
+	file.close();
+}
+
+void Loader::savePlayer(std::string path, std::string name){
+	file.open(path, std::fstream::out | std::fstream::trunc);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	file << "Player{\n";
+	objectsave(gameRef.getWorld().getObject(name));
+	physicObjectsave(gameRef.getWorld().getObject(name));
+	entitysave(dynamic_cast<Entity*>(gameRef.getWorld().getObject(name)));
+	playersave(dynamic_cast<Player*>(gameRef.getWorld().getObject(name)));
+	file << "}\n";
+	file.close();
+}
+
+void Loader::save(std::string path){
+	objectLoadedID = 0;
+	try{
+		system(("rm -r Saves/" + path + "/").c_str());
+		system(("mkdir Saves/" + path + "/").c_str());
+		system(("touch Saves/" + path + "/template.sv").c_str());
+		system(("touch Saves/" + path + "/level2.sv").c_str());
+		system(("touch Saves/" + path + "/levelMid.sv").c_str());
+		saveTextures("Saves/" + path + "/textures.sv");
+		saveItems("Saves/" + path + "/items.sv");
+		saveLevel("Saves/" + path + "/level.sv");
+		savePlayer("Saves/" + path + "/player1.sv", "player1");
+		savePlayer("Saves/" + path + "/player2.sv", "player2");
+	} catch(std::string err){
+		printf("%s\n", err.c_str());
+	}
 }
 
 Loader::Loader(Game& gameRef) : gameRef(gameRef){

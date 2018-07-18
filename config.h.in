@@ -20,8 +20,8 @@
 #define lettersScaling 2.f
 
 #define defaultVelocityMaxX 7
-#define defaultVelocityMaxY 9
-#define defaultJumpHeight 9
+#define defaultVelocityMaxY 10
+#define defaultJumpHeight 10
 #define defaultMovement 0.7
 
 #define playerVelocityMaxX defaultVelocityMaxX

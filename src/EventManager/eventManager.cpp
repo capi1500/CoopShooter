@@ -27,6 +27,13 @@ void EventManager::handleEvents(sf::Event event){
 			gameRef.getWorld().removeAll();
 			gameRef.getLoader().load("Default");
 		}
+		if(event.key.code == sf::Keyboard::V){
+			gameRef.getLoader().save("Temp");
+		}
+		if(event.key.code == sf::Keyboard::B){
+			gameRef.getWorld().removeAll();
+			gameRef.getLoader().load("Temp");
+		}
 		if(event.key.code == sf::Keyboard::Q){
 			addEvent(Event("equipPrevious", "player1"));
 		}
@@ -110,10 +117,14 @@ void EventManager::handleEvents(){
 			entity->addVelocity(sf::Vector2f(0, entity->getEntityProperties().movementSpeed));
 		}
 		else if(toProcess.what == "equipNext"){
-			dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipNext();
+			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead){
+				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipNext();
+			}
 		}
 		else if(toProcess.what == "equipPrevious"){
-			dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipPrevious();
+			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead){
+				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipPrevious();
+			}
 		}
 		else if(toProcess.what == "bulletHit"){
 			if(gameRef.getWorld().exists(toProcess.object1)){
@@ -126,6 +137,9 @@ void EventManager::handleEvents(){
 					else if(object->getClassName() == ObjectClass::WorldObject){
 						gameRef.getWorld().removeObject(toProcess.object1);
 					}
+				}
+				else if(toProcess.object2 == ""){
+					gameRef.getWorld().removeObject(toProcess.object1);
 				}
 			}
 		}
@@ -167,12 +181,12 @@ void EventManager::handleEvents(){
 			}
 		}
 		else if(toProcess.what == "remove"){
-			if(dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
+			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead and dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
 			}
 		}
 		else if(toProcess.what == "throw"){
-			if(dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
+			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead and dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
 				sf::Vector2f position = gameRef.getWorld().getObject(toProcess.object1)->getPosition() + sf::Vector2f(5 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0);
 				std::string what = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.getEquiped()->getName(), itemName = "collectibleW" + std::to_string(id++);
 				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));

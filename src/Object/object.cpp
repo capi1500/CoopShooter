@@ -13,7 +13,8 @@ ObjectProperties ObjectProperties::getObjectProperties(){
 	return ObjectProperties(position, name, texture);
 }
 
-const ObjectProperties& Object::getObjectProperties() const{
+ObjectProperties& Object::getObjectProperties(){
+	objectProperties.position = this->getPosition();
 	return objectProperties;
 }
 

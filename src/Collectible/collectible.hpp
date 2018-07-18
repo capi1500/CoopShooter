@@ -12,6 +12,7 @@ struct CollectibleProperties : public PhysicObjectProperties{
 	sf::Time boostTime;
 	
 	CollectibleProperties getCollectibleProperties();
+	void setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties);
 	
 	CollectibleProperties();
 	CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime = sf::seconds(0));

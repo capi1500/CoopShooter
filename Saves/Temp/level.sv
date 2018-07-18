@@ -1,5 +1,20 @@
 blockSize 33 33
 startPos 0 0
+Collectible{
+	ObjectProperties{
+		position 87 -2.5
+		name collectible2871.000000--82.500000
+		texture heal
+	}
+	PhysicObjectProperties{
+		type kinematic
+		shape circle
+		density 1
+		friction 0.3
+		angle 0
+		velocity 0 0
+	}
+}
 WorldObject{
 	ObjectProperties{
 		position -1 0

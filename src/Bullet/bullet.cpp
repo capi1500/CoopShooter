@@ -19,6 +19,15 @@ BulletProperties& Bullet::getBulletProperties(){
 	return bulletProperties;
 }
 
+void BulletProperties::setPhysicBulletProperties(PhysicObjectProperties physicObjectProperties){
+	type = physicObjectProperties.type;
+	shape = physicObjectProperties.shape;
+	density = physicObjectProperties.density;
+	friction = physicObjectProperties.friction;
+	angle = physicObjectProperties.angle;
+	velocity = physicObjectProperties.velocity;
+}
+
 void Bullet::pass(sf::Time elapsedTime){
 	PhysicObject::pass(elapsedTime);
 	if(getBody()->GetLinearVelocity().x > 0){

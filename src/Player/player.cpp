@@ -15,11 +15,11 @@ PlayerProperties::PlayerProperties(){
 	textureGloves = "nothing";
 	textureBody = "nothing";
 	textureHandRight = "nothing";
-	textureCloack = "nothing";
+	textureCloak = "nothing";
 	textureBeard = "nothing";
 }
 
-PlayerProperties::PlayerProperties(EntityProperites properites) : EntityProperites(properites){
+PlayerProperties::PlayerProperties(EntityProperties properites) : EntityProperties(properites){
 	textureBase = "nothing";
 	textureHair = "nothing";
 	textureBoots = "nothing";
@@ -27,7 +27,7 @@ PlayerProperties::PlayerProperties(EntityProperites properites) : EntityProperit
 	textureGloves = "nothing";
 	textureBody = "nothing";
 	textureHandRight = "nothing";
-	textureCloack = "nothing";
+	textureCloak = "nothing";
 	textureBeard = "nothing";
 }
 
@@ -35,7 +35,7 @@ PlayerProperties PlayerProperties::getPlayerProperties(){
 	return PlayerProperties(getEntityProperties());
 }
 
-void PlayerProperties::setEntityProperties(EntityProperites entityProperites){
+void PlayerProperties::setEntityProperties(EntityProperties entityProperites){
 	maxHP = entityProperites.maxHP;
 	HP = entityProperites.HP;
 	jumpHeight = entityProperites.jumpHeight;
@@ -43,6 +43,10 @@ void PlayerProperties::setEntityProperties(EntityProperites entityProperites){
 	isFacingLeft = entityProperites.isFacingLeft;
 	isDead = entityProperites.isDead;
 	equipment = entityProperites.equipment;
+}
+
+PlayerProperties& Player::getPlayerProperties(){
+	return playerProperties;
 }
 
 void Player::pass(sf::Time elapsedTime){
@@ -94,11 +98,10 @@ void Player::draw(){
 			drawHelp.move(sf::Vector2f(getGlobalBounds().width, 0));
 		}
 		playerProperties.textureHandRight = getEquiped()->getItemProperties().textureOnEquip;
-		//printf("'%s'\n", playerProperties.textureHandRight.c_str());
-		std::vector<std::string> toDraw = {playerProperties.textureCloack, playerProperties.textureBeard,
-										   playerProperties.textureHair, playerProperties.textureBoots,
-										   playerProperties.textureLegs, playerProperties.textureGloves,
-										   playerProperties.textureBody};
+		std::vector<std::string> toDraw = {playerProperties.textureCloak, playerProperties.textureBase,
+										   playerProperties.textureBeard, playerProperties.textureHair,
+										   playerProperties.textureLegs, playerProperties.textureBoots,
+										   playerProperties.textureGloves, playerProperties.textureBody};
 		for(auto i : toDraw){
 			if(i != "nothing"){
 				drawHelp.setTexture(i);

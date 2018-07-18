@@ -11,6 +11,15 @@ CollectibleProperties::CollectibleProperties(){
 CollectibleProperties::CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime) : PhysicObjectProperties(physicObjectProperties), what(what), boostTime(boostTime){
 }
 
+void CollectibleProperties::setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties){
+	type = physicObjectProperties.type;
+	shape = physicObjectProperties.shape;
+	density = physicObjectProperties.density;
+	friction = physicObjectProperties.friction;
+	angle = physicObjectProperties.angle;
+	velocity = physicObjectProperties.velocity;
+}
+
 CollectibleProperties CollectibleProperties::getCollectibleProperties(){
 	return CollectibleProperties(getPhysicObjectProperties(), what, boostTime);
 }

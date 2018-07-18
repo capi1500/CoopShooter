@@ -14,6 +14,8 @@ struct BulletProperties : PhysicObjectProperties{
 	float distance;
 	
 	BulletProperties getBulletProperties();
+	void setPhysicBulletProperties(PhysicObjectProperties physicObjectProperties);
+	
 	BulletProperties();
 	BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg, float distance);
 };

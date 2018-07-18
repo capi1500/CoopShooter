@@ -11,7 +11,9 @@ bool Equipment::addItem(Item* item, int ammount){
 	if(equipmentSize == maxEquipmentSize){
 		return false;
 	}
-	equipmentSize++;
+	if(item->getName() != "nothing"){
+		equipmentSize++;
+	}
 	for(unsigned i = 0; i < maxEquipmentSize; i++){
 		if(equipment[i].first->getName() == "nothing"){
 			equipment[i] = {item, ammount};
@@ -22,9 +24,11 @@ bool Equipment::addItem(Item* item, int ammount){
 }
 
 void Equipment::removeEquiped(){
-	equipment[equiped].first = defaultItem;
-	equipment[equiped].second = 1;
-	equipmentSize--;
+	if(equipment[equiped].first->getName() != "nothing"){
+		equipment[equiped].first = defaultItem;
+		equipment[equiped].second = 1;
+		equipmentSize--;
+	}
 }
 
 bool Equipment::canRemove(){

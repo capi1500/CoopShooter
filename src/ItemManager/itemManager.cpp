@@ -13,6 +13,10 @@ Item* ItemManager::getItem(std::string name){
 	return items[name];
 }
 
+const std::map<std::string, Item*>& ItemManager::getItems() const{
+	items;
+}
+
 bool ItemManager::exist(std::string name){
 	return items.find(name) != items.end();
 }

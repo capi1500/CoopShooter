@@ -24,6 +24,7 @@ Player{
         textureHair longWhiteHair
         textureBoots bootsMiddleGray
         textureBody gandalfBody
-        textureCloack cloackGray
+        textureCloak cloackGray
+		textureBeard longWhiteBeard
     }
 }

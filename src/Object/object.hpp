@@ -31,7 +31,7 @@ class Object : public sf::Sprite{
 		ObjectClass className;
 		sf::Time localTime;
 	public:
-		const ObjectProperties& getObjectProperties() const;
+		ObjectProperties& getObjectProperties();
 		const ObjectClass getClassName() const;
 		std::string getName();
 		void setName(std::string name);

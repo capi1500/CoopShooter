@@ -58,3 +58,12 @@ Weapon{
         bulletDistance 30
     }
 }
+Item{
+    ObjectProperties{
+        name nothing
+    }
+    ItemProperties{
+        ammount 0
+        worldObject false
+    }
+}

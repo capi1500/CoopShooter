@@ -34,6 +34,9 @@ void PhysicObjectProperties::setObjectProperties(ObjectProperties& objectPropert
 }
 
 PhysicObjectProperties& PhysicObject::getPhysicObjectProperties(){
+	physicObjectProperties.angle = bodyPtr->GetAngle() * 180 / b2_pi;
+	physicObjectProperties.position = getPosition();
+	physicObjectProperties.velocity = sf::Vector2f(meterToPixel(bodyPtr->GetLinearVelocity().x), meterToPixel(bodyPtr->GetLinearVelocity().y));
 	return physicObjectProperties;
 }
 

@@ -15,6 +15,7 @@
 #include <src/WorldObject/worldObject.hpp>
 #include <fstream>
 #include <src/TemplateManager/templateManager.hpp>
+#include <src/Collectible/collectible.hpp>
 
 class Game;
 
@@ -22,7 +23,7 @@ class Loader{
 	private:
 		Game& gameRef;
 		
-		std::ifstream file;
+		std::fstream file;
 		
 		sf::Vector2u blockSize;
 		sf::Vector2f startingPos;
@@ -31,18 +32,20 @@ class Loader{
 		Template temp;
 		ObjectProperties objectProperties;
 		PhysicObjectProperties physicObjectProperties;
-		EntityProperites entityProperites;
+		EntityProperties entityProperties;
 		PlayerProperties playerProperties;
 		BulletProperties bulletProperties;
 		ItemProperties itemProperties;
 		WeaponProperties weaponProperties;
 		WorldObjectProperties worldObjectProperties;
+		CollectibleProperties collectibleProperties;
 		
 		void objectload();
 		void physicObjectload();
 		void entityload();
 		void playerload();
 		void bulletload();
+		void collectibleload();
 		void itemload();
 		void weaponload();
 		void worldObjectload();
@@ -55,6 +58,23 @@ class Loader{
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);
 		void loadItems(std::string path);
+		
+		void objectsave(Object* object);
+		void physicObjectsave(PhysicObject* physicObject);
+		void entitysave(Entity* entity);
+		void playersave(Player* player);
+		void bulletsave(Bullet* bullet);
+		void collectiblesave(Collectible* collectible);
+		void itemsave(Item* item);
+		void weaponsave(Weapon* weapon);
+		void worldObjectsave(WorldObject* worldObject);
+		
+		void saveProperties(Object* object);
+		
+		void saveTextures(std::string path);
+		void savePlayer(std::string path, std::string name);
+		void saveLevel(std::string path);
+		void saveItems(std::string path);
 	public:
 		void load(std::string path);
 		void save(std::string path);

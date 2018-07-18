@@ -6,12 +6,12 @@
 #include <src/Game/game.hpp>
 #include <src/Weapon/weapon.hpp>
 
-EntityProperites::EntityProperites(){
+EntityProperties::EntityProperties(){
 	maxHP = HP = 0;
 	jumpHeight = defaultJumpHeight;
 }
 
-EntityProperites::EntityProperites(PhysicObjectProperties properties, unsigned maxHP, int HP, Equipment equipment, bool isFacingLeft, int movementSpeed, int jumpHeight) : PhysicObjectProperties(properties){
+EntityProperties::EntityProperties(PhysicObjectProperties properties, unsigned maxHP, int HP, Equipment equipment, bool isFacingLeft, int movementSpeed, int jumpHeight) : PhysicObjectProperties(properties){
 	this->maxHP = maxHP;
 	if(HP != -1){
 		this->HP = HP;
@@ -26,11 +26,11 @@ EntityProperites::EntityProperites(PhysicObjectProperties properties, unsigned m
 	isDead = (HP <= 0);
 }
 
-EntityProperites EntityProperites::getEntityProperties(){
-	return EntityProperites(getPhysicObjectProperties(), maxHP, HP, equipment, isFacingLeft, movementSpeed, jumpHeight);
+EntityProperties EntityProperties::getEntityProperties(){
+	return EntityProperties(getPhysicObjectProperties(), maxHP, HP, equipment, isFacingLeft, movementSpeed, jumpHeight);
 }
 
-void EntityProperites::setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties){
+void EntityProperties::setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties){
 	type = physicObjectProperties.type;
 	shape = physicObjectProperties.shape;
 	density = physicObjectProperties.density;
@@ -39,7 +39,7 @@ void EntityProperites::setPhysicObjectProperties(PhysicObjectProperties physicOb
 	velocity = physicObjectProperties.velocity;
 }
 
-EntityProperites& Entity::getEntityProperties(){
+EntityProperties& Entity::getEntityProperties(){
 	return entityProperites;
 }
 
@@ -158,7 +158,7 @@ void Entity::draw(){
 	}
 }
 
-Entity::Entity(Game& gameRef, EntityProperites properites) : entityProperites(properites),
+Entity::Entity(Game& gameRef, EntityProperties properites) : entityProperites(properites),
 		PhysicObject(gameRef, properites.getPhysicObjectProperties()){
 	entityProperites.equipment.init(gameRef);
 	// Box2D stuff

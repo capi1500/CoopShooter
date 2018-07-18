@@ -205,6 +205,11 @@ Temp ground {
         position 30 -10
     }
 }
+Temp ground {
+    ObjectProperties{
+        position 30 -11
+    }
+}
 Temp groundSlab {
     ObjectProperties{
         position 2 -1.75

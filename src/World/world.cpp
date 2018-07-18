@@ -28,6 +28,7 @@ void World::removeAll(){
 	}
 	bullets.erase(bullets.begin(), bullets.end());
 	object.erase(object.begin(), object.end());
+	entities.erase(entities.begin(), entities.end());
 	boostSpawnPoint.erase(boostSpawnPoint.begin(), boostSpawnPoint.end());
 }
 
@@ -60,6 +61,10 @@ PhysicObject* World::getObject(std::string name){
 		return bullets[name];
 	}
 	return object[name];
+}
+
+std::vector<sf::Vector2f>& World::getSpawns(){
+	return boostSpawnPoint;
 }
 
 bool World::allCollectibleExsits(){
@@ -99,7 +104,7 @@ void World::passAll(sf::Time elapsedTime){
 	}
 	if(timeSinceLastBoost >= boostSpawnRate){
 		timeSinceLastBoost = sf::seconds(0);
-		int randPlace = rand() % boostSpawnPoint.size(), random = rand() % 9;
+		int randPlace = rand() % boostSpawnPoint.size(), random = rand() % 7;
 		sf::Vector2f position;
 		std::string what, itemName;
 		sf::Time boostTime;
