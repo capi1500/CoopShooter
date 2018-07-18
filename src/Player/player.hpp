@@ -8,6 +8,15 @@
 #include <src/Entity/entity.hpp>
 
 struct PlayerProperties : public EntityProperites{
+	std::string textureBase;
+	std::string textureHair;
+	std::string textureBoots;
+	std::string textureLegs;
+	std::string textureGloves;
+	std::string textureBody;
+	std::string textureHandRight;
+	std::string textureCloack;
+	std::string textureBeard;
 	PlayerProperties getPlayerProperties();
 	void setEntityProperties(EntityProperites entityProperites);
 	
@@ -21,6 +30,7 @@ class Player : public Entity{
 		sf::Sprite ammoBar;
 	public:
 		void pass(sf::Time elapsedTime);
+		void draw();
 		void drawAmmo();
 		void drawEquipment();
 		

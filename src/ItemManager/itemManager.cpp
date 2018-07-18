@@ -2,6 +2,7 @@
 // Created by capi1500 on 12/07/18.
 //
 
+#include <src/Weapon/weapon.hpp>
 #include "itemManager.hpp"
 
 void ItemManager::addItem(Item* item){

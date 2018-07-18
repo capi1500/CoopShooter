@@ -10,6 +10,7 @@
 struct ItemProperties : public ObjectProperties{
 	int amount;
 	bool isWorldObject;
+	std::string textureOnEquip;
 	
 	ItemProperties getItemProperties();
 	void setObjectProperties(ObjectProperties& objectProperties);

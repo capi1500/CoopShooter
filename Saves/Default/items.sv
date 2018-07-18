@@ -6,6 +6,7 @@ Weapon{
     ItemProperties{
         ammount 1
         worldObject false
+        textureOnEquip bowEquiped
     }
     WeaponProperties{
         attackDelay 500
@@ -19,12 +20,13 @@ Weapon{
 }
 Weapon{
     ObjectProperties{
-        name laserPistol
-        texture laserPistol
+        name rodBrown
+        texture rodBrown
     }
     ItemProperties{
         ammount 1
         worldObject false
+        textureOnEquip rodBrownEquiped
     }
     WeaponProperties{
         attackDelay 350
@@ -44,6 +46,7 @@ Weapon{
     ItemProperties{
         ammount 1
         worldObject false
+        textureOnEquip staffRubyEquiped
     }
     WeaponProperties{
         attackDelay 300

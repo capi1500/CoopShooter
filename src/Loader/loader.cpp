@@ -107,7 +107,35 @@ void Loader::entityload(){
 }
 
 void Loader::playerload(){
-
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "textureBase"){
+			file >> playerProperties.textureBase;
+		}
+		else if(input == "textureHair"){
+			file >> playerProperties.textureHair;
+		}
+		else if(input == "textureBoots"){
+			file >> playerProperties.textureBoots;
+		}
+		else if(input == "textureLegs"){
+			file >> playerProperties.textureLegs;
+		}
+		else if(input == "textureGloves"){
+			file >> playerProperties.textureGloves;
+		}
+		else if(input == "textureBody"){
+			file >> playerProperties.textureBody;
+		}
+		else if(input == "textureHandRight"){
+			file >> playerProperties.textureHandRight;
+		}
+		else if(input == "textureCloack"){
+			file >> playerProperties.textureCloack;
+		}
+		file >> input;
+	}
 }
 
 void Loader::itemload(){
@@ -125,6 +153,9 @@ void Loader::itemload(){
 			else{
 				itemProperties.isWorldObject = false;
 			}
+		}
+		else if(input == "textureOnEquip"){
+			file >> itemProperties.textureOnEquip;
 		}
 		file >> input;
 	}
@@ -208,6 +239,9 @@ void Loader::loadProperties(bool clean){
 		}
 		else if(input == "WeaponProperties{"){
 			weaponload();
+		}
+		else if(input == "PlayerProperties{"){
+			playerload();
 		}
 		file >> input;
 	}
@@ -337,7 +371,20 @@ void Loader::loadTextures(std::string path){
 	std::string input, name;
 	while(file >> input){
 		file >> name;
-		gameRef.getTextureManager().addTexture("Assets/Textures/" + input, name);
+		std::string input2;
+		file >> input2;
+		sf::Texture helpTexture;
+		helpTexture.loadFromFile("Assets/Textures/" + input);
+		sf::FloatRect helpRect = sf::Sprite(helpTexture).getGlobalBounds();
+		sf::IntRect rect(helpRect.left, helpRect.top, helpRect.width, helpRect.height);
+		if(input2 != ";"){
+			rect.left = atoi(input2.c_str());
+			file >> rect.top;
+			file >> rect.width;
+			file >> rect.height;
+			file >> input2;
+		}
+		gameRef.getTextureManager().addTexture("Assets/Textures/" + input, name, rect);
 	}
 	file.close();
 }

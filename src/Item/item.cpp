@@ -5,13 +5,17 @@
 #include "item.hpp"
 
 ItemProperties::ItemProperties(){
+	textureOnEquip = "nothing";
 }
 
 ItemProperties::ItemProperties(ObjectProperties objectProperties) : ObjectProperties(objectProperties){
+	textureOnEquip = "nothing";
 }
 
 ItemProperties ItemProperties::getItemProperties(){
-	return ItemProperties(getObjectProperties());
+	ItemProperties itemProperties = ItemProperties(getObjectProperties());
+	itemProperties.textureOnEquip = textureOnEquip;
+	return  itemProperties;
 }
 
 void ItemProperties::setObjectProperties(ObjectProperties& objectProperties){

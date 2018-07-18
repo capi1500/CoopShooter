@@ -23,6 +23,7 @@ WeaponProperties WeaponProperties::getWeaponProperties(){
 void WeaponProperties::setItemProperties(ItemProperties itemProperties){
 	amount = itemProperties.amount;
 	isWorldObject = itemProperties.isWorldObject;
+	textureOnEquip = itemProperties.textureOnEquip;
 }
 
 WeaponProperties& Weapon::getWeaponProperties(){

@@ -8,9 +8,27 @@
 PlayerProperties::PlayerProperties(){
 	movementSpeed = playerMovement;
 	jumpHeight = playerJumpHeight;
+	textureBase = "nothing";
+	textureHair = "nothing";
+	textureBoots = "nothing";
+	textureLegs = "nothing";
+	textureGloves = "nothing";
+	textureBody = "nothing";
+	textureHandRight = "nothing";
+	textureCloack = "nothing";
+	textureBeard = "nothing";
 }
 
 PlayerProperties::PlayerProperties(EntityProperites properites) : EntityProperites(properites){
+	textureBase = "nothing";
+	textureHair = "nothing";
+	textureBoots = "nothing";
+	textureLegs = "nothing";
+	textureGloves = "nothing";
+	textureBody = "nothing";
+	textureHandRight = "nothing";
+	textureCloack = "nothing";
+	textureBeard = "nothing";
 }
 
 PlayerProperties PlayerProperties::getPlayerProperties(){
@@ -62,6 +80,44 @@ void Player::drawAmmo(){
 
 void Player::drawEquipment(){
 	entityProperites.equipment.draw(gameRef);
+}
+
+void Player::draw(){
+	if(not entityProperites.isDead){
+		Entity::draw();
+		Object drawHelp(gameRef, ObjectProperties(sf::Vector2f(getGlobalBounds().left, getGlobalBounds().top), "help", ""));
+		if(entityProperites.isFacingLeft){
+			drawHelp.setScale(sf::Vector2f(1, 1));
+		}
+		else{
+			drawHelp.setScale(sf::Vector2f(-1, 1));
+			drawHelp.move(sf::Vector2f(getGlobalBounds().width, 0));
+		}
+		playerProperties.textureHandRight = getEquiped()->getItemProperties().textureOnEquip;
+		//printf("'%s'\n", playerProperties.textureHandRight.c_str());
+		std::vector<std::string> toDraw = {playerProperties.textureCloack, playerProperties.textureBeard,
+										   playerProperties.textureHair, playerProperties.textureBoots,
+										   playerProperties.textureLegs, playerProperties.textureGloves,
+										   playerProperties.textureBody};
+		for(auto i : toDraw){
+			if(i != "nothing"){
+				drawHelp.setTexture(i);
+				drawHelp.draw();
+			}
+		}
+		if(playerProperties.textureHandRight != "nothing"){
+			if(entityProperites.isFacingLeft){
+				drawHelp.setScale(sf::Vector2f(-1, 1));;
+				drawHelp.move(sf::Vector2f(getGlobalBounds().width, 0));
+			}
+			else{
+				drawHelp.setScale(sf::Vector2f(1, 1));
+				drawHelp.move(sf::Vector2f(-getGlobalBounds().width, 0));
+			}
+			drawHelp.setTexture(playerProperties.textureHandRight);
+			drawHelp.draw();
+		}
+	}
 }
 
 Player::Player(Game& gameRef, PlayerProperties properties) : playerProperties(properties),

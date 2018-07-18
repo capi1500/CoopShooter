@@ -2,7 +2,7 @@ Player{
     ObjectProperties{
         position 0 -1
         name player1
-        texture mage
+        texture humanMale
     }
     PhysicObjectProperties{
         type dynamic
@@ -18,5 +18,12 @@ Player{
         EQ{
             staff 1
         }
+    }
+    PlayerProperties{
+        textureBase humanMale
+        textureHair longWhiteHair
+        textureBoots bootsMiddleGray
+        textureBody gandalfBody
+        textureCloack cloackGray
     }
 }

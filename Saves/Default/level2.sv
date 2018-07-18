@@ -1,4 +1,4 @@
-blockSize 32 32
+blockSize 33 33
 startPos 60 0
 Temp ground {
     ObjectProperties{

@@ -134,7 +134,7 @@ void World::passAll(sf::Time elapsedTime){
 			else if(random == 6){
 				random = rand() % 3;
 				if(random == 0){
-					what = "laserPistol";
+					what = "rodBrown";
 				}
 				else if(random == 1){
 					what = "bow";

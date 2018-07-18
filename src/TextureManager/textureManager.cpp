@@ -4,8 +4,8 @@
 
 #include "textureManager.hpp"
 
-void TextureManager::addTexture(std::string path, std::string name){
-	textures[name].loadFromFile(path);
+void TextureManager::addTexture(std::string path, std::string name, sf::IntRect rect){
+	textures[name].loadFromFile(path, rect);
 }
 
 sf::Texture& TextureManager::getTexture(std::string name){

@@ -2,7 +2,7 @@ Player{
     ObjectProperties{
         position 89 -1
         name player2
-        texture archer
+        texture humanMale
     }
     PhysicObjectProperties{
         type dynamic
@@ -16,8 +16,17 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            laserPistol 1
+            rodBrown 1
             bow 1
         }
+    }
+    PlayerProperties{
+        textureBase humanMale
+        textureHair aragornHair
+        textureBoots bootsMiddleGray
+        textureLegs legArmor0
+        textureGloves gloveBrown
+        textureBody aragornBody
+        textureCloack cloackBlack
     }
 }

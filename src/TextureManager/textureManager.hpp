@@ -13,8 +13,8 @@ class TextureManager{
 	private:
 		std::map<std::string, sf::Texture> textures;
 	public:
-		void addTexture(std::string, std::string);
-		sf::Texture& getTexture(std::string);
+		void addTexture(std::string path, std::string name, sf::IntRect rect);
+		sf::Texture& getTexture(std::string name);
 };
 
 #endif //COOPSHOOTER_TEXTUREMANAGER_HPP

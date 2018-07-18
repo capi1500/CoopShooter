@@ -1,22 +1,32 @@
-wall.png box
-slab.png slab
-ground.png ground
-wall.png wall
-heal.png heal
-hpUp.png hpUp
-dmgUp.png dmgUp
-fasterShots.png fasterShots
-fasterShooting.png fasterShooting
-noReload.png noReload
-health.png healthBar
-ammo.png ammoBar
-battlemage.png mage
-archer.png archer
-arrow.png arrow
-fireball.png fireball
-bow.png bow
-laserPistol.png laserPistol
-sceptre.png staff
-eqItem.png eqItem
-eqItemSelected.png eqItemSelected
-laser.png laser
+Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png box ;
+Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png slab 0 0 32 16;
+Dungeon_Crawl_Stone_Soup/item/potion/magenta_new.png heal ;
+Dungeon_Crawl_Stone_Soup/item/potion/bubbly.png hpUp ;
+Dungeon_Crawl_Stone_Soup/item/potion/golden.png dmgUp ;
+Dungeon_Crawl_Stone_Soup/item/potion/brilliant_blue_new.png fasterShots ;
+Dungeon_Crawl_Stone_Soup/item/potion/ruby_new.png fasterShooting ;
+Dungeon_Crawl_Stone_Soup/item/potion/white_new.png noReload ;
+health.png healthBar ;
+ammo.png ammoBar ;
+Dungeon_Crawl_Stone_Soup/effect/arrow_2.png arrow 5 13 22 6 ;
+Dungeon_Crawl_Stone_Soup/effect/flame_0.png fireball 9 9 14 14 ;
+Dungeon_Crawl_Stone_Soup/effect/icicle_2.png laser 2 13 28 6 ;
+Dungeon_Crawl_Stone_Soup/item/weapon/ranged/longbow_1.png bow ;
+Dungeon_Crawl_Stone_Soup/item/rod/rod_1_new.png rodBrown ;
+Dungeon_Crawl_Stone_Soup/item/wand/gem_gold_new.png staff ;
+Dungeon_Crawl_Stone_Soup/misc/slot.png eqItem ;
+Dungeon_Crawl_Stone_Soup/misc/slot_vehumet.png eqItemSelected ;
+Dungeon_Crawl_Stone_Soup/player/base/human_male.png humanMale ;
+Dungeon_Crawl_Stone_Soup/player/boots/middle_gray.png bootsMiddleGray ;
+Dungeon_Crawl_Stone_Soup/player/hair/aragorn.png aragornHair ;
+Dungeon_Crawl_Stone_Soup/player/legs/leg_armor_0.png legArmor0 ;
+Dungeon_Crawl_Stone_Soup/player/body/aragorn.png aragornBody ;
+Dungeon_Crawl_Stone_Soup/player/hand_right/staff_ruby.png staffRubyEquiped ;
+Dungeon_Crawl_Stone_Soup/player/cloak/black.png cloackBlack ;
+Dungeon_Crawl_Stone_Soup/player/gloves/glove_brown.png gloveBrown ;
+Dungeon_Crawl_Stone_Soup/player/beard/long_white.png longWhiteBeard ;
+Dungeon_Crawl_Stone_Soup/player/hand_right/bow.png bowEquiped ;
+Dungeon_Crawl_Stone_Soup/player/hair/long_white.png longWhiteHair ;
+Dungeon_Crawl_Stone_Soup/player/body/gandalf_g.png gandalfBody ;
+Dungeon_Crawl_Stone_Soup/player/cloak/gray.png cloackGray ;
+Dungeon_Crawl_Stone_Soup/player/hand_right/rod_brown_new.png rodBrownEquiped ;
