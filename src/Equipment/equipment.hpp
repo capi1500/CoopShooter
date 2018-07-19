@@ -18,6 +18,7 @@ class Equipment{
 	public:
 		std::vector<std::pair<Item*, int>>& getEquipment();
 		Item* getEquiped();
+		int getEquipedId();
 		
 		bool addItem(Item* item, int ammount = 1);
 		void removeEquiped();

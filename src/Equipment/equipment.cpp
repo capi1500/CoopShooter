@@ -57,6 +57,10 @@ Item* Equipment::getEquiped(){
 	return equipment[equiped].first;
 }
 
+int Equipment::getEquipedId(){
+	return equiped;
+}
+
 std::vector<std::pair<Item*, int>>& Equipment::getEquipment(){
 	return equipment;
 }

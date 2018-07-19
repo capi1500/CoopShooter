@@ -1,5 +1,25 @@
 blockSize 33 33
 startPos 0 0
+time 0.016737
+Collectible{
+	ObjectProperties{
+		position 32 -2.5
+		name collectible1056.000000--82.500000
+		texture fasterShots
+	}
+	PhysicObjectProperties{
+		type kinematic
+		shape circle
+		density 1
+		friction 0.3
+		angle 0
+		velocity 0 0
+	}
+	CollectibleProperties{
+		what fasterShots
+		boostTime 5000
+	}
+}
 WorldObject{
 	ObjectProperties{
 		position -1 0
@@ -4146,6 +4166,72 @@ WorldObject{
 		velocity 0 0
 	}
 	WorldObjectProperties{
+	}
+}
+Bullet{
+	ObjectProperties{
+		position 27.0298 -7.97069
+		name bullet44
+		texture fireball
+	}
+	PhysicObjectProperties{
+		type dynamic
+		shape box
+		density 1
+		friction 0.3
+		angle 0
+		velocity 1000 0
+	}
+	BulletProperties{
+		speed 1000
+		dmg 2
+		isFacingLeft true
+		distance 30
+		startPosition 15.3637 -7.97273
+	}
+}
+Bullet{
+	ObjectProperties{
+		position 36.1773 -7.97069
+		name bullet43
+		texture fireball
+	}
+	PhysicObjectProperties{
+		type dynamic
+		shape box
+		density 1
+		friction 0.3
+		angle 0
+		velocity 1000 0
+	}
+	BulletProperties{
+		speed 1000
+		dmg 2
+		isFacingLeft true
+		distance 30
+		startPosition 15.3637 -7.97273
+	}
+}
+Bullet{
+	ObjectProperties{
+		position 17.8934 -7.97069
+		name bullet45
+		texture fireball
+	}
+	PhysicObjectProperties{
+		type dynamic
+		shape box
+		density 1
+		friction 0.3
+		angle 0
+		velocity 1000 0
+	}
+	BulletProperties{
+		speed 1000
+		dmg 2
+		isFacingLeft true
+		distance 30
+		startPosition 15.3637 -7.97273
 	}
 }
 Spawn{

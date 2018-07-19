@@ -19,8 +19,13 @@ void Game::main(){
 		}
 		eventManager.handleEvents();
 		
-		time = clock.restart();
-		//printf("%lld\n", time.asMicroseconds());
+		if(timeSet){
+			timeSet = false;
+			clock.restart();
+		}
+		else{
+			time = clock.restart();
+		}
 		physicWorld.Step(time.asSeconds(), defVelocityIterations, defPositionIterations);
 		physicWorld.ClearForces();
 		world.passAll(time);
@@ -88,6 +93,19 @@ sf::View& Game::getPlayer1View(){
 
 sf::View& Game::getPlayer2View(){
 	return player2view;
+}
+
+void Game::restartClock(){
+	clock.restart();
+}
+
+sf::Time Game::getTime(){
+	return time;
+}
+
+void Game::setTime(sf::Time time){
+	this->time = time;
+	timeSet = true;
 }
 
 Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullscreen, sf::ContextSettings(0, 0, ANTIALIASING, versionMajor, versionMinor)),

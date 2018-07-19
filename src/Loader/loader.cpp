@@ -94,6 +94,11 @@ void Loader::entityload(){
 				entityProperties.isFacingLeft = false;
 			}
 		}
+		else if(input == "equiped"){
+			int help;
+			file >> help;
+			entityProperties.equipment.equip(help);
+		}
 		else if(input == "EQ{"){
 			file >> input;
 			int ammount;
@@ -222,6 +227,54 @@ void Loader::worldObjectload(){
 	}
 }
 
+void Loader::collectibleload(){
+	std::string input;
+	int time;
+	file >> input;
+	while(input != "}"){
+		if(input == "what"){
+			file >> collectibleProperties.what;
+		}
+		else if(input == "boostTime"){
+			file >> time;
+			collectibleProperties.boostTime = sf::milliseconds(time);
+		}
+		file >> input;
+	}
+}
+
+void Loader::bulletload(){
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "speed"){
+			file >> bulletProperties.speed;
+		}
+		else if(input == "dmg"){
+			file >> bulletProperties.dmg;
+		}
+		else if(input == "isFacingLeft"){
+			file >> input;
+			if(input == "true"){
+				bulletProperties.isFacingLeft = true;
+			}
+			else{
+				bulletProperties.isFacingLeft = false;
+			}
+		}
+		else if(input == "distance"){
+			file >> bulletProperties.distance;
+			bulletProperties.distance *= blockSize.x;
+		}
+		else if(input == "startPosition"){
+			file >> bulletProperties.startPosition.x >> bulletProperties.startPosition.y;
+			bulletProperties.startPosition.x *= blockSize.x;
+			bulletProperties.startPosition.y *= blockSize.y;
+		}
+		file >> input;
+	}
+}
+
 void Loader::loadProperties(bool clean){
 	if(clean){
 		objectProperties = ObjectProperties();
@@ -255,6 +308,12 @@ void Loader::loadProperties(bool clean){
 		}
 		else if(input == "PlayerProperties{"){
 			playerload();
+		}
+		else if(input == "CollectibleProperties{"){
+			collectibleload();
+		}
+		else if(input == "BulletProperties{"){
+			bulletload();
 		}
 		file >> input;
 	}
@@ -297,6 +356,11 @@ void Loader::loadLevel(std::string path){
 		}
 		else if(input == "startPos"){
 			file >> startingPos.x >> startingPos.y;
+		}
+		else if(input == "time"){
+			float help;
+			file >> help;
+			gameRef.setTime(sf::seconds(help));
 		}
 		else if(input == "PhysicObject{"){
 			loadProperties();
@@ -456,6 +520,7 @@ void Loader::loadTemplate(std::string path){
 
 void Loader::load(std::string path){
 	objectLoadedID = 0;
+	//gameRef.restartClock();
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
 		loadTemplate("Saves/" + path + "/template.sv");
@@ -514,7 +579,8 @@ void Loader::entitysave(Entity* entity){
 	file << "\t\tHP " << entity->getEntityProperties().HP << "\n";
 	file << "\t\tjumpHeight " << entity->getEntityProperties().jumpHeight << "\n";
 	file << "\t\tmovementSpeed " << entity->getEntityProperties().movementSpeed << "\n";
-	file << "\t\tisFacingLeft " << (entity->getEntityProperties().isFacingLeft ? "true" : "false") << "\n";\
+	file << "\t\tisFacingLeft " << (entity->getEntityProperties().isFacingLeft ? "true" : "false") << "\n";
+	file << "\t\tequiped " << entity->getEntityProperties().equipment.getEquipedId() << "\n";
 	file << "\t\tEQ{\n";
 	for(auto i : entity->getEquipment()){
 		if(i.first->getClassName() == ObjectClass::Weapon){
@@ -543,9 +609,20 @@ void Loader::playersave(Player* player){
 }
 
 void Loader::collectiblesave(Collectible* collectible){
+	file << "\tCollectibleProperties{\n";
+	file << "\t\twhat " << collectible->getCollectibleProperties().what << "\n";
+	file << "\t\tboostTime " << collectible->getCollectibleProperties().boostTime.asMilliseconds() << "\n";
+	file << "\t}\n";
 }
 
 void Loader::bulletsave(Bullet* bullet){
+	file << "\tBulletProperties{\n";
+	file << "\t\tspeed " << bullet->getBulletProperties().speed << "\n";
+	file << "\t\tdmg " << bullet->getBulletProperties().dmg << "\n";
+	file << "\t\tisFacingLeft " << (bullet->getBulletProperties().isFacingLeft ? "true" : "false") << "\n";
+	file << "\t\tdistance " << bullet->getBulletProperties().distance / blockSize.x << "\n";
+	file << "\t\tstartPosition " << bullet->getBulletProperties().startPosition.x / blockSize.x << " " << bullet->getBulletProperties().startPosition.y / blockSize.y << "\n";
+	file << "\t}\n";
 }
 
 void Loader::itemsave(Item* item){
@@ -622,6 +699,7 @@ void Loader::saveLevel(std::string path){
 	}
 	file << "blockSize " << blockSize.x << " " << blockSize.y << "\n";
 	file << "startPos 0 0\n";
+	file << "time " << gameRef.getTime().asSeconds() << "\n";
 	for(auto i = gameRef.getWorld().getObjects().begin(); i != gameRef.getWorld().getObjects().end(); i++){
 		if(i->second->getClassName() == ObjectClass::PhysicObject){
 			file << "PhysicObject{\n";
@@ -650,6 +728,13 @@ void Loader::saveLevel(std::string path){
 			collectiblesave(dynamic_cast<Collectible*>(i->second));
 			file << "}\n";
 		}
+	}
+	for(auto i = gameRef.getWorld().getBullets().begin(); i != gameRef.getWorld().getBullets().end(); i++){
+		file << "Bullet{\n";
+		objectsave(i->second);
+		physicObjectsave(i->second);
+		bulletsave(i->second);
+		file << "}\n";
 	}
 	for(auto i : gameRef.getWorld().getSpawns()){
 		file << "Spawn{\n";

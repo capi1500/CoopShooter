@@ -67,6 +67,10 @@ std::vector<sf::Vector2f>& World::getSpawns(){
 	return boostSpawnPoint;
 }
 
+std::map<std::string, Bullet*> World::getBullets(){
+	return bullets;
+}
+
 bool World::allCollectibleExsits(){
 	for(auto i : boostSpawnPoint){
 		if(not exists("collectible" + std::to_string(i.x) + "-" + std::to_string(i.y)))

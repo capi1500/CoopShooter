@@ -41,6 +41,7 @@ class Game{
 		sf::Time time;
 		sf::View player1view;
 		sf::View player2view;
+		bool timeSet;
 	public:
 		sf::RenderWindow& getWindow();
 		b2World& getPhysicWorld();
@@ -54,6 +55,10 @@ class Game{
 		TemplateManager& getTemplateManager();
 		sf::View& getPlayer1View();
 		sf::View& getPlayer2View();
+		
+		void restartClock();
+		sf::Time getTime();
+		void setTime(sf::Time time);
 		
 		void main();
 		

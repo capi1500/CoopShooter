@@ -30,6 +30,7 @@ class World{
 		std::map<std::string, PhysicObject*>& getObjects();
 		std::map<std::string, Entity*>& getEntities();
 		std::vector<sf::Vector2f>& getSpawns();
+		std::map<std::string, Bullet*> getBullets();
 		bool exists(std::string name);
 		
 		void pass(std::string, sf::Time);

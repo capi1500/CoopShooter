@@ -8,11 +8,11 @@
 BulletProperties::BulletProperties(){
 }
 
-BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg, float distance) : PhysicObjectProperties(physicObjectProperties), speed(bulletSpeed), dmg(dmg), distance(distance){
+BulletProperties::BulletProperties(PhysicObjectProperties physicObjectProperties, int bulletSpeed, int dmg, float distance, sf::Vector2f position) : PhysicObjectProperties(physicObjectProperties), speed(bulletSpeed), dmg(dmg), distance(distance), startPosition(position){
 }
 
 BulletProperties BulletProperties::getBulletProperties(){
-	return BulletProperties(getPhysicObjectProperties(), speed, dmg, distance);
+	return BulletProperties(getPhysicObjectProperties(), speed, dmg, distance, startPosition);
 }
 
 BulletProperties& Bullet::getBulletProperties(){
@@ -31,19 +31,19 @@ void BulletProperties::setPhysicBulletProperties(PhysicObjectProperties physicOb
 void Bullet::pass(sf::Time elapsedTime){
 	PhysicObject::pass(elapsedTime);
 	if(getBody()->GetLinearVelocity().x > 0){
-		getBody()->SetLinearVelocity(b2Vec2(bulletProperties.speed, 0));
+		getBody()->SetLinearVelocity(b2Vec2(pixelToMeter(bulletProperties.speed), 0));
 		bulletProperties.isFacingLeft = true;
 		setScale(sf::Vector2f(1, 1));
 	}
 	else{
-		getBody()->SetLinearVelocity(b2Vec2(-bulletProperties.speed, 0));
+		getBody()->SetLinearVelocity(b2Vec2(-pixelToMeter(bulletProperties.speed), 0));
 		bulletProperties.isFacingLeft = false;
 		setScale(sf::Vector2f(-1, 1));
 	}
-	if(std::abs(getCentre().x - startPostion.x) >= bulletProperties.distance){
+	if(std::abs(getCentre().x - bulletProperties.startPosition.x) >= bulletProperties.distance){
 		gameRef.getEventManager().addEvent(Event("bulletHit", getName()));
 	}
-	getBody()->SetTransform(b2Vec2(getBody()->GetPosition().x, pixelToMeter(startPostion.y)), getBody()->GetAngle());
+	getBody()->SetTransform(b2Vec2(getBody()->GetPosition().x, pixelToMeter(bulletProperties.startPosition.y)), getBody()->GetAngle());
 }
 
 bool Bullet::canHit(){
@@ -58,5 +58,4 @@ Bullet::Bullet(Game& gameRef, BulletProperties bulletProperties) : PhysicObject(
 	filter.categoryBits = 1;
 	filter.maskBits = 2;
 	getBody()->GetFixtureList()->SetFilterData(filter);
-	startPostion = bulletProperties.position;
 }

@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 89 -0.97391
+		position 89 -0.972727
 		name player2
 		texture humanMale
 	}
@@ -18,9 +18,10 @@ Player{
 		jumpHeight 300
 		movementSpeed 10
 		isFacingLeft false
+		equiped 1
 		EQ{
-			rodBrown 10 1270
-			bow 1 1270
+			rodBrown 10 14787
+			bow 1 14787
 			nothing 0
 			nothing 0
 			nothing 0
@@ -33,7 +34,7 @@ Player{
 		textureLegs legArmor0
 		textureGloves gloveBrown
 		textureBody aragornBody
-		textureHandRight rodBrownEquiped
+		textureHandRight bowEquiped
 		textureCloak cloackBlack
 		textureBeard nothing
 	}

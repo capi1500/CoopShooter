@@ -10,7 +10,7 @@ Weapon{
     }
     WeaponProperties{
         attackDelay 500
-        bulletSpeed 50
+        bulletSpeed 1000
         dmg 6
         reloadSpeed 500
         maxAmmo 1
@@ -30,7 +30,7 @@ Weapon{
     }
     WeaponProperties{
         attackDelay 350
-        bulletSpeed 50
+        bulletSpeed 1000
         dmg 2
         reloadSpeed 3000
         maxAmmo 10
@@ -50,7 +50,7 @@ Weapon{
     }
     WeaponProperties{
         attackDelay 300
-        bulletSpeed 50
+        bulletSpeed 1000
         dmg 2
         reloadSpeed 3000
         maxAmmo 20

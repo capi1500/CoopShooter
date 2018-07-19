@@ -1,17 +1,17 @@
 Weapon{
 	ObjectProperties{
-		position -0.484848 -0.484848
+		position -1.45455 -1.45455
 		name bow
 		texture bow
 	}
 	ItemProperties{
-		amount 1391978704
+		amount 471676512
 		isWorldObject true
 		textureOnEquip bowEquiped
 	}
 	WeaponProperties{
 		attackDelay 500
-		bulletSpeed 50
+		bulletSpeed 1000
 		dmg 6
 		reloadSpeed 500
 		maxAmmo 1
@@ -25,28 +25,28 @@ Item{
 	ObjectProperties{
 		position 0 0
 		name nothing
-		texture 
+		texture }
 	}
 	ItemProperties{
-		amount 0
+		amount 1
 		isWorldObject false
 		textureOnEquip nothing
 	}
 }
 Weapon{
 	ObjectProperties{
-		position -0.484848 -0.484848
+		position -1.45455 -1.45455
 		name rodBrown
 		texture rodBrown
 	}
 	ItemProperties{
-		amount -127313568
+		amount 471571792
 		isWorldObject true
 		textureOnEquip rodBrownEquiped
 	}
 	WeaponProperties{
 		attackDelay 350
-		bulletSpeed 50
+		bulletSpeed 1000
 		dmg 2
 		reloadSpeed 3000
 		maxAmmo 10
@@ -58,18 +58,18 @@ Weapon{
 }
 Weapon{
 	ObjectProperties{
-		position -0.484848 -0.484848
+		position -1.45455 -1.45455
 		name staff
 		texture staff
 	}
 	ItemProperties{
-		amount -127313664
+		amount 471571696
 		isWorldObject true
 		textureOnEquip staffRubyEquiped
 	}
 	WeaponProperties{
 		attackDelay 300
-		bulletSpeed 50
+		bulletSpeed 1000
 		dmg 2
 		reloadSpeed 3000
 		maxAmmo 20

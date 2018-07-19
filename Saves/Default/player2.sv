@@ -15,6 +15,7 @@ Player{
         HP 10
         jumpHeight 300
         movementSpeed 10
+        equiped 1
         EQ{
             rodBrown 10 0
             bow 1 0
