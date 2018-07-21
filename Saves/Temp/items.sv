@@ -1,11 +1,11 @@
 Weapon{
 	ObjectProperties{
-		position -1.45455 -1.45455
+		position -0.969697 -0.969697
 		name bow
 		texture bow
 	}
 	ItemProperties{
-		amount 471676512
+		amount -950389584
 		isWorldObject true
 		textureOnEquip bowEquiped
 	}
@@ -35,12 +35,12 @@ Item{
 }
 Weapon{
 	ObjectProperties{
-		position -1.45455 -1.45455
+		position -0.969697 -0.969697
 		name rodBrown
 		texture rodBrown
 	}
 	ItemProperties{
-		amount 471571792
+		amount -950495088
 		isWorldObject true
 		textureOnEquip rodBrownEquiped
 	}
@@ -58,12 +58,12 @@ Weapon{
 }
 Weapon{
 	ObjectProperties{
-		position -1.45455 -1.45455
+		position -0.969697 -0.969697
 		name staff
 		texture staff
 	}
 	ItemProperties{
-		amount 471571696
+		amount -950495184
 		isWorldObject true
 		textureOnEquip staffRubyEquiped
 	}

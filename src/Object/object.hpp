@@ -40,6 +40,7 @@ class Object : public sf::Sprite{
 		void setCentre(sf::Vector2f centre);
 		void setCentre(float x, float y);
 		void setTexture(std::string file);
+		void setTexture(sf::Texture& texture);
 		
 		virtual void draw();
 		virtual void pass(sf::Time);

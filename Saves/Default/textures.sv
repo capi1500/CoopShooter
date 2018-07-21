@@ -30,3 +30,6 @@ Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_brown_new.png rod
 Assets/Textures/Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png slab 0 0 32 16 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/wand/gem_gold_new.png staff 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/staff_ruby.png staffRubyEquiped 0 0 32 32 ;
+Assets/Textures/blackScr.png blackScr ;
+Assets/Textures/blackScr2.png blackScr2 ;
+Assets/Textures/test.png logo ;

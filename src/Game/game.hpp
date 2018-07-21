@@ -21,6 +21,9 @@
 #include <src/ContactListener/contactListener.hpp>
 #include <src/ItemManager/itemManager.hpp>
 #include <src/TemplateManager/templateManager.hpp>
+#include <src/GraphicAlphabet/graphicAlphabet.hpp>
+#include <src/GraphicString/graphicString.hpp>
+#include <src/MenuManager/menuManager.hpp>
 
 class Game{
 	private:
@@ -36,11 +39,14 @@ class Game{
 		TemplateManager templateManager;
 		ItemManager itemManager;
 		Loader loader;
+		GraphicAlphabet graphicAlphabet;
+		MenuManager menuManager;
 		
 		sf::Clock clock;
 		sf::Time time;
 		sf::View player1view;
 		sf::View player2view;
+		sf::View fullScreenView;
 		bool timeSet;
 	public:
 		sf::RenderWindow& getWindow();
@@ -55,6 +61,9 @@ class Game{
 		TemplateManager& getTemplateManager();
 		sf::View& getPlayer1View();
 		sf::View& getPlayer2View();
+		sf::View& getFullScreenView();
+		GraphicAlphabet& getGraphicAlphabet();
+		MenuManager& getMenuManager();
 		
 		void restartClock();
 		sf::Time getTime();

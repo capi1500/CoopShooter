@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 14.4546 -7.97273
+		position 88.0138 -0.972726
 		name player1
 		texture humanMale
 	}
@@ -20,7 +20,7 @@ Player{
 		isFacingLeft true
 		equiped 0
 		EQ{
-			staff 8 14787
+			staff 20 36254
 			nothing 0
 			nothing 0
 			nothing 0

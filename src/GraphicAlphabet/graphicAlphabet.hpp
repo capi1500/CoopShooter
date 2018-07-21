@@ -5,7 +5,10 @@
 #ifndef MAIN_GRAPHICALPHABET_HPP
 #define MAIN_GRAPHICALPHABET_HPP
 
-#include <src/Game/game.hpp>
+#include <SFML/Graphics/Image.hpp>
+#include <map>
+
+class Game;
 
 class GraphicAlphabet{
 	private:
@@ -15,7 +18,11 @@ class GraphicAlphabet{
 		unsigned width;
 		unsigned height;
 	public:
-	
+		void drawChar(char val, sf::Vector2f position, sf::Vector2f localScale, sf::Color color = sf::Color(255, 255, 255));
+		const unsigned int getHeight() const;
+		const unsigned int getWidth() const;
+		
+		GraphicAlphabet(Game& gameRef);
 };
 
 #endif //MAIN_GRAPHICALPHABET_HPP

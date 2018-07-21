@@ -43,6 +43,10 @@ void Object::setTexture(std::string file){
 	Sprite::setTexture(gameRef.getTextureManager().getTexture(objectProperties.texture));
 }
 
+void Object::setTexture(sf::Texture& texture){
+	Sprite::setTexture(texture);
+}
+
 void Object::setCentre(float x, float y){
 	setCentre(sf::Vector2f(x, y));
 }

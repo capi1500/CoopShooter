@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 89 -0.972727
+		position 89.0273 -0.972727
 		name player2
 		texture humanMale
 	}
@@ -20,8 +20,8 @@ Player{
 		isFacingLeft false
 		equiped 1
 		EQ{
-			rodBrown 10 14787
-			bow 1 14787
+			rodBrown 10 36254
+			bow 1 36254
 			nothing 0
 			nothing 0
 			nothing 0

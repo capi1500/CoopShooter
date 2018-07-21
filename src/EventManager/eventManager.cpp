@@ -15,82 +15,83 @@ void EventManager::handleEvents(sf::Event event){
 	if(event.type == sf::Event::Closed){
 		gameRef.getWindow().close();
 	}
-	if(event.type == sf::Event::Resized){
+	else if(event.type == sf::Event::Resized){
 		gameRef.getPlayer1View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
 		gameRef.getPlayer2View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
 	}
-	if(event.type == sf::Event::KeyPressed){
+	else if(event.type == sf::Event::MouseButtonPressed){
+		addEvent(Event("mouseButtonPressed"));
+	}
+	else if(event.type == sf::Event::KeyPressed){
 		if(event.key.code == sf::Keyboard::Escape){
-			gameRef.getWindow().close();
+			if(gameRef.getMenuManager().getActiveName() == "play"){
+				addEvent(Event("changeMenu", "pause"));
+			}
+			else if(gameRef.getMenuManager().getActiveName() == "pause"){
+				addEvent(Event("changeMenu", "play"));
+			}
 		}
-		if(event.key.code == sf::Keyboard::R){
-			gameRef.getWorld().removeAll();
-			gameRef.getLoader().load("Default");
-		}
-		if(event.key.code == sf::Keyboard::V){
-			gameRef.getLoader().save("Temp");
-		}
-		if(event.key.code == sf::Keyboard::B){
-			gameRef.getWorld().removeAll();
-			gameRef.getLoader().load("Temp");
-		}
-		if(event.key.code == sf::Keyboard::Q){
-			addEvent(Event("equipPrevious", "player1"));
-		}
-		if(event.key.code == sf::Keyboard::E){
-			addEvent(Event("equipNext", "player1"));
-		}
-		if(event.key.code == sf::Keyboard::U){
-			addEvent(Event("equipPrevious", "player2"));
-		}
-		if(event.key.code == sf::Keyboard::O){
-			addEvent(Event("equipNext", "player2"));
-		}
-		if(event.key.code == sf::Keyboard::Z){
-			addEvent(Event("remove", "player1"));
-		}
-		if(event.key.code == sf::Keyboard::M){
-			addEvent(Event("remove", "player2"));
-		}
-		if(event.key.code == sf::Keyboard::X){
-			addEvent(Event("throw", "player1"));
-		}
-		if(event.key.code == sf::Keyboard::Comma){
-			addEvent(Event("throw", "player2"));
+		if(gameRef.getMenuManager().getActive()->getMenuProperties().gameRunning){
+			if(event.key.code == sf::Keyboard::Q){
+				addEvent(Event("equipPrevious", "player1"));
+			}
+			else if(event.key.code == sf::Keyboard::E){
+				addEvent(Event("equipNext", "player1"));
+			}
+			else if(event.key.code == sf::Keyboard::U){
+				addEvent(Event("equipPrevious", "player2"));
+			}
+			else if(event.key.code == sf::Keyboard::O){
+				addEvent(Event("equipNext", "player2"));
+			}
+			else if(event.key.code == sf::Keyboard::Z){
+				addEvent(Event("remove", "player1"));
+			}
+			else if(event.key.code == sf::Keyboard::M){
+				addEvent(Event("remove", "player2"));
+			}
+			else if(event.key.code == sf::Keyboard::X){
+				addEvent(Event("throw", "player1"));
+			}
+			else if(event.key.code == sf::Keyboard::Comma){
+				addEvent(Event("throw", "player2"));
+			}
 		}
 	}
 }
 
 void EventManager::handleEvents(){
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-		addEvent(Event("jump", "player1"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
-		addEvent(Event("jump", "player2"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-		addEvent(Event("moveLeft", "player1"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
-		addEvent(Event("moveLeft", "player2"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-		addEvent(Event("moveRight", "player1"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
-		addEvent(Event("moveRight", "player2"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-		addEvent(Event("moveDown", "player1"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)){
-		addEvent(Event("moveDown", "player2"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
-		addEvent(Event("bulletShot", "player1"));
-	}
-	if(sf::Keyboard::isKeyPressed(sf::Keyboard::SemiColon)){
-		addEvent(Event("bulletShot", "player2"));
+	if(gameRef.getMenuManager().getActive()->getMenuProperties().gameRunning){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+			addEvent(Event("jump", "player1"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)){
+			addEvent(Event("jump", "player2"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+			addEvent(Event("moveLeft", "player1"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)){
+			addEvent(Event("moveLeft", "player2"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+			addEvent(Event("moveRight", "player1"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)){
+			addEvent(Event("moveRight", "player2"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+			addEvent(Event("moveDown", "player1"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)){
+			addEvent(Event("moveDown", "player2"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)){
+			addEvent(Event("bulletShot", "player1"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::SemiColon)){
+			addEvent(Event("bulletShot", "player2"));
+		}
 	}
 	Event toProcess;
 	while(not events.empty()){
@@ -192,6 +193,34 @@ void EventManager::handleEvents(){
 				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
 			}
+		}
+		else if(toProcess.what == "changeMenu"){
+			if(gameRef.getMenuManager().exitst(toProcess.object1)){
+				if(gameRef.getMenuManager().getActive()->getMenuProperties().gameRunning and not gameRef.getMenuManager().getMenu(toProcess.object1)->getMenuProperties().gameRunning){
+					gameRef.getLoader().save("Temp");
+				}
+				else if(gameRef.getMenuManager().getMenu(toProcess.object1)->getMenuProperties().gameRunning and not gameRef.getMenuManager().getActive()->getMenuProperties().gameRunning){
+					gameRef.getLoader().load("Temp");
+				}
+				gameRef.getWindow().setMouseCursorVisible(toProcess.object1 != "play");
+				gameRef.getMenuManager().setActive(toProcess.object1);
+			}
+		}
+		else if(toProcess.what == "load"){
+			gameRef.getLoader().load(toProcess.object1);
+			gameRef.getWindow().setMouseCursorVisible(false);
+			gameRef.getMenuManager().setActive("play");
+		}
+		else if(toProcess.what == "newGame"){
+			gameRef.getLoader().load("Default");
+			gameRef.getWindow().setMouseCursorVisible(false);
+			gameRef.getMenuManager().setActive("play");
+		}
+		else if(toProcess.what == "mouseButtonPressed"){
+			gameRef.getMenuManager().getActive()->mouseClicked(sf::Vector2f(sf::Mouse::getPosition(gameRef.getWindow()).x, sf::Mouse::getPosition(gameRef.getWindow()).y));
+		}
+		else if(toProcess.what == "exit"){
+			gameRef.getWindow().close();
 		}
 		events.pop();
 	}

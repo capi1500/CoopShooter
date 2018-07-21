@@ -520,7 +520,7 @@ void Loader::loadTemplate(std::string path){
 
 void Loader::load(std::string path){
 	objectLoadedID = 0;
-	//gameRef.restartClock();
+	gameRef.getWorld().removeAll();
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
 		loadTemplate("Saves/" + path + "/template.sv");

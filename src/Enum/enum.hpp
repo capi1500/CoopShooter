@@ -20,7 +20,11 @@ enum class ObjectClass{
 		Item,
 		Weapon,
 		WorldObject,
-		Collectible
+		Collectible,
+		GraphicString,
+		Label,
+		Button,
+		Menu
 };
 
 enum class PhysicObjectShape{
