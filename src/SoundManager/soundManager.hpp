@@ -5,8 +5,23 @@
 #ifndef COOPSHOOTER_SOUNDMANAGER_HPP
 #define COOPSHOOTER_SOUNDMANAGER_HPP
 
-class SoundManager{
+#include <vector>
+#include <src/Sound/sound.hpp>
+#include <map>
 
+class Game;
+
+class SoundManager{
+	private:
+		Game& game;
+		std::map<std::string, Sound*> sounds;
+	public:
+		void addSound(std::string name, std::string path);
+		
+		void playSound(std::string name);
+		void pauseSound(std::string name);
+		
+		SoundManager(Game& gameRef);
 };
 
 #endif //COOPSHOOTER_SOUNDMANAGER_HPP

@@ -8,6 +8,10 @@ void MenuManager::addMenu(std::string name){
 	menus[name] = new Menu(gameRef);
 }
 
+void MenuManager::addMenu(std::string name, Menu* menu){
+	menus[name] = menu;
+}
+
 bool MenuManager::exitst(std::string name){
 	return menus.find(name) != menus.end();
 }

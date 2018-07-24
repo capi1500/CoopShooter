@@ -9,6 +9,7 @@ WeaponProperties::WeaponProperties(){
 	ammo = -1;
 	bulletTexture = "bullet";
 	bulletDistance = 10;
+	shotSound = "";
 }
 
 WeaponProperties::WeaponProperties(ItemProperties itemProperties, sf::Time delay, int dmg, int bulletSpeed, int ammo, sf::Time reloadSpeed, std::string bulletTexture, float bulletDistance) : ItemProperties(itemProperties), attackDelay(delay), dmg(dmg), bulletSpeed(bulletSpeed), maxAmmo(ammo), reloadSpeed(reloadSpeed), bulletTexture(bulletTexture), bulletDistance(bulletDistance){

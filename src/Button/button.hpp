@@ -7,11 +7,11 @@
 
 #include <src/Label/label.hpp>
 
-struct ButtonProperties : public ObjectProperties{
+struct ButtonProperties : public LabelProperties{
 	Event onClick;
 	bool isClicked;
 	
-	ButtonProperties(ObjectProperties objectProperties, Event onClick, bool clicked = false);
+	ButtonProperties(LabelProperties labelProperties, Event onClick, bool clicked = false);
 	ButtonProperties();
 };
 

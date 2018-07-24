@@ -17,6 +17,7 @@ class MenuManager{
 		std::map<std::string, Menu*> menus;
 	public:
 		void addMenu(std::string name);
+		void addMenu(std::string name, Menu* menu);
 		Menu* getMenu(std::string name);
 		bool exitst(std::string name);
 		Menu* getActive();

@@ -17,6 +17,8 @@ struct MenuProperties : public ObjectProperties{
 	std::vector<Label*> labels;
 	
 	MenuProperties();
+	MenuProperties(const MenuProperties& menuProperties);
+	void addLabel(Label* label);
 };
 
 class Menu : public Object{

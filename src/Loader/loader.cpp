@@ -5,6 +5,8 @@
 #include "loader.hpp"
 #include <src/Game/game.hpp>
 #include <fstream>
+#include <src/Button/button.hpp>
+#include <src/Menu/menu.hpp>
 
 void Loader::objectload(){
 	std::string input;
@@ -215,6 +217,9 @@ void Loader::weaponload(){
 			file >> weaponProperties.bulletDistance;
 			weaponProperties.bulletDistance *= blockSize.x;
 		}
+		else if(input == "shotSound"){
+			file >> weaponProperties.shotSound;
+		}
 		file >> input;
 	}
 }
@@ -270,6 +275,118 @@ void Loader::bulletload(){
 			file >> bulletProperties.startPosition.x >> bulletProperties.startPosition.y;
 			bulletProperties.startPosition.x *= blockSize.x;
 			bulletProperties.startPosition.y *= blockSize.y;
+		}
+		file >> input;
+	}
+}
+
+void Loader::menuload(){
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "name"){
+			file >> menuProperties.name;
+		}
+		else if(input == "Labels{"){
+			file >> input;
+			while(input != "}"){
+				if(input == "Label{"){
+					labelload();
+					menuProperties.addLabel(new Label(gameRef, labelProperties));
+				}
+				else if(input == "Button{"){
+					buttonload();
+					menuProperties.addLabel(new Button(gameRef, buttonProperties));
+				}
+				file >> input;
+			}
+		}
+		else if(input == "gameRunning"){
+			file >> input;
+			if(input == "true"){
+				menuProperties.gameRunning = true;
+			}
+			else{
+				menuProperties.gameRunning = false;
+			}
+		}
+		else if(input == "gameDraw"){
+			file >> input;
+			if(input == "true"){
+				menuProperties.gameDraw = true;
+			}
+			else{
+				menuProperties.gameDraw	= false;
+			}
+		}
+		file >> input;
+	}
+}
+
+void Loader::labelload(){
+	labelProperties = LabelProperties();
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "texture"){
+			file >> labelProperties.texture;
+		}
+		else if(input == "displayText"){
+			file >> input;
+			if(input == "true"){
+				labelProperties.displayText = true;
+			}
+			else{
+				labelProperties.displayText = false;
+			}
+		}
+		else if(input == "text"){
+			labelProperties.name = loadFormatedString();
+		}
+		file >> input;
+	}
+}
+
+void Loader::buttonload(){
+	buttonProperties = ButtonProperties();
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "texture"){
+			file >> labelProperties.texture;
+		}
+		else if(input == "displayText"){
+			file >> input;
+			if(input == "true"){
+				buttonProperties.displayText = true;
+			}
+			else{
+				buttonProperties.displayText = false;
+			}
+		}
+		else if(input == "Event{"){
+			eventload();
+			buttonProperties.onClick = event;
+		}
+		else if(input == "text"){
+			buttonProperties.name = loadFormatedString();
+		}
+		file >> input;
+	}
+}
+
+void Loader::eventload(){
+	std::string input;
+	file >> input;
+	while(input != "}"){
+		if(input == "what"){
+			file >> event.what;
+		}
+		else if(input == "par1"){
+			file >> event.object1;
+		}
+		else if(input == "par2"){
+			file >> event.object2;
 		}
 		file >> input;
 	}
@@ -518,6 +635,52 @@ void Loader::loadTemplate(std::string path){
 	file.close();
 }
 
+void Loader::loadMenu(std::string path){
+	file.open(path);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	std::string input;
+	while(file >> input){
+		if(input == "Menu{"){
+			menuProperties = MenuProperties();
+			menuload();
+			gameRef.getMenuManager().addMenu(menuProperties.name, new Menu(gameRef, menuProperties));
+			for(auto i : menuProperties.labels){
+				if(i->getClassName() == ObjectClass::Label){
+					gameRef.getMenuManager().getMenu(menuProperties.name)->addLabel(new Label(gameRef, i->getLabelProperties()));
+				}
+				else if(i->getClassName() == ObjectClass::Button){
+					gameRef.getMenuManager().getMenu(menuProperties.name)->addLabel(new Button(gameRef, dynamic_cast<Button*>(i)->getButtonProperties()));
+				}
+			}
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().gameDraw = menuProperties.gameDraw;
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().gameRunning = menuProperties.gameRunning;
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().opacity = menuProperties.opacity;
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().menuHeight = menuProperties.menuHeight;
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().splitScreen = menuProperties.splitScreen;
+		}
+		else if(input == "active"){
+			file >> input;
+			gameRef.getMenuManager().setActive(input);
+		}
+	}
+}
+
+std::string Loader::loadFormatedString(){
+	std::string out;
+	char input;
+	do{
+		input = file.get();
+	}while(input != '"');
+	input = file.get();
+	while(input != '"'){
+		out += input;
+		input = file.get();
+	}
+	return out;
+}
+
 void Loader::load(std::string path){
 	objectLoadedID = 0;
 	gameRef.getWorld().removeAll();
@@ -644,6 +807,7 @@ void Loader::weaponsave(Weapon* weapon){
 	file << "\t\tbulletTexture " << weapon->getWeaponProperties().bulletTexture << "\n";
 	file << "\t\tbulletDistance " << weapon->getWeaponProperties().bulletDistance / blockSize.x << "\n";
 	file << "\t\treloading " << (weapon->getWeaponProperties().reloading ? "true" : "false") << "\n";
+	file << "\t\tshotSound " << weapon->getWeaponProperties().shotSound << "\n";
 	file << "\t}\n";
 }
 

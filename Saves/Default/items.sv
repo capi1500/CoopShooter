@@ -16,6 +16,7 @@ Weapon{
         maxAmmo 1
         bulletTexture arrow
         bulletDistance 50
+        shotSound arrow
     }
 }
 Weapon{
@@ -36,6 +37,7 @@ Weapon{
         maxAmmo 10
         bulletTexture laser
         bulletDistance 20
+        shotSound magicMissle
     }
 }
 Weapon{
@@ -56,6 +58,7 @@ Weapon{
         maxAmmo 20
         bulletTexture fireball
         bulletDistance 30
+        shotSound fireball
     }
 }
 Item{

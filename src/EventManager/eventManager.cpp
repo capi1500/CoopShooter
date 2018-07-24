@@ -101,6 +101,7 @@ void EventManager::handleEvents(){
 			Entity * entity = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1));
 			if(entity->onGround()){
 				entity->addVelocity(sf::Vector2f(0, -entity->getEntityProperties().jumpHeight));
+				gameRef.getSoundManager().playSound("jump");
 			}
 		}
 		else if(toProcess.what == "moveLeft"){
@@ -120,11 +121,13 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "equipNext"){
 			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead){
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipNext();
+				gameRef.getSoundManager().playSound("eqChange");
 			}
 		}
 		else if(toProcess.what == "equipPrevious"){
 			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead){
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->equipPrevious();
+				gameRef.getSoundManager().playSound("eqChange");
 			}
 		}
 		else if(toProcess.what == "bulletHit"){
@@ -163,6 +166,7 @@ void EventManager::handleEvents(){
 				}
 				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * bulletSpeed, 0);
 				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, bulletSpeed, bulletDmg, weaponProperties.bulletDistance, objectProperties.position)));
+				gameRef.getSoundManager().playSound(weaponProperties.shotSound);
 			}
 		}
 		else if(toProcess.what == "collectSth"){
@@ -177,6 +181,7 @@ void EventManager::handleEvents(){
 							dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
 						}
 						gameRef.getWorld().removeObject(toProcess.object1);
+						gameRef.getSoundManager().playSound("collect");
 					}
 				}
 			}

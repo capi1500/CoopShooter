@@ -18,6 +18,7 @@ struct WeaponProperties : public ItemProperties{
 	std::string bulletTexture;
 	float bulletDistance;
 	sf::Time timeSinceReloadStarted;
+	std::string shotSound;
 	
 	WeaponProperties getWeaponProperties();
 	void setItemProperties(ItemProperties itemProperties);

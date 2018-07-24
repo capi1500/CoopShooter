@@ -1,11 +1,11 @@
 blockSize 33 33
 startPos 0 0
-time 0.016717
+time 0.01673
 Collectible{
 	ObjectProperties{
-		position 32 -2.5
-		name collectible1056.000000--82.500000
-		texture fasterShooting
+		position 79 -3
+		name collectible2607.000000--99.000000
+		texture fasterShots
 	}
 	PhysicObjectProperties{
 		type kinematic
@@ -16,7 +16,7 @@ Collectible{
 		velocity 0 0
 	}
 	CollectibleProperties{
-		what fasterShooting
+		what fasterShots
 		boostTime 5000
 	}
 }
@@ -24,7 +24,7 @@ Collectible{
 	ObjectProperties{
 		position 10 -3
 		name collectible330.000000--99.000000
-		texture fasterShooting
+		texture heal
 	}
 	PhysicObjectProperties{
 		type kinematic
@@ -35,26 +35,7 @@ Collectible{
 		velocity 0 0
 	}
 	CollectibleProperties{
-		what fasterShooting
-		boostTime 5000
-	}
-}
-Collectible{
-	ObjectProperties{
-		position 2 -2.5
-		name collectible66.000000--82.500000
-		texture hpUp
-	}
-	PhysicObjectProperties{
-		type kinematic
-		shape circle
-		density 1
-		friction 0.3
-		angle 0
-		velocity 0 0
-	}
-	CollectibleProperties{
-		what hpUp
+		what heal
 		boostTime 0
 	}
 }

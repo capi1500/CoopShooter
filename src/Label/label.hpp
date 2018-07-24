@@ -6,14 +6,24 @@
 #define MAIN_LABEL_HPP
 
 #include <src/GraphicString/graphicString.hpp>
+#include <src/Object/object.hpp>
+
+struct LabelProperties : public ObjectProperties{
+	bool displayText;
+	
+	LabelProperties();
+	LabelProperties(ObjectProperties objectProperties, bool displayText = true);
+};
 
 class Label : public GraphicString{
 	protected:
-		bool displayText;
+		LabelProperties labelProperties;
 	public:
+		LabelProperties& getLabelProperties();
+		
 		void draw();
 		
-		Label(Game& gameRef, ObjectProperties objectProperties, bool displayText = true);
+		Label(Game& gameRef, LabelProperties labelProperties);
 };
 
 #endif //MAIN_LABEL_HPP

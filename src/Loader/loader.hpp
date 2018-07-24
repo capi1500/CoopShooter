@@ -16,6 +16,9 @@
 #include <fstream>
 #include <src/TemplateManager/templateManager.hpp>
 #include <src/Collectible/collectible.hpp>
+#include <src/Event/event.hpp>
+#include <src/Menu/menu.hpp>
+#include <src/Button/button.hpp>
 
 class Game;
 
@@ -30,6 +33,7 @@ class Loader{
 		int objectLoadedID;
 		std::string templateName;
 		Template temp;
+		Event event;
 		ObjectProperties objectProperties;
 		PhysicObjectProperties physicObjectProperties;
 		EntityProperties entityProperties;
@@ -39,6 +43,9 @@ class Loader{
 		WeaponProperties weaponProperties;
 		WorldObjectProperties worldObjectProperties;
 		CollectibleProperties collectibleProperties;
+		MenuProperties menuProperties;
+		ButtonProperties buttonProperties;
+		LabelProperties labelProperties;
 		
 		void objectload();
 		void physicObjectload();
@@ -49,9 +56,14 @@ class Loader{
 		void itemload();
 		void weaponload();
 		void worldObjectload();
+		void labelload();
+		void buttonload();
+		void eventload();
+		void menuload();
 		
 		void loadProperties(bool clean = true);
 		void loadTemplate();
+		std::string loadFormatedString();
 		
 		void loadTemplate(std::string path);
 		void loadTextures(std::string path);
@@ -78,6 +90,7 @@ class Loader{
 	public:
 		void load(std::string path);
 		void save(std::string path);
+		void loadMenu(std::string path);
 		
 		Loader(Game& gameRef);
 };

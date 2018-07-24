@@ -7,19 +7,33 @@
 #include "menu.hpp"
 
 MenuProperties::MenuProperties(){
-	gameRunning = true;
+	gameRunning = false;
+	gameDraw = false;
 	opacity = 0.f;
 	splitScreen = false;
 	menuHeight = 0;
+}
+
+MenuProperties::MenuProperties(const MenuProperties& menuProperties){
+	gameRunning = menuProperties.gameRunning;
+	opacity = menuProperties.opacity;
+	splitScreen = menuProperties.splitScreen;
+	menuHeight = menuProperties.menuHeight;
+	gameDraw = menuProperties.gameDraw;
+	labels = menuProperties.labels;
 }
 
 MenuProperties& Menu::getMenuProperties(){
 	return menuProperties;
 }
 
+void MenuProperties::addLabel(Label* label){
+	labels.push_back(label);
+	menuHeight += std::max(label->getGlobalBounds().height, label->getTextRect().height);
+}
+
 void Menu::addLabel(Label* label){
-	menuProperties.labels.push_back(label);
-	menuProperties.menuHeight += std::max(label->getGlobalBounds().height, label->getTextRect().height);
+	menuProperties.addLabel(label);
 }
 
 void Menu::draw(){

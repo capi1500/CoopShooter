@@ -1,12 +1,12 @@
 Weapon{
 	ObjectProperties{
-		position -0.969697 -0.969697
+		position -1.45455 -1.45455
 		name bow
 		texture bow
 	}
 	ItemProperties{
-		amount -950389584
-		isWorldObject true
+		amount 1
+		isWorldObject false
 		textureOnEquip bowEquiped
 	}
 	WeaponProperties{
@@ -19,6 +19,7 @@ Weapon{
 		bulletTexture arrow
 		bulletDistance 50
 		reloading false
+		shotSound arrow
 	}
 }
 Item{
@@ -35,12 +36,12 @@ Item{
 }
 Weapon{
 	ObjectProperties{
-		position -0.969697 -0.969697
+		position -1.45455 -1.45455
 		name rodBrown
 		texture rodBrown
 	}
 	ItemProperties{
-		amount -950495088
+		amount -709313616
 		isWorldObject true
 		textureOnEquip rodBrownEquiped
 	}
@@ -50,20 +51,21 @@ Weapon{
 		dmg 2
 		reloadSpeed 3000
 		maxAmmo 10
-		ammo 10
+		ammo 7
 		bulletTexture laser
 		bulletDistance 20
 		reloading false
+		shotSound magicMissle
 	}
 }
 Weapon{
 	ObjectProperties{
-		position -0.969697 -0.969697
+		position -1.45455 -1.45455
 		name staff
 		texture staff
 	}
 	ItemProperties{
-		amount -950495184
+		amount -709313712
 		isWorldObject true
 		textureOnEquip staffRubyEquiped
 	}
@@ -77,5 +79,6 @@ Weapon{
 		bulletTexture fireball
 		bulletDistance 30
 		reloading false
+		shotSound fireball
 	}
 }

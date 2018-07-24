@@ -10,7 +10,7 @@ ButtonProperties::ButtonProperties(){
 	isClicked = false;
 }
 
-ButtonProperties::ButtonProperties(ObjectProperties objectProperties, Event event, bool clicked) : onClick(event), isClicked(clicked), ObjectProperties(objectProperties){
+ButtonProperties::ButtonProperties(LabelProperties labelProperties, Event event, bool clicked) : onClick(event), isClicked(clicked), LabelProperties(labelProperties){
 }
 
 void Button::onClick(){
@@ -31,6 +31,7 @@ void Button::pass(sf::Time elapsedTime){
 		setTextColor(sf::Color(127, 127, 127));
 		if(not buttonProperties.isClicked){
 			buttonProperties.isClicked = true;
+			gameRef.getSoundManager().playSound("menu");
 		}
 	}
 	else{

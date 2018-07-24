@@ -142,8 +142,21 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullsc
 		loader(*this),
 		templateManager(*this),
 		graphicAlphabet(*this),
-		menuManager(*this){
+		menuManager(*this),
+		soundManager(*this){
 	loader.load("Default");
+	loader.loadMenu("Saves/Default/menu.sv");
+	soundManager.addSound("fireball", "Assets/Audio/RPG-SFX/spell_02.ogg");
+	soundManager.addSound("magicMissle", "Assets/Audio/RPG-SFX/spell_01.ogg");
+	soundManager.addSound("arrow", "Assets/Audio/RPG-SFX/wood_02.ogg");
+	soundManager.addSound("menu", "Assets/Audio/menu.wav");
+	soundManager.addSound("eqChange", "Assets/Audio/RPG-SFX/misc_01.ogg");
+	soundManager.addSound("collect", "Assets/Audio/BonusCube.ogg");
+	soundManager.addSound("jump", "Assets/Audio/jump.ogg");
+	music.openFromFile("Assets/Audio/The\ Traveller.ogg");
+	music.setLoop(true);
+	music.setVolume(30);
+	music.play();
 	physicWorld.SetContactListener(&contactListener);
 	player1view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
 	player2view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
@@ -153,32 +166,4 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullsc
 	fullScreenView.setViewport(sf::FloatRect(0, 0, 1, 1));
 	window.setFramerateLimit(60);
 	srand(std::time(NULL));
-	menuManager.addMenu("play");
-	menuManager.addMenu("pause");
-	menuManager.addMenu("mainMenu");
-	menuManager.getMenu("play")->getMenuProperties().splitScreen = false;
-	menuManager.getMenu("play")->getMenuProperties().gameRunning = true;
-	menuManager.getMenu("play")->getMenuProperties().gameDraw = true;
-	menuManager.getMenu("play")->getMenuProperties().opacity = 0;
-	menuManager.getMenu("play")->setPosition(0, 0);
-	menuManager.getMenu("pause")->getMenuProperties().splitScreen = false;
-	menuManager.getMenu("pause")->getMenuProperties().gameRunning = false;
-	menuManager.getMenu("pause")->getMenuProperties().gameDraw = false;
-	menuManager.getMenu("pause")->getMenuProperties().opacity = 0.5f;
-	menuManager.getMenu("pause")->setPosition(0, 0);
-	menuManager.getMenu("pause")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Resume", ""), Event("load", "Temp"))));
-	menuManager.getMenu("pause")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Restart", ""), Event("load", "Default"))));
-	menuManager.getMenu("pause")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Main menu", ""), Event("changeMenu", "mainMenu"))));
-	menuManager.getMenu("pause")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Exit", ""), Event("exit"))));
-	menuManager.getMenu("mainMenu")->getMenuProperties().splitScreen = false;
-	menuManager.getMenu("mainMenu")->getMenuProperties().gameRunning = false;
-	menuManager.getMenu("mainMenu")->getMenuProperties().gameDraw = false;
-	menuManager.getMenu("mainMenu")->getMenuProperties().opacity = 0.5f;
-	menuManager.getMenu("mainMenu")->setPosition(0, 0);
-	menuManager.getMenu("mainMenu")->addLabel(new Label(*this, ObjectProperties(sf::Vector2f(0, 0), "logo", "logo"), false));
-	menuManager.getMenu("mainMenu")->addLabel(new Label(*this, ObjectProperties(sf::Vector2f(0, 0), "n\n\nn", ""), false));
-	menuManager.getMenu("mainMenu")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "New Game", ""), Event("newGame"))));
-	menuManager.getMenu("mainMenu")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Resume", ""), Event("load", "Temp"))));
-	menuManager.getMenu("mainMenu")->addLabel(new Button(*this, ButtonProperties(ObjectProperties(sf::Vector2f(0, 0), "Exit", ""), Event("exit"))));
-	menuManager.setActive("mainMenu");
 }

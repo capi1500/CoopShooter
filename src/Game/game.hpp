@@ -47,6 +47,7 @@ class Game{
 		sf::View player1view;
 		sf::View player2view;
 		sf::View fullScreenView;
+		sf::Music music;
 		bool timeSet;
 	public:
 		sf::RenderWindow& getWindow();
