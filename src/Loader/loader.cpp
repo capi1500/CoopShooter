@@ -853,7 +853,7 @@ void Loader::saveSounds(std::string path){
 		throw "ERROR cannot open file '" + path + "'!";
 	}
 	for(auto i = gameRef.getSoundManager().getPaths().begin(); i != gameRef.getSoundManager().getPaths().end(); i++){
-		file << i->second << " " << i->first << "\n";
+		file << i->first << " " << i->second << "\n";
 	}
 	file.close();
 }

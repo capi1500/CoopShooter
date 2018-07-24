@@ -5,15 +5,15 @@ Weapon{
 		texture bow
 	}
 	ItemProperties{
-		amount -292196880
+		amount 807405744
 		isWorldObject true
 		textureOnEquip bowEquiped
 	}
 	WeaponProperties{
-		attackDelay 500
+		attackDelay 600
 		bulletSpeed 1000
-		dmg 6
-		reloadSpeed 500
+		dmg 7
+		reloadSpeed 1200
 		maxAmmo 1
 		ammo 1
 		bulletTexture arrow
@@ -41,19 +41,19 @@ Weapon{
 		texture rodBrown
 	}
 	ItemProperties{
-		amount -292302448
+		amount 807300176
 		isWorldObject true
 		textureOnEquip rodBrownEquiped
 	}
 	WeaponProperties{
-		attackDelay 350
+		attackDelay 250
 		bulletSpeed 1000
 		dmg 2
-		reloadSpeed 3000
+		reloadSpeed 1000
 		maxAmmo 10
 		ammo 10
 		bulletTexture laser
-		bulletDistance 20
+		bulletDistance 15
 		reloading false
 		shotSound magicMissle
 	}
@@ -65,14 +65,14 @@ Weapon{
 		texture staff
 	}
 	ItemProperties{
-		amount -292302544
+		amount 807300080
 		isWorldObject true
 		textureOnEquip staffRubyEquiped
 	}
 	WeaponProperties{
-		attackDelay 300
+		attackDelay 350
 		bulletSpeed 1000
-		dmg 2
+		dmg 3
 		reloadSpeed 3000
 		maxAmmo 20
 		ammo 20

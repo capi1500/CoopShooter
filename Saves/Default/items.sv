@@ -9,13 +9,13 @@ Weapon{
         textureOnEquip bowEquiped
     }
     WeaponProperties{
-        attackDelay 500
+        attackDelay 600
         bulletSpeed 1000
-        dmg 6
-        reloadSpeed 500
+        dmg 7
+        reloadSpeed 1000
         maxAmmo 1
         bulletTexture arrow
-        bulletDistance 50
+        bulletDistance 55
         shotSound arrow
     }
 }
@@ -30,13 +30,13 @@ Weapon{
         textureOnEquip rodBrownEquiped
     }
     WeaponProperties{
-        attackDelay 350
+        attackDelay 250
         bulletSpeed 1000
         dmg 2
-        reloadSpeed 3000
+        reloadSpeed 1000
         maxAmmo 10
         bulletTexture laser
-        bulletDistance 20
+        bulletDistance 10
         shotSound magicMissle
     }
 }
@@ -51,13 +51,13 @@ Weapon{
         textureOnEquip staffRubyEquiped
     }
     WeaponProperties{
-        attackDelay 300
+        attackDelay 400
         bulletSpeed 1000
-        dmg 2
+        dmg 3
         reloadSpeed 3000
         maxAmmo 20
         bulletTexture fireball
-        bulletDistance 30
+        bulletDistance 25
         shotSound fireball
     }
 }

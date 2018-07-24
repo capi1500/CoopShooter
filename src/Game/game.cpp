@@ -39,8 +39,10 @@ void Game::main(){
 		
 		player1view.setCenter(sf::Vector2f(0, 0));
 		player1view.move(world.getObject("player1")->getPosition().x, world.getObject("player1")->getGlobalBounds().top - window.getSize().y / 6);
+		//player1view.setSize(sf::Vector2f(window.getSize().x / 1.5f, window.getSize().y / 3));
 		player2view.setCenter(sf::Vector2f(0, 0));
 		player2view.move(world.getObject("player2")->getPosition().x, world.getObject("player2")->getGlobalBounds().top - window.getSize().y / 6);
+		//player2view.setSize(sf::Vector2f(window.getSize().x / 1.5f, window.getSize().y / 3));
 		fullScreenView.setSize(window.getSize().x, window.getSize().y);
 		fullScreenView.setCenter(window.getSize().x / 2, window.getSize().y / 2);
 		window.clear();
@@ -145,20 +147,13 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullsc
 		menuManager(*this),
 		soundManager(*this){
 	loader.load("Default");
-	loader.loadMenu("Saves/Default/menu.sv");
-	/*soundManager.addSound("fireball", "Assets/Audio/RPG-SFX/spell_02.ogg");
-	soundManager.addSound("magicMissle", "Assets/Audio/RPG-SFX/spell_01.ogg");
-	soundManager.addSound("arrow", "Assets/Audio/RPG-SFX/wood_02.ogg");
-	soundManager.addSound("menu", "Assets/Audio/menu.wav");
-	soundManager.addSound("eqChange", "Assets/Audio/RPG-SFX/misc_01.ogg");
-	soundManager.addSound("collect", "Assets/Audio/BonusCube.ogg");
-	soundManager.addSound("jump", "Assets/Audio/jump.ogg");*/
+	loader.loadMenu("Saves/menu.sv");
 	music.openFromFile("Assets/Audio/The\ Traveller.ogg");
 	music.setLoop(true);
-	music.setVolume(30);
+	music.setVolume(10);
 	music.play();
 	physicWorld.SetContactListener(&contactListener);
-	player1view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
+	player1view.setSize(sf::Vector2f(window.getSize().x * 2, window.getSize().y));
 	player2view.setSize(sf::Vector2f(window.getSize().x, window.getSize().y / 2));
 	fullScreenView.setSize(sf::Vector2f(window.getSize().x, window.getSize().y));
 	player1view.setViewport(sf::FloatRect(0, 0, 1, 0.5f));
