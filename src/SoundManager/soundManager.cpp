@@ -5,8 +5,17 @@
 #include "soundManager.hpp"
 #include <src/Sound/sound.hpp>
 
+std::map<std::string, Sound*>& SoundManager::getSounds(){
+	return sounds;
+}
+
+std::map<std::string, std::string>& SoundManager::getPaths(){
+	return paths;
+}
+
 void SoundManager::addSound(std::string name, std::string path){
 	sounds[name] = new Sound(path);
+	paths[name] = path;
 }
 
 void SoundManager::playSound(std::string name){

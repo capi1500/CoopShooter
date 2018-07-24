@@ -67,6 +67,7 @@ class Loader{
 		
 		void loadTemplate(std::string path);
 		void loadTextures(std::string path);
+		void loadSounds(std::string path);
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);
 		void loadItems(std::string path);
@@ -84,6 +85,7 @@ class Loader{
 		void saveProperties(Object* object);
 		
 		void saveTextures(std::string path);
+		void saveSounds(std::string path);
 		void savePlayer(std::string path, std::string name);
 		void saveLevel(std::string path);
 		void saveItems(std::string path);

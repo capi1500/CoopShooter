@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 27.9727 -0.973516
+		position 14.1767 -8.20899
 		name player1
 		texture humanMale
 	}
@@ -10,17 +10,17 @@ Player{
 		density 1
 		friction 0.1
 		angle 0
-		velocity 0 0
+		velocity 140 56.9375
 	}
 	EntityProperties{
 		maxHP 10
-		HP 4
+		HP 10
 		jumpHeight 300
 		movementSpeed 10
 		isFacingLeft true
 		equiped 0
 		EQ{
-			staff 0 1609
+			staff 11 7377
 			nothing 0
 			nothing 0
 			nothing 0

@@ -146,13 +146,13 @@ Game::Game() : window(sf::VideoMode(900, 900), "Coop Shooter", sf::Style::Fullsc
 		soundManager(*this){
 	loader.load("Default");
 	loader.loadMenu("Saves/Default/menu.sv");
-	soundManager.addSound("fireball", "Assets/Audio/RPG-SFX/spell_02.ogg");
+	/*soundManager.addSound("fireball", "Assets/Audio/RPG-SFX/spell_02.ogg");
 	soundManager.addSound("magicMissle", "Assets/Audio/RPG-SFX/spell_01.ogg");
 	soundManager.addSound("arrow", "Assets/Audio/RPG-SFX/wood_02.ogg");
 	soundManager.addSound("menu", "Assets/Audio/menu.wav");
 	soundManager.addSound("eqChange", "Assets/Audio/RPG-SFX/misc_01.ogg");
 	soundManager.addSound("collect", "Assets/Audio/BonusCube.ogg");
-	soundManager.addSound("jump", "Assets/Audio/jump.ogg");
+	soundManager.addSound("jump", "Assets/Audio/jump.ogg");*/
 	music.openFromFile("Assets/Audio/The\ Traveller.ogg");
 	music.setLoop(true);
 	music.setVolume(30);

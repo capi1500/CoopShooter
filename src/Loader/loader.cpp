@@ -595,6 +595,19 @@ void Loader::loadTextures(std::string path){
 	file.close();
 }
 
+void Loader::loadSounds(std::string path){
+	file.open(path);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	std::string input, name;
+	while(file >> input){
+		file >> name;
+		gameRef.getSoundManager().addSound(input, name);
+	}
+	file.close();
+}
+
 void Loader::loadItems(std::string path){
 	file.open(path);
 	if(not file.is_open()){
@@ -686,6 +699,7 @@ void Loader::load(std::string path){
 	gameRef.getWorld().removeAll();
 	try{
 		loadTextures("Saves/" + path + "/textures.sv");
+		loadSounds("Saves/" + path + "/sounds.sv");
 		loadTemplate("Saves/" + path + "/template.sv");
 		loadLevel("Saves/" + path + "/level.sv");
 		loadItems("Saves/" + path + "/items.sv");
@@ -833,6 +847,17 @@ void Loader::saveTextures(std::string path){
 	file.close();
 }
 
+void Loader::saveSounds(std::string path){
+	file.open(path, std::fstream::out | std::fstream::trunc);
+	if(not file.is_open()){
+		throw "ERROR cannot open file '" + path + "'!";
+	}
+	for(auto i = gameRef.getSoundManager().getPaths().begin(); i != gameRef.getSoundManager().getPaths().end(); i++){
+		file << i->second << " " << i->first << "\n";
+	}
+	file.close();
+}
+
 void Loader::saveItems(std::string path){
 	file.open(path, std::fstream::out | std::fstream::trunc);
 	if(not file.is_open()){
@@ -929,6 +954,7 @@ void Loader::save(std::string path){
 		system(("mkdir Saves/" + path + "/").c_str());
 		system(("touch Saves/" + path + "/template.sv").c_str());
 		saveTextures("Saves/" + path + "/textures.sv");
+		saveSounds("Saves/" + path + "/sounds.sv");
 		saveItems("Saves/" + path + "/items.sv");
 		saveLevel("Saves/" + path + "/level.sv");
 		savePlayer("Saves/" + path + "/player1.sv", "player1");
