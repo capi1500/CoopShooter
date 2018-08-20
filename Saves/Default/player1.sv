@@ -16,7 +16,8 @@ Player{
         jumpHeight 300
         movementSpeed 10
         EQ{
-            staff 20 0
+            dagger 1 0
+            laserRod 50 0
         }
     }
     PlayerProperties{

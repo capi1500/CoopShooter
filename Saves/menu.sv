@@ -67,4 +67,41 @@ Menu{
     gameRunning true
     gameDraw true
 }
+Menu{
+    name editor
+    gameRunning false
+    gameDraw true
+}
+Menu{
+    name editorPause
+    Labels{
+        Button{
+            text "Resume"
+            Event{
+                what changeMenu
+                par1 editor
+            }
+        }
+        Button{
+            text "Save"
+            Event{
+                what save
+                par1 Saved
+            }
+        }
+        Button{
+            text "Main menu"
+            Event{
+                what changeMenu
+                par1 mainMenu
+            }
+        }
+        Button{
+            text "Exit"
+            Event{
+                what exit
+            }
+        }
+    }
+}
 active mainMenu

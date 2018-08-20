@@ -141,7 +141,7 @@ void World::passAll(sf::Time elapsedTime){
 				boostTime = sf::seconds(5);
 			}
 			else if(random == 6){
-				random = rand() % 3;
+				random = rand() % 5;
 				if(random == 0){
 					what = "rodBrown";
 				}
@@ -150,6 +150,12 @@ void World::passAll(sf::Time elapsedTime){
 				}
 				else if(random == 2){
 					what = "staff";
+				}
+				else if(random == 3){
+					what = "dagger";
+				}
+				else if(random == 4){
+					what = "laserRod";
 				}
 			}
 			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), what, boostTime)));

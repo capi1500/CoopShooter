@@ -38,10 +38,10 @@ void Game::main(){
 		menuManager.getActive()->pass(time);
 		
 		player1view.setCenter(sf::Vector2f(0, 0));
-		player1view.move(world.getObject("player1")->getPosition().x, world.getObject("player1")->getGlobalBounds().top - window.getSize().y / 6);
+		player1view.move(world.getObject("player1")->getPosition().x, world.getObject("player1")->getGlobalBounds().top);
 		//player1view.setSize(sf::Vector2f(window.getSize().x / 1.5f, window.getSize().y / 3));
 		player2view.setCenter(sf::Vector2f(0, 0));
-		player2view.move(world.getObject("player2")->getPosition().x, world.getObject("player2")->getGlobalBounds().top - window.getSize().y / 6);
+		player2view.move(world.getObject("player2")->getPosition().x, world.getObject("player2")->getGlobalBounds().top);
 		//player2view.setSize(sf::Vector2f(window.getSize().x / 1.5f, window.getSize().y / 3));
 		fullScreenView.setSize(window.getSize().x, window.getSize().y);
 		fullScreenView.setCenter(window.getSize().x / 2, window.getSize().y / 2);

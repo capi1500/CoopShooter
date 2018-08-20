@@ -29,7 +29,13 @@ Assets/Textures/Dungeon_Crawl_Stone_Soup/item/rod/rod_1_new.png rodBrown 0 0 32 
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_brown_new.png rodBrownEquiped 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png slab 0 0 32 16 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/wand/gem_gold_new.png staff 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/item/weapon/dagger_6.png dagger 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/staff_ruby.png staffRubyEquiped 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/dagger_slant_new.png daggerEquiped 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/effect/searing_ray_0.png laserBall 8 8 24 24 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/item/rod/rod_8_new.png laserRod 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_magenta_old.png laserRodEquiped 0 0 32 32 ;
+Assets/Textures/transparent.png transparent ;
 Assets/Textures/blackScr.png blackScr ;
 Assets/Textures/blackScr2.png blackScr2 ;
 Assets/Textures/test.png logo ;

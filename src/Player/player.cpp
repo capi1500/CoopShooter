@@ -4,6 +4,8 @@
 
 #include "player.hpp"
 #include <src/Game/game.hpp>
+#include <src/Timer/timer.hpp>
+#include <src/Object/object.hpp>
 
 PlayerProperties::PlayerProperties(){
 	movementSpeed = playerMovement;
@@ -84,6 +86,17 @@ void Player::drawAmmo(){
 
 void Player::drawEquipment(){
 	entityProperites.equipment.draw(gameRef);
+	sf::Vector2f position = sf::Vector2f(48 + gameRef.getWindow().getView().getCenter().x - gameRef.getWindow().getSize().x / 2, 112 + gameRef.getWindow().getView().getCenter().y - gameRef.getWindow().getSize().y / 4);
+	for(auto i : entityProperites.boosts.getBoosts()){
+		Object sprite(gameRef, ObjectProperties(position, "", i.first));
+		Timer timer(gameRef, TimerProperties(LabelProperties(ObjectProperties(sf::Vector2f(position.x, position.y + 32), "timer", ""), true), true, true, TimerPrecision::Second));
+		timer.setScale(0.75, 0.75);
+		timer.setTime(i.second);
+		sprite.setScale(2, 2);
+		sprite.draw();
+		timer.draw();
+		position.x += 64;
+	}
 }
 
 void Player::draw(){

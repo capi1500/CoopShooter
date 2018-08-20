@@ -11,6 +11,8 @@
 struct LabelProperties : public ObjectProperties{
 	bool displayText;
 	
+	LabelProperties getLabelProperties();
+	
 	LabelProperties();
 	LabelProperties(ObjectProperties objectProperties, bool displayText = true);
 };

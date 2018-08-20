@@ -30,6 +30,12 @@ void EventManager::handleEvents(sf::Event event){
 			else if(gameRef.getMenuManager().getActiveName() == "pause"){
 				addEvent(Event("changeMenu", "play"));
 			}
+			else if(gameRef.getMenuManager().getActiveName() == "editor"){
+				addEvent(Event("changeMenu", "editorPause"));
+			}
+			else if(gameRef.getMenuManager().getActiveName() == "editorPause"){
+				addEvent(Event("changeMenu", "editor"));
+			}
 		}
 		if(gameRef.getMenuManager().getActive()->getMenuProperties().gameRunning){
 			if(event.key.code == sf::Keyboard::Q){
@@ -137,6 +143,7 @@ void EventManager::handleEvents(){
 					if(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->canHit() and (object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity)){
 						dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
 						gameRef.getWorld().removeObject(toProcess.object1);
+						gameRef.getSoundManager().playSound("hit");
 					}
 					else if(object->getClassName() == ObjectClass::WorldObject){
 						gameRef.getWorld().removeObject(toProcess.object1);

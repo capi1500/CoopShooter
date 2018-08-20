@@ -5,3 +5,5 @@ menu Assets/Audio/menu.wav
 eqChange Assets/Audio/RPG-SFX/misc_01.ogg
 collect Assets/Audio/BonusCube.ogg
 jump Assets/Audio/jump.ogg
+hit Assets/Audio/RPG-SFX/creature_misc_01.ogg
+laserBall Assets/Audio/RPG-SFX/spell_fire_06.ogg

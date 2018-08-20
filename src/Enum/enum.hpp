@@ -38,4 +38,9 @@ enum class PhysicObjectType{
 		Kinematic
 };
 
+enum class TimerPrecision{
+		Millisecond,
+		Second,
+};
+
 #endif //COOPSHOOTER_ENUM_HPP

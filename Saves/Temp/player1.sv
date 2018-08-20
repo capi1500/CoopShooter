@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 47.9727 -0.975305
+		position 54.214 -0.973754
 		name player1
 		texture humanMale
 	}
@@ -13,15 +13,15 @@ Player{
 		velocity 0 0
 	}
 	EntityProperties{
-		maxHP 25
-		HP 5
+		maxHP 30
+		HP 16
 		jumpHeight 300
 		movementSpeed 10
-		isFacingLeft true
-		equiped 0
+		isFacingLeft false
+		equiped 1
 		EQ{
-			staff 8 32833
-			nothing 0
+			dagger 1 56043
+			laserRod 50 3649
 			nothing 0
 			nothing 0
 			nothing 0
@@ -34,7 +34,7 @@ Player{
 		textureLegs nothing
 		textureGloves nothing
 		textureBody gandalfBody
-		textureHandRight staffRubyEquiped
+		textureHandRight laserRodEquiped
 		textureCloak cloackGray
 		textureBeard nothing
 	}

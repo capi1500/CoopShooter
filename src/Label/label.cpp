@@ -13,6 +13,10 @@ LabelProperties::LabelProperties(){
 	displayText = true;
 }
 
+LabelProperties LabelProperties::getLabelProperties(){
+	return LabelProperties(getObjectProperties(), displayText);
+}
+
 void Label::draw(){
 	setPosition(getCentre());
 	Object::draw();

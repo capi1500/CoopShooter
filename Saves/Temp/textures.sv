@@ -10,6 +10,8 @@ Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/bow.png bowEquiped 0 
 Assets/Textures/Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png box 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/cloak/black.png cloackBlack 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/cloak/gray.png cloackGray 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/item/weapon/dagger_6.png dagger 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/dagger_slant_new.png daggerEquiped 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/potion/golden.png dmgUp 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/misc/slot.png eqItem 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/misc/slot_vehumet.png eqItemSelected 0 0 32 32 ;
@@ -23,6 +25,9 @@ Assets/Textures/health.png healthBar 0 0 28 64 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/potion/bubbly.png hpUp 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/base/human_male.png humanMale 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/effect/icicle_2.png laser 2 13 28 6 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/effect/searing_ray_0.png laserBall 8 8 24 24 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/item/rod/rod_8_new.png laserRod 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_magenta_old.png laserRodEquiped 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/legs/leg_armor_0.png legArmor0 0 0 32 32 ;
 Assets/Textures/test.png logo 0 0 1024 128 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/beard/long_white.png longWhiteBeard 0 0 32 32 ;
@@ -33,3 +38,4 @@ Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_brown_new.png rod
 Assets/Textures/Dungeon_Crawl_Stone_Soup/dungeon/wall/stone_brick_1.png slab 0 0 32 16 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/wand/gem_gold_new.png staff 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/staff_ruby.png staffRubyEquiped 0 0 32 32 ;
+Assets/Textures/transparent.png transparent 0 0 1 1 ;

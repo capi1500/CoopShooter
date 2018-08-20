@@ -61,6 +61,48 @@ Weapon{
         shotSound fireball
     }
 }
+Weapon{
+    ObjectProperties{
+        name dagger
+        texture dagger
+    }
+    ItemProperties{
+        ammount 1
+        worldObject false
+        textureOnEquip daggerEquiped
+    }
+    WeaponProperties{
+        attackDelay 1000
+        bulletSpeed 500
+        dmg 100
+        reloadSpeed 1000
+        maxAmmo 1
+        bulletTexture transparent
+        bulletDistance 0.01
+        shotSound arrow
+    }
+}
+Weapon{
+    ObjectProperties{
+        name laserRod
+        texture laserRod
+    }
+    ItemProperties{
+        ammount 1
+        worldObject false
+        textureOnEquip laserRodEquiped
+    }
+    WeaponProperties{
+        attackDelay 25
+        bulletSpeed 350
+        dmg 1
+        reloadSpeed 3000
+        maxAmmo 50
+        bulletTexture laserBall
+        bulletDistance 2
+        shotSound laserBall
+    }
+}
 Item{
     ObjectProperties{
         name nothing
