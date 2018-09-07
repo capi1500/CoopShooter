@@ -36,5 +36,9 @@ std::string MenuManager::getActiveName(){
 	return active;
 }
 
+void MenuManager::clear(){
+	menus.clear();
+}
+
 MenuManager::MenuManager(Game& game) : gameRef(game){
 }

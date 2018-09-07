@@ -6,16 +6,25 @@
 
 ItemProperties::ItemProperties(){
 	textureOnEquip = "nothing";
+	isSpawnable = false;
+	amount = 0;
+	isWorldObject = false;
 }
 
 ItemProperties::ItemProperties(ObjectProperties objectProperties) : ObjectProperties(objectProperties){
 	textureOnEquip = "nothing";
+	isSpawnable = false;
+	amount = 0;
+	isWorldObject = false;
 }
 
 ItemProperties ItemProperties::getItemProperties(){
 	ItemProperties itemProperties = ItemProperties(getObjectProperties());
 	itemProperties.textureOnEquip = textureOnEquip;
-	return  itemProperties;
+	itemProperties.isSpawnable = isSpawnable;
+	itemProperties.amount = amount;
+	itemProperties.isWorldObject = isWorldObject;
+	return itemProperties;
 }
 
 void ItemProperties::setObjectProperties(ObjectProperties& objectProperties){

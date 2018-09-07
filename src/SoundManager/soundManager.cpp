@@ -26,5 +26,12 @@ void SoundManager::pauseSound(std::string name){
 	sounds[name]->pause();
 }
 
+void SoundManager::clear(){
+	for(auto& i : sounds){
+		i.second;
+	}
+	paths.clear();
+}
+
 SoundManager::SoundManager(Game& gameRef) : game(gameRef){
 }

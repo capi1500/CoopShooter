@@ -11,8 +11,9 @@
 struct MenuProperties : public ObjectProperties{
 	bool gameRunning;
 	bool gameDraw;
-	float opacity;
 	bool splitScreen;
+	bool freeCamera;
+	float opacity;
 	int menuHeight;
 	std::vector<Label*> labels;
 	

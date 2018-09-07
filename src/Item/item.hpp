@@ -11,6 +11,7 @@ struct ItemProperties : public ObjectProperties{
 	int amount;
 	bool isWorldObject;
 	std::string textureOnEquip;
+	bool isSpawnable;
 	
 	ItemProperties getItemProperties();
 	void setObjectProperties(ObjectProperties& objectProperties);

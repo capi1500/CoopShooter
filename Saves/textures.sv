@@ -35,7 +35,10 @@ Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/dagger_slant_new.png 
 Assets/Textures/Dungeon_Crawl_Stone_Soup/effect/searing_ray_0.png laserBall 8 8 24 24 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/item/rod/rod_8_new.png laserRod 0 0 32 32 ;
 Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/rod_magenta_old.png laserRodEquiped 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/item/weapon/triple_sword_3.png ohBabeItsTripleDagger 0 0 32 32 ;
+Assets/Textures/Dungeon_Crawl_Stone_Soup/player/hand_right/triple_sword_new.png ohBabeItsTripleDaggerEquiped 0 0 32 32 ;
 Assets/Textures/transparent.png transparent ;
 Assets/Textures/blackScr.png blackScr ;
 Assets/Textures/blackScr2.png blackScr2 ;
 Assets/Textures/test.png logo ;
+Assets/Textures/red.png red ;

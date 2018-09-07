@@ -7,6 +7,9 @@
 
 void ItemManager::addItem(Item* item){
 	items[item->getName()] = item;
+	if(item->getItemProperties().isSpawnable){
+		spawnableItems.push_back(item);
+	}
 }
 
 Item* ItemManager::getItem(std::string name){
@@ -14,9 +17,18 @@ Item* ItemManager::getItem(std::string name){
 }
 
 const std::map<std::string, Item*>& ItemManager::getItems() const{
-	items;
+	return items;
+}
+
+const std::vector<Item*> ItemManager::getSpawnables() const{
+	return spawnableItems;
 }
 
 bool ItemManager::exist(std::string name){
 	return items.find(name) != items.end();
+}
+
+void ItemManager::clear(){
+	spawnableItems.clear();
+	items.clear();
 }

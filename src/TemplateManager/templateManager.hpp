@@ -21,6 +21,8 @@ class TemplateManager{
 	public:
 		void addTemplate(std::string name, Template properties);
 		Template getTemplate(std::string name);
+		std::map<std::string, Template>& getTemplates();
+		void clear();
 		
 		TemplateManager(Game& gameRef);
 };

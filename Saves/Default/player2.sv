@@ -11,14 +11,15 @@ Player{
         density 1
     }
     EntityProperties{
-        maxHP 25
-        HP 25
+        maxHP 250
+        HP 250
         jumpHeight 300
         movementSpeed 10
         equiped 1
         EQ{
             rodBrown 10 0
             bow 1 0
+            laserRod 50 0
         }
     }
     PlayerProperties{

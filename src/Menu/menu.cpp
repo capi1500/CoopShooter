@@ -12,6 +12,7 @@ MenuProperties::MenuProperties(){
 	opacity = 0.f;
 	splitScreen = false;
 	menuHeight = 0;
+	freeCamera = false;
 }
 
 MenuProperties::MenuProperties(const MenuProperties& menuProperties){
@@ -21,6 +22,7 @@ MenuProperties::MenuProperties(const MenuProperties& menuProperties){
 	menuHeight = menuProperties.menuHeight;
 	gameDraw = menuProperties.gameDraw;
 	labels = menuProperties.labels;
+	freeCamera = menuProperties.freeCamera;
 }
 
 MenuProperties& Menu::getMenuProperties(){

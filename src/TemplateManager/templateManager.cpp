@@ -20,5 +20,13 @@ Template TemplateManager::getTemplate(std::string name){
 	return Template();
 }
 
+std::map<std::string, Template>& TemplateManager::getTemplates(){
+	return templates;
+}
+
+void TemplateManager::clear(){
+	templates.clear();
+}
+
 TemplateManager::TemplateManager(Game& gameRef) : gameRef(gameRef){
 }

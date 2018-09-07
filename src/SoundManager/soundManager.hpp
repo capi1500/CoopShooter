@@ -24,6 +24,7 @@ class SoundManager{
 		
 		void playSound(std::string name);
 		void pauseSound(std::string name);
+		void clear();
 		
 		SoundManager(Game& gameRef);
 };

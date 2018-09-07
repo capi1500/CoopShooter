@@ -1,6 +1,6 @@
 Player{
 	ObjectProperties{
-		position 52.1957 -5.95979
+		position 89 -0.974279
 		name player2
 		texture humanMale
 	}
@@ -10,19 +10,19 @@ Player{
 		density 1
 		friction 0.1
 		angle 0
-		velocity -20.6338 62.9413
+		velocity 0 0
 	}
 	EntityProperties{
-		maxHP 25
-		HP 0
+		maxHP 250
+		HP 250
 		jumpHeight 300
 		movementSpeed 10
 		isFacingLeft true
 		equiped 1
 		EQ{
-			rodBrown 10 56043
-			bow 1 3866
-			nothing 0
+			rodBrown 10 7346
+			bow 1 7346
+			laserRod 50 7346
 			nothing 0
 			nothing 0
 		}

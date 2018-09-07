@@ -76,8 +76,6 @@ void Entity::equip(int id){
 	entityProperites.equipment.equip(id);
 }
 
-
-
 bool Entity::ifCanShot(){
 	if(entityProperites.isDead or getEquiped()->getClassName() != ObjectClass::Weapon){
 		return false;
@@ -154,7 +152,9 @@ void Entity::pass(sf::Time elapsedTime){
 void Entity::draw(){
 	if(not entityProperites.isDead){
 		PhysicObject::draw();
-		gameRef.getWindow().draw(healthBar);
+		if(not gameRef.getMenuManager().getActive()->getMenuProperties().freeCamera){
+			gameRef.getWindow().draw(healthBar);
+		}
 	}
 }
 

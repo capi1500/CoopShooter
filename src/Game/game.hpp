@@ -24,6 +24,7 @@
 #include <src/GraphicAlphabet/graphicAlphabet.hpp>
 #include <src/GraphicString/graphicString.hpp>
 #include <src/MenuManager/menuManager.hpp>
+#include <src/Editor/editor.hpp>
 
 class Game{
 	private:
@@ -41,11 +42,14 @@ class Game{
 		Loader loader;
 		GraphicAlphabet graphicAlphabet;
 		MenuManager menuManager;
+		Editor editor;
 		
 		sf::Clock clock;
 		sf::Time time;
 		sf::View player1view;
 		sf::View player2view;
+		sf::View cameraView;
+		float cameraZoom;
 		sf::View fullScreenView;
 		sf::Music music;
 		bool timeSet;
@@ -62,10 +66,16 @@ class Game{
 		TemplateManager& getTemplateManager();
 		sf::View& getPlayer1View();
 		sf::View& getPlayer2View();
+		sf::View& getCameraView();
 		sf::View& getFullScreenView();
 		GraphicAlphabet& getGraphicAlphabet();
 		MenuManager& getMenuManager();
+		Editor& getEditor();
 		
+		void zoom(float value);
+		float getZoom();
+		sf::Vector2i pixelToCoord(sf::Vector2f pos);
+		sf::Vector2f coordToPixel(sf::Vector2i pos);
 		void restartClock();
 		sf::Time getTime();
 		void setTime(sf::Time time);

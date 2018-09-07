@@ -106,7 +106,7 @@ void World::passAll(sf::Time elapsedTime){
 	for(auto it = bullets.begin(); it != bullets.end(); it++){
 		it->second->pass(elapsedTime);
 	}
-	if(timeSinceLastBoost >= boostSpawnRate){
+	if(timeSinceLastBoost >= boostSpawnRate and boostSpawnPoint.size() != 0){
 		timeSinceLastBoost = sf::seconds(0);
 		int randPlace = rand() % boostSpawnPoint.size(), random = rand() % 7;
 		sf::Vector2f position;
@@ -141,24 +141,10 @@ void World::passAll(sf::Time elapsedTime){
 				boostTime = sf::seconds(5);
 			}
 			else if(random == 6){
-				random = rand() % 5;
-				if(random == 0){
-					what = "rodBrown";
-				}
-				else if(random == 1){
-					what = "bow";
-				}
-				else if(random == 2){
-					what = "staff";
-				}
-				else if(random == 3){
-					what = "dagger";
-				}
-				else if(random == 4){
-					what = "laserRod";
-				}
+				random = rand() % (gameRef.getItemManager().getSpawnables().size());
+				what = gameRef.getItemManager().getSpawnables()[random]->getObjectProperties().name;
 			}
-			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), what, boostTime)));
+			addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Kinematic, PhysicObjectShape::Circle), what, 0, boostTime)));
 		}
 	}
 }

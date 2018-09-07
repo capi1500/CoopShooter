@@ -10,12 +10,13 @@
 struct CollectibleProperties : public PhysicObjectProperties{
 	std::string what;
 	sf::Time boostTime;
+	int count;
 	
 	CollectibleProperties getCollectibleProperties();
 	void setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties);
 	
 	CollectibleProperties();
-	CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime = sf::seconds(0));
+	CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, int counter = 0, sf::Time boostTime = sf::seconds(0));
 };
 
 class Collectible : public PhysicObject{

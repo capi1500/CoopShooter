@@ -172,6 +172,15 @@ void Loader::itemload(){
 		else if(input == "textureOnEquip"){
 			file >> itemProperties.textureOnEquip;
 		}
+		else if(input == "spawnable"){
+			file >> input;
+			if(input == "true"){
+				weaponProperties.isSpawnable = true;
+			}
+			else{
+				weaponProperties.isSpawnable = false;
+			}
+		}
 		file >> input;
 	}
 }
@@ -215,7 +224,6 @@ void Loader::weaponload(){
 		}
 		else if(input == "bulletDistance"){
 			file >> weaponProperties.bulletDistance;
-			weaponProperties.bulletDistance *= blockSize.x;
 		}
 		else if(input == "shotSound"){
 			file >> weaponProperties.shotSound;
@@ -317,6 +325,24 @@ void Loader::menuload(){
 			}
 			else{
 				menuProperties.gameDraw	= false;
+			}
+		}
+		else if(input == "splitScreen"){
+			file >> input;
+			if(input == "true"){
+				menuProperties.splitScreen = true;
+			}
+			else{
+				menuProperties.splitScreen = false;
+			}
+		}
+		else if(input == "freeCamera"){
+			file >> input;
+			if(input == "true"){
+				menuProperties.freeCamera = true;
+			}
+			else{
+				menuProperties.freeCamera = false;
 			}
 		}
 		file >> input;
@@ -464,7 +490,7 @@ void Loader::loadTemplate(){
 void Loader::loadLevel(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input;
 	while(file >> input){
@@ -557,7 +583,7 @@ void Loader::loadLevel(std::string path){
 void Loader::loadPlayer(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input;
 	file >> input;
@@ -572,7 +598,7 @@ void Loader::loadPlayer(std::string path){
 void Loader::loadTextures(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input, name;
 	while(file >> input){
@@ -598,7 +624,7 @@ void Loader::loadTextures(std::string path){
 void Loader::loadSounds(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input, name;
 	while(file >> input){
@@ -611,7 +637,7 @@ void Loader::loadSounds(std::string path){
 void Loader::loadItems(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input, name;
 	while(file >> input){
@@ -636,7 +662,7 @@ void Loader::loadItems(std::string path){
 void Loader::loadTemplate(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input, name;
 	while(file >> input){
@@ -651,7 +677,7 @@ void Loader::loadTemplate(std::string path){
 void Loader::loadMenu(std::string path){
 	file.open(path);
 	if(not file.is_open()){
-		throw "ERROR cannot open file '" + path + "'!";
+		throw std::string("ERROR cannot open file '" + path + "'!");
 	}
 	std::string input;
 	while(file >> input){
@@ -672,12 +698,14 @@ void Loader::loadMenu(std::string path){
 			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().opacity = menuProperties.opacity;
 			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().menuHeight = menuProperties.menuHeight;
 			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().splitScreen = menuProperties.splitScreen;
+			gameRef.getMenuManager().getMenu(menuProperties.name)->getMenuProperties().freeCamera = menuProperties.freeCamera;
 		}
 		else if(input == "active"){
 			file >> input;
 			gameRef.getMenuManager().setActive(input);
 		}
 	}
+	file.close();
 }
 
 std::string Loader::loadFormatedString(){
@@ -698,16 +726,25 @@ void Loader::load(std::string path){
 	objectLoadedID = 0;
 	gameRef.getWorld().removeAll();
 	try{
-		loadTextures("Saves/" + path + "/textures.sv");
-		loadSounds("Saves/" + path + "/sounds.sv");
-		loadTemplate("Saves/" + path + "/template.sv");
 		loadLevel("Saves/" + path + "/level.sv");
-		loadItems("Saves/" + path + "/items.sv");
 		loadPlayer("Saves/" + path + "/player1.sv");
 		loadPlayer("Saves/" + path + "/player2.sv");
 	} catch(std::string err){
 		printf("%s\n", err.c_str());
 	}
+}
+
+void Loader::initLoad(){
+	try{
+		loadTemplate("Saves/template.sv");
+		loadTextures("Saves/textures.sv");
+		loadSounds("Saves/sounds.sv");
+		loadMenu("Saves/menu.sv");
+		loadItems("Saves/items.sv");
+	} catch(std::string err){
+		printf("%s\n", err.c_str());
+	}
+	
 }
 
 void Loader::objectsave(Object* object){
@@ -807,6 +844,7 @@ void Loader::itemsave(Item* item){
 	file << "\t\tamount " << item->getItemProperties().amount << "\n";
 	file << "\t\tisWorldObject " << (item->getItemProperties().isWorldObject ? "true" : "false") << "\n";
 	file << "\t\ttextureOnEquip " << item->getItemProperties().textureOnEquip << "\n";
+	file << "\t\tspawnable " << (item->getItemProperties().isSpawnable ? "true" : "false") << "\n";
 	file << "\t}\n";
 }
 
@@ -952,10 +990,6 @@ void Loader::save(std::string path){
 	try{
 		system(("rm -r Saves/" + path + "/").c_str());
 		system(("mkdir Saves/" + path + "/").c_str());
-		system(("touch Saves/" + path + "/template.sv").c_str());
-		saveTextures("Saves/" + path + "/textures.sv");
-		saveSounds("Saves/" + path + "/sounds.sv");
-		saveItems("Saves/" + path + "/items.sv");
 		saveLevel("Saves/" + path + "/level.sv");
 		savePlayer("Saves/" + path + "/player1.sv", "player1");
 		savePlayer("Saves/" + path + "/player2.sv", "player2");
@@ -965,4 +999,8 @@ void Loader::save(std::string path){
 }
 
 Loader::Loader(Game& gameRef) : gameRef(gameRef){
+	startingPos.x = 0;
+	startingPos.y = 0;
+	blockSize.x = 33;
+	blockSize.y = 33;
 }

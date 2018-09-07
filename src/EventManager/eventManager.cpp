@@ -18,9 +18,16 @@ void EventManager::handleEvents(sf::Event event){
 	else if(event.type == sf::Event::Resized){
 		gameRef.getPlayer1View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
 		gameRef.getPlayer2View().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
+		gameRef.getFullScreenView().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
+		gameRef.getCameraView().setSize(sf::Vector2f(gameRef.getWindow().getSize().x, gameRef.getWindow().getSize().y / 2));
 	}
 	else if(event.type == sf::Event::MouseButtonPressed){
-		addEvent(Event("mouseButtonPressed"));
+		if(not gameRef.getMenuManager().getActive()->getMenuProperties().freeCamera){
+			addEvent(Event("mouseButtonPressed"));
+		}
+		else{
+			addEvent(Event("tileClicked"));
+		}
 	}
 	else if(event.type == sf::Event::KeyPressed){
 		if(event.key.code == sf::Keyboard::Escape){
@@ -64,6 +71,11 @@ void EventManager::handleEvents(sf::Event event){
 			}
 		}
 	}
+	if(event.type == sf::Event::MouseWheelScrolled){
+		if(gameRef.getMenuManager().getActive()->getMenuProperties().freeCamera){
+			gameRef.zoom(event.mouseWheelScroll.delta);
+		}
+	}
 }
 
 void EventManager::handleEvents(){
@@ -98,6 +110,23 @@ void EventManager::handleEvents(){
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::SemiColon)){
 			addEvent(Event("bulletShot", "player2"));
 		}
+	}
+	if(gameRef.getMenuManager().getActive()->getMenuProperties().freeCamera){
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
+			addEvent(Event("cameraUp"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
+			addEvent(Event("cameraDown"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
+			addEvent(Event("cameraRight"));
+		}
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
+			addEvent(Event("cameraLeft"));
+		}
+		/*if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)){
+			addEvent(Event("tileClicked"));
+		}*/
 	}
 	Event toProcess;
 	while(not events.empty()){
@@ -139,7 +168,7 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "bulletHit"){
 			if(gameRef.getWorld().exists(toProcess.object1)){
 				if(gameRef.getWorld().exists(toProcess.object2)){
-					PhysicObject* object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
+					PhysicObject * object = dynamic_cast<PhysicObject*>(gameRef.getWorld().getObject(toProcess.object2));
 					if(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->canHit() and (object->getClassName() == ObjectClass::Player or object->getClassName() == ObjectClass::Entity)){
 						dynamic_cast<Entity*>(object)->gotHit(dynamic_cast<Bullet*>(gameRef.getWorld().getObject(toProcess.object1))->getBulletProperties().dmg);
 						gameRef.getWorld().removeObject(toProcess.object1);
@@ -171,6 +200,7 @@ void EventManager::handleEvents(){
 				if(object->haveBoost("fasterShots")){
 					bulletSpeed *= 2;
 				}
+				weaponProperties.bulletDistance *= defBlockSize; // block size
 				physicObjectProperties.velocity = sf::Vector2f((object->getEntityProperties().isFacingLeft ? 1 : -1) * bulletSpeed, 0);
 				gameRef.getWorld().addObject(new Bullet(gameRef, BulletProperties(physicObjectProperties, bulletSpeed, bulletDmg, weaponProperties.bulletDistance, objectProperties.position)));
 				gameRef.getSoundManager().playSound(weaponProperties.shotSound);
@@ -182,7 +212,12 @@ void EventManager::handleEvents(){
 				if(collected->canBeCollected()){
 					if(gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Entity or gameRef.getWorld().getObject(toProcess.object2)->getClassName() == ObjectClass::Player){
 						if(gameRef.getItemManager().exist(collected->getCollectibleProperties().what)){
-							dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what));
+							if(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what)->getClassName() == ObjectClass::Item){
+								dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(new Item(*gameRef.getItemManager().getItem(collected->getCollectibleProperties().what)));
+							}
+							else if(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what)->getClassName() == ObjectClass::Weapon){
+								dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->getEntityProperties().equipment.addItem(new Weapon(*dynamic_cast<Weapon*>(gameRef.getItemManager().getItem(collected->getCollectibleProperties().what)), collected->getCollectibleProperties().count, 0));
+							}
 						}
 						else{
 							dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object2))->addBoost(collected->getCollectibleProperties().what, collected->getCollectibleProperties().boostTime);
@@ -201,8 +236,14 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "throw"){
 			if(not dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isDead and dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.canRemove()){
 				sf::Vector2f position = gameRef.getWorld().getObject(toProcess.object1)->getPosition() + sf::Vector2f(5 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0);
+				Item* item = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.getEquiped();
 				std::string what = dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.getEquiped()->getName(), itemName = "collectibleW" + std::to_string(id++);
-				gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
+				if(item->getClassName() == ObjectClass::Weapon){
+					gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what, dynamic_cast<Weapon*>(item)->getWeaponProperties().ammo)));
+				}
+				else{
+					gameRef.getWorld().addObject(new Collectible(gameRef, CollectibleProperties(PhysicObjectProperties(ObjectProperties(position, itemName, what), PhysicObjectType::Dynamic, PhysicObjectShape::Box, 0.3, 1, sf::Vector2f(100 * (dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().isFacingLeft ? 1 : -1), 0)), what)));
+				}
 				dynamic_cast<Entity*>(gameRef.getWorld().getObject(toProcess.object1))->getEntityProperties().equipment.removeEquiped();
 			}
 		}
@@ -223,6 +264,9 @@ void EventManager::handleEvents(){
 			gameRef.getWindow().setMouseCursorVisible(false);
 			gameRef.getMenuManager().setActive("play");
 		}
+		else if(toProcess.what == "save"){
+			gameRef.getLoader().save(toProcess.object1);
+		}
 		else if(toProcess.what == "newGame"){
 			gameRef.getLoader().load("Default");
 			gameRef.getWindow().setMouseCursorVisible(false);
@@ -231,8 +275,57 @@ void EventManager::handleEvents(){
 		else if(toProcess.what == "mouseButtonPressed"){
 			gameRef.getMenuManager().getActive()->mouseClicked(sf::Vector2f(sf::Mouse::getPosition(gameRef.getWindow()).x, sf::Mouse::getPosition(gameRef.getWindow()).y));
 		}
+		else if(toProcess.what == "tileClicked"){
+			Template temp = gameRef.getTemplateManager().getTemplate("ground");
+			ObjectProperties objectProperties = ObjectProperties();
+			PhysicObjectProperties physicObjectProperties = PhysicObjectProperties();
+			ItemProperties itemProperties = ItemProperties();
+			WeaponProperties weaponProperties = WeaponProperties();
+			WorldObjectProperties worldObjectProperties = WorldObjectProperties();
+			EntityProperties entityProperties = EntityProperties();
+			PlayerProperties playerProperties = PlayerProperties();
+			switch(temp.className){
+				case ObjectClass::PhysicObject:
+					objectProperties = *temp.properties;
+					physicObjectProperties = *(dynamic_cast<PhysicObjectProperties*>(temp.properties));
+					break;
+				case ObjectClass::WorldObject:
+					objectProperties = *temp.properties;
+					physicObjectProperties = *(dynamic_cast<PhysicObjectProperties*>(temp.properties));
+					worldObjectProperties = *(dynamic_cast<WorldObjectProperties*>(temp.properties));
+					break;
+			}
+			objectProperties.position = gameRef.coordToPixel(gameRef.pixelToCoord(sf::Vector2f(sf::Mouse::getPosition(gameRef.getWindow()).x, sf::Mouse::getPosition(gameRef.getWindow()).y)));
+			objectProperties.position.x -= defBlockSize / 2;
+			objectProperties.position.y -= defBlockSize / 2;
+			objectProperties.name = temp.properties->name + std::to_string(gameRef.getWorld().getObjects().size());
+			switch(temp.className){
+				case ObjectClass::PhysicObject:
+					physicObjectProperties.setObjectProperties(objectProperties);
+					gameRef.getWorld().addObject(new PhysicObject(gameRef, physicObjectProperties));
+					break;
+				case ObjectClass::WorldObject:
+					worldObjectProperties.setObjectProperties(objectProperties);
+					worldObjectProperties.setPhysicObjectProperties(physicObjectProperties);
+					worldObjectProperties.type = PhysicObjectType::Static;
+					gameRef.getWorld().addObject(new WorldObject(gameRef, worldObjectProperties));
+					break;
+			}
+		}
 		else if(toProcess.what == "exit"){
 			gameRef.getWindow().close();
+		}
+		else if(toProcess.what == "cameraUp"){
+			gameRef.getCameraView().move(0, -defaultCameraSpeed * gameRef.getZoom());
+		}
+		else if(toProcess.what == "cameraDown"){
+			gameRef.getCameraView().move(0, defaultCameraSpeed * gameRef.getZoom());
+		}
+		else if(toProcess.what == "cameraRight"){
+			gameRef.getCameraView().move(defaultCameraSpeed * gameRef.getZoom(), 0);
+		}
+		else if(toProcess.what == "cameraLeft"){
+			gameRef.getCameraView().move(-defaultCameraSpeed * gameRef.getZoom(), 0);
 		}
 		events.pop();
 	}

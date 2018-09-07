@@ -66,11 +66,13 @@ Menu{
     name play
     gameRunning true
     gameDraw true
+    splitScreen true
 }
 Menu{
     name editor
     gameRunning false
     gameDraw true
+    freeCamera true
 }
 Menu{
     name editorPause
@@ -86,7 +88,7 @@ Menu{
             text "Save"
             Event{
                 what save
-                par1 Saved
+                par1 Temp
             }
         }
         Button{

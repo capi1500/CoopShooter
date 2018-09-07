@@ -20,13 +20,16 @@
 #define lettersScaling 2.f
 
 #define defaultVelocityMaxX 7
-#define defaultVelocityMaxY 10
-#define defaultJumpHeight 10
-#define defaultMovement 0.7
+#define defaultVelocityMaxY 11
+#define defaultJumpHeight 11
+#define defaultMovement 0.9
+#define defaultCameraSpeed 2
+
+#define defBlockSize 33
 
 #define playerVelocityMaxX defaultVelocityMaxX
 #define playerVelocityMaxY defaultVelocityMaxY
 #define playerJumpHeight defaultJumpHeight
 #define playerMovement defaultMovement
 
-#define boostSpawnRate sf::seconds(10)
+#define boostSpawnRate sf::seconds(5)

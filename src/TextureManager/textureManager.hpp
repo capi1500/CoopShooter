@@ -19,6 +19,7 @@ class TextureManager{
 		sf::Texture& getTexture(std::string name);
 		sf::IntRect& getArea(std::string name);
 		const std::map<std::string, std::string>& getTexturePaths() const;
+		void clear();
 };
 
 #endif //COOPSHOOTER_TEXTUREMANAGER_HPP

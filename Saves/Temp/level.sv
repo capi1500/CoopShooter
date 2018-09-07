@@ -1,11 +1,11 @@
 blockSize 33 33
 startPos 0 0
-time 0.017019
+time 0.016523
 Collectible{
 	ObjectProperties{
-		position 62 -2.5
-		name collectible2046.000000--82.500000
-		texture noReload
+		position 40 -3
+		name collectible1320.000000--99.000000
+		texture hpUp
 	}
 	PhysicObjectProperties{
 		type kinematic
@@ -16,27 +16,8 @@ Collectible{
 		velocity 0 0
 	}
 	CollectibleProperties{
-		what noReload
-		boostTime 5000
-	}
-}
-Collectible{
-	ObjectProperties{
-		position 27 -2.5
-		name collectible891.000000--82.500000
-		texture noReload
-	}
-	PhysicObjectProperties{
-		type kinematic
-		shape circle
-		density 1
-		friction 0.3
-		angle 0
-		velocity 0 0
-	}
-	CollectibleProperties{
-		what noReload
-		boostTime 5000
+		what hpUp
+		boostTime 0
 	}
 }
 WorldObject{

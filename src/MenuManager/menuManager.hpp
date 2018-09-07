@@ -23,6 +23,7 @@ class MenuManager{
 		Menu* getActive();
 		bool setActive(std::string name);
 		std::string getActiveName();
+		void clear();
 		
 		MenuManager(Game& game);
 };

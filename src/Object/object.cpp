@@ -63,6 +63,7 @@ Object::Object(Game& game, ObjectProperties properties) : gameRef(game), objectP
 	if(properties.texture != ""){
 		setTexture(properties.texture);
 	}
+	localTime = sf::Time::Zero;
 	setCentre(properties.position);
 	setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
 	className = ObjectClass::Object;

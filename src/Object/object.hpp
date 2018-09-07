@@ -20,7 +20,7 @@ struct ObjectProperties{
 	
 	ObjectProperties getObjectProperties();
 	
-	ObjectProperties(sf::Vector2f, std::string, std::string);
+	ObjectProperties(sf::Vector2f position, std::string name, std::string texture);
 	ObjectProperties();
 };
 

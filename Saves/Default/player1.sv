@@ -11,8 +11,8 @@ Player{
         density 1
     }
     EntityProperties{
-        maxHP 25
-        HP 25
+        maxHP 250
+        HP 250
         jumpHeight 300
         movementSpeed 10
         EQ{

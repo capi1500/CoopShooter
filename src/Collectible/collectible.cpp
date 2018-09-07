@@ -8,7 +8,7 @@
 CollectibleProperties::CollectibleProperties(){
 }
 
-CollectibleProperties::CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, sf::Time boostTime) : PhysicObjectProperties(physicObjectProperties), what(what), boostTime(boostTime){
+CollectibleProperties::CollectibleProperties(PhysicObjectProperties physicObjectProperties, std::string what, int count, sf::Time boostTime) : PhysicObjectProperties(physicObjectProperties), what(what), boostTime(boostTime), count(count){
 }
 
 void CollectibleProperties::setPhysicObjectProperties(PhysicObjectProperties physicObjectProperties){
@@ -21,7 +21,7 @@ void CollectibleProperties::setPhysicObjectProperties(PhysicObjectProperties phy
 }
 
 CollectibleProperties CollectibleProperties::getCollectibleProperties(){
-	return CollectibleProperties(getPhysicObjectProperties(), what, boostTime);
+	return CollectibleProperties(getPhysicObjectProperties(), what, count, boostTime);
 }
 
 CollectibleProperties& Collectible::getCollectibleProperties(){

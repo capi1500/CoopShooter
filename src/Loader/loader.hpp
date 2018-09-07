@@ -71,6 +71,7 @@ class Loader{
 		void loadPlayer(std::string path);
 		void loadLevel(std::string path);
 		void loadItems(std::string path);
+		void loadMenu(std::string path);
 		
 		void objectsave(Object* object);
 		void physicObjectsave(PhysicObject* physicObject);
@@ -92,7 +93,7 @@ class Loader{
 	public:
 		void load(std::string path);
 		void save(std::string path);
-		void loadMenu(std::string path);
+		void initLoad();
 		
 		Loader(Game& gameRef);
 };

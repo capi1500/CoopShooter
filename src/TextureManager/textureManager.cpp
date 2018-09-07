@@ -18,6 +18,12 @@ sf::IntRect& TextureManager::getArea(std::string name){
 	return areas[name];
 }
 
+void TextureManager::clear(){
+	textures.clear();
+	areas.clear();
+	paths.clear();
+}
+
 const std::map<std::string, std::string>& TextureManager::getTexturePaths() const{
 	return paths;
 }
